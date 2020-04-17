@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
 @ToString @EqualsAndHashCode
-public class walkTimeBtHoles implements Serializable {
+public class WalkTimeBtHoles implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

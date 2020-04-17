@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
@@ -18,5 +17,5 @@ public class Hole implements Serializable {
     private String name;
     private int totalWalkTime;
     @OneToOne
-    private walkTimeBtHoles timeBtHoles;
+    private WalkTimeBtHoles timeBtHoles;
 }
