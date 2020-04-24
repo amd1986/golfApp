@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main}">
+<head>
+    <meta charset="utf-8"/>
+    <title>Modifier un interval</title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+    <!-- Begin Page Content -->
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Modifier un interval</h1>
+                        </div>
+
+                            <form class="user" method="post" th:action="@{/fr/admin/editTimeBtHoles}">
+
+                                <input type="hidden" name="id" th:value="${timeBtHoles?.id}"/>
+                                <input type="hidden" name="hole1" th:value="${timeBtHoles?.hole1?.id}"/>
+                                <input type="hidden" name="hole2" th:value="${timeBtHoles?.hole2?.id}"/>
+
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="description">Description</label>
+                                    <input class="form-control col-9" th:value="${timeBtHoles?.description}" type="text"
+                                           id="description" name="description">
+                                    <div class="col-3"></div><div class="text-danger col-9"></div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="walkTime">Temps</label>
+                                    <input class="form-control col-9" th:value="${timeBtHoles?.walkTime}" type="text"
+                                           id="walkTime" name="walkTime">
+                                    <div class="col-3"></div><div class="text-danger col-9"></div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-user btn-block">Modifier cet interval</button>
+                            </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Page Content -->
+</section>
+</body>
+</html>

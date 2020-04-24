@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main}">
+<head>
+    <meta charset="utf-8"/>
+    <title>Modifier un parcours</title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+    <!-- Begin Page Content -->
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Modifier un parcours</h1>
+                        </div>
+
+                        <form class="user" method="post" th:action="@{/fr/admin/editCourse}">
+                            <input type="hidden" name="golf" th:value="${golf?.id}"/>
+                            <input type="hidden" name="id" th:value="${course?.id}"/>
+
+                            <div class="form-group form-inline">
+                                <label class="col-form-label col-3" for="name">Nom</label>
+                                <input class="form-control col-9" th:value="${course?.name}" type="text" id="name"
+                                       name="name">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label class="col-form-label col-3" for="holes">Trous</label>
+                                <select class="custom-select" name="holes" id="holes" multiple="multiple">
+                                    <option th:each="h:${golf?.holes}" th:text="|${h.num} - ${h.name}|"
+                                            th:value="${h.id}"></option>
+                                </select>
+                            </div>
+                            <h6 class="text-gray-400 text-center mt-1">Maintenez la <code>Ctrl</code> et cliquez sur les trous à sélectionner</h6>
+                            <button type="submit" class="btn btn-primary btn-user btn-block">Modifier ce parcours</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Page Content -->
+</section>
+</body>
+</html>

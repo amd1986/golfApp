@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Product admin</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css"
+    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+    <link href="/webjars/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" type="text/css"
+          th:href="@{/webjars/font-awesome/5.13.0/css/all.min.css}">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet"/>
+    <link th:href="@{/css/sb-admin-2.min.css}" href="/css/sb-admin-2.min.css" rel="stylesheet"/>
+</head>
+<body id="page-top">
+
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/}">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-laugh-wink"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">Admin</div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Home -->
+        <li class="nav-item active">
+            <a class="nav-link" th:href="@{/}" >
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Acceuil</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Nav Item - Links Collapse Golf Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGolf" aria-expanded="true"
+               aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Golf</span>
+            </a>
+            <div id="collapseGolf" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Gestion des golfs:</h6>
+                    <a class="collapse-item" href="/fr/user/searchGolf" th:href="@{/fr/user/searchGolf}">Afficher tous</a>
+                    <a class="collapse-item" href="/fr/admin/formGolf" th:href="@{/fr/admin/formGolf}">Ajouter un golf</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Links Collapse Course Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCourse" aria-expanded="true"
+               aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Parcours</span>
+            </a>
+            <div id="collapseCourse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Gestion des parcours:</h6>
+                    <a class="collapse-item" href="/fr/user/searchCourse" th:href="@{/fr/user/searchCourse}">Afficher tous</a>
+                    <a class="collapse-item" href="/fr/admin/formCourse" th:href="@{/fr/admin/formCourse}">Ajouter un parcours</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Links Collapse Hole Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHole" aria-expanded="true"
+               aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Trou</span>
+            </a>
+            <div id="collapseHole" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Gestion des trous:</h6>
+                    <a class="collapse-item" href="/fr/user/searchHole" th:href="@{/fr/user/searchHole}">Afficher tous</a>
+                    <a class="collapse-item" href="/fr/admin/formHole" th:href="@{/fr/admin/addHole}">Ajouter un trou</a>
+                    <a class="collapse-item" href="/fr/admin/deleteHole" th:href="@{/fr/admin/deleteHole}">Supprimer un trou</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Links Collapse Time Between Games Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTimeBtGames" aria-expanded="true"
+               aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Temps de marche</span>
+            </a>
+            <div id="collapseTimeBtGames" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Gestion des temps:</h6>
+                    <a class="collapse-item" href="/fr/user/searchCompetition" th:href="@{/fr/user/searchTimeBtHoles}">Afficher tous</a>
+                    <a class="collapse-item" href="/fr/admin/formCompetition" th:href="@{/fr/admin/formTimeBtHoles}">Ajouter un temps</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Links Collapse Competition Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCompetition" aria-expanded="true"
+               aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Compétition</span>
+            </a>
+            <div id="collapseCompetition" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Gestion des compétitions:</h6>
+                    <a class="collapse-item" href="/fr/user/searchCompetition" th:href="@{/fr/user/searchCompetition}">Afficher tous</a>
+                    <a class="collapse-item" href="/fr/admin/formCompetition" th:href="@{/fr/admin/formCompetition}">Ajouter une compétition</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Links Collapse Game Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGame" aria-expanded="true"
+               aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Partie</span>
+            </a>
+            <div id="collapseGame" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Gestion des parties:</h6>
+                    <a class="collapse-item" href="/fr/user/searchCompetition" th:href="@{/fr/user/searchGame}">Afficher tous</a>
+                    <a class="collapse-item" href="/fr/admin/formCompetition" th:href="@{/fr/admin/formGame}">Ajouter une partie</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Links Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
+               aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Links</span>
+            </a>
+            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Login Screens:</h6>
+                    <a class="collapse-item" href="/login" th:href="@{/login}">Login</a>
+                    <a class="collapse-item" href="/register" th:href="@{/register}">Register</a>
+                    <a class="collapse-item" href="/forgottenPassword" th:href="@{/forgottenPassword}">Forgot Password</a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Other Pages:</h6>
+                    <a class="collapse-item" href="/error" th:href="@{/error}">404 Page</a>
+                    <a class="collapse-item" th:href="@{/login(logout=logout)}">Logout</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block"/>
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Top bar -->
+        <section id="topBar">
+
+            <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
+
+                <!-- Sidebar Toggle (Top bar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars fa-sm"></i>
+                </button>
+
+                <!-- Topbar Search -->
+                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                               aria-label="Search" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+
+                    <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                    <li class="nav-item dropdown no-arrow d-sm-none">
+                        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <!-- Dropdown - Messages -->
+                        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                             aria-labelledby="searchDropdown">
+                            <form class="form-inline mr-auto w-100 navbar-search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                           aria-label="Search" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button">
+                                            <i class="fas fa-search fa-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+
+                    <!-- Nav Item - User Information -->
+
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link" th:href="@{/register}" href="/register" >
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 ">Register</span>
+                        </a>
+                    </li>
+
+                    <div class="topbar-divider d-none d-lg-block"></div>
+
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link" th:href="@{/login}" href="/login" >
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 ">Login</span>
+                        </a>
+                    </li>
+
+                    <div class="topbar-divider d-none d-lg-block"></div>
+
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link" th:href="@{/login(logout=logout)}" >
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 ">Logout</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </section>
+        <!-- End of Topbar -->
+
+        <!-- Begin of the main content -->
+
+        <section layout:fragment="content"></section>
+
+        <!-- End of the main content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white ">
+            <div class="container my-auto">
+                <div class="copyright my-auto text-center">
+                    <span>Copyright &copy; Product Admin</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Bootstrap core JavaScript-->
+<script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/js/sb-admin-2.min.js"></script>
+
+<!-- font-awesome JavaScript-->
+<script src="/webjars/font-awesome/5.13.0/js/all.min.js"></script>
+
+</body>
+
+</html>

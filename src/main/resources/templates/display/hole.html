@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main}">
+<head>
+  <meta charset="utf-8"/>
+  <title>Trou</title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+<!-- Begin Page Content -->
+
+  <div class="row justify-content-center">
+
+    <div class="col-md-6">
+
+      <div class="card border-0 shadow-lg my-5">
+
+        <div class="card-body">
+          <div class="table-responsive p-5">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-4">Afficher un trou</h1>
+            </div>
+            <table class="table table-bordered" id="dataTable">
+              <tr>
+                <td>Golf</td>
+                <td th:text="${hole?.golf?.name}"></td>
+              </tr>
+              <tr>
+                <td>Parcours</td>
+                <td><span th:each="c:${hole?.courses}" th:text="|${c.name} |"></span></td>
+              </tr>
+              <tr>
+                <td>Nom</td>
+                <td th:text="${hole?.name}"></td>
+              </tr>
+              <tr>
+                <td>Num</td>
+                <td th:text="${hole?.num}"></td>
+              </tr>
+              <tr>
+                <td>Par</td>
+                <td th:text="${hole?.par}"></td>
+              </tr>
+              <tr>
+                <td>Décalage</td>
+                <td th:text="${hole?.offset}"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- End Page Content -->
+</section>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main}">
+<head>
+  <meta charset="utf-8"/>
+  <title>Supprimer un trou</title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+<!-- Begin Page Content -->
+
+  <div class="row justify-content-center">
+
+    <div class="col-md-6">
+
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+
+          <div class="p-5">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-4 ">Supprimer un trou</h1>
+            </div>
+
+              <div th:hidden="${golfs} ? false : true">
+              <form class="user" method="get" th:action="@{/fr/admin/deleteHole}">
+              <div class="form-group form-inline" >
+                <label class="col-form-label col-3" for="listProduct">Golfs</label>
+                <select name="idGolf" id="listProduct" class="custom-select">
+                  <option th:each="g:${golfs}" th:value="${g.id}" th:text="${g.name}"></option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary btn-user btn-block">Sélectionner ce golf</button>
+                <h6 class="text-gray-400 text-center mt-1">Les trous associés à un parcours ne sont pas affichés</h6>
+              </form>
+              </div>
+
+              <div th:hidden="${holes} ? false : true">
+                <form class="user" method="post" th:action="@{/fr/admin/deleteHole}" >
+                  <div class="form-group form-inline" >
+                    <label class="col-form-label col-3" for="idHole">Trou</label>
+                    <select name="idHole" id="idHole" class="custom-select">
+                      <option th:each="h:${holes}" th:value="${h.id}" th:text="${h.name}"></option>
+                    </select>
+                  </div>
+              <button type="submit" class="btn btn-primary btn-user btn-block" >Ajouter/modifier un Trou</button>
+            </form>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Page Content -->
+</section>
+</body>
+</html>

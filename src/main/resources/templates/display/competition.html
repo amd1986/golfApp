@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main}">
+<head>
+  <meta charset="utf-8"/>
+  <title>Competition</title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+<!-- Begin Page Content -->
+
+  <div class="row justify-content-center">
+
+    <div class="col-md-6">
+
+      <div class="card border-0 shadow-lg my-5">
+
+        <div class="card-body">
+          <div class="table-responsive p-5">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-4">Afficher une compétition</h1>
+            </div>
+            <table class="table table-bordered" id="dataTable">
+              <tr>
+                <td>Parcours</td>
+                <td th:text="${competition?.course?.name}"></td>
+              </tr>
+              <tr>
+                <td>Nom</td>
+                <td th:text="${competition?.name}"></td>
+              </tr>
+              <tr>
+                <td>Intitulé</td>
+                <td th:text="${competition?.description}"></td>
+              </tr>
+              <tr>
+                <td>Type</td>
+                <td th:text="${competition?.type}"></td>
+              </tr>
+              <tr>
+                <td>Date</td>
+                <td th:text="${competition?.dateCompetition}"></td>
+              </tr>
+              <tr>
+                <td>Heure</td>
+                <td th:text="${competition?.departureHour}"></td>
+              </tr>
+              <tr>
+                <td>Nb_joueurs</td>
+                <td th:text="${competition?.nbPlayersByGame}"></td>
+              </tr>
+              <tr>
+                <td>Interval</td>
+                <td th:text="${competition?.intervalBtGames}"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- End Page Content -->
+</section>
+</body>
+</html>

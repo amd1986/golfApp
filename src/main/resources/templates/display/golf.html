@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main}">
+<head>
+  <meta charset="utf-8"/>
+  <title>Golf</title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+<!-- Begin Page Content -->
+
+  <div class="row justify-content-center">
+
+    <div class="col-md-6">
+
+      <div class="card border-0 shadow-lg my-5">
+
+        <div class="card-body">
+          <div class="table-responsive p-5">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-4">Afficher un golf</h1>
+            </div>
+            <table class="table table-bordered" id="dataTable">
+              <tr>
+                <td>Nom</td>
+                <td th:text="${golf?.name}"></td>
+              </tr>
+              <tr>
+                <td>Adresse</td>
+                <td th:text="${golf?.address}"></td>
+              </tr>
+              <tr>
+                <td>Code postal</td>
+                <td th:text="${golf?.zipCode}"></td>
+              </tr>
+              <tr>
+                <td>Ville</td>
+                <td th:text="${golf?.city}"></td>
+              </tr>
+              <tr>
+                <td>Pays</td>
+                <td th:text="${golf?.country}"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- End Page Content -->
+</section>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main}">
+<head>
+    <meta charset="utf-8"/>
+    <title>Ajouter un parcours</title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+    <!-- Begin Page Content -->
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Ajouter un parcours</h1>
+                        </div>
+
+                        <div th:hidden="${golfs} ? false : true">
+                            <form class="user" method="get" th:action="@{/fr/admin/formCourse}">
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="idGolf">Golfs</label>
+                                    <select name="idGolf" id="idGolf" class="custom-select" >
+                                        <option th:each="g:${golfs}" th:text="${g.name}" th:value="${g.id}"></option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-user btn-block">Sélectionner ce golf</button>
+                            </form>
+                        </div>
+
+                        <div th:hidden="${golf?.id} ? false : true">
+                            <form class="user" method="post" th:action="@{/fr/admin/addCourse}">
+                                <input type="hidden" name="golf" th:value="${golf?.id}"/>
+
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="name">Nom</label>
+                                    <input class="form-control col-9" type="text" id="name" name="name" placeholder="Parcours bleu">
+                                </div>
+                                  <div class="form-group form-inline">
+                                  <label class="col-form-label col-3" for="holes">Trous</label>
+                                  <select class="custom-select" name="holes" id="holes" multiple="multiple">
+                                      <option th:each="h:${golf?.holes}" th:text="|${h.num} - ${h.name}|" th:value="${h.id}"></option>
+                                  </select>
+                                  </div>
+                                <h6 class="text-gray-400 text-center mt-1">Maintenez la <code>Ctrl</code> et cliquez sur les trous à sélectionner</h6>
+                                <button type="submit" class="btn btn-primary btn-user btn-block">Ajouter ce parcours</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Page Content -->
+</section>
+</body>
+</html>
