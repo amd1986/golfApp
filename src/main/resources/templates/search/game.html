@@ -88,7 +88,7 @@
                   <li class="page-item">
                     <a class="page-link" th:href="@{/fr/user/searchGame(page=${currentPage > 0} ? ${currentPage - 1} : ${currentPage} , size=${size}, mc=${mc})}">Previous</a>
                   </li>
-                  <li class="page-item" th:each="p,status:${pages}">
+                  <li class="page-item" th:each="p,status:${pages}" >
                     <a class="page-link" th:text="${status.index+1}"
                        th:href="@{/fr/user/searchGame(page=${status.index}, size=${size}, mc=${mc})}"></a>
                   </li>

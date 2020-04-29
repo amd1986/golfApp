@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
     <meta charset="utf-8"/>
-    <title>Trous</title>
+    <title>Temps de jeu</title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -13,11 +13,11 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Liste des trous</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Liste des temps de jeu</h6>
             </div>
             <div class="card-body">
                 <!-- Topbar Search -->
-                <form th:action="@{/fr/user/searchHole}" method="get"
+                <form th:action="@{/fr/user/searchTime}" method="get"
                       class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group mb-3 ml-0">
                         <input type="text" name="mc" class="form-control  small" placeholder="Chercher..."
@@ -40,59 +40,53 @@
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Num</th>
-                            <th>Nom</th>
-                            <th>Par</th>
-                            <th>Décalage</th>
-
+                            <th>Temps</th>
+                            <th>Trou</th>
+                            <th>Partie</th>
+                            <th>Compétition</th>
                             <th>Afficher</th>
                             <th>Modifier</th>
-
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
                             <th>Id</th>
-                            <th>Num</th>
-                            <th>Nom</th>
-                            <th>Par</th>
-                            <th>Décalage</th>
-
+                            <th>Temps</th>
+                            <th>Trou</th>
+                            <th>Partie</th>
+                            <th>Compétition</th>
                             <th>Afficher</th>
                             <th>Modifier</th>
-
                         </tr>
                         </tfoot>
                         <tbody>
-                        <tr th:each="h:${holes}">
-                            <td th:text="${h.id}"></td>
-                            <td th:text="${h.num}"></td>
-                            <td th:text="${h.name}"></td>
-                            <td th:text="${h.par}"></td>
-                            <td th:text="${h.offset}"></td>
+                        <tr th:each="t:${times}">
+                            <td th:text="${t.id}"></td>
+                            <td th:text="${t.time}"></td>
+                            <td th:text="${t.hole?.name}"></td>
+                            <td th:text="${t.game?.name}"></td>
+                            <td th:text="${t.game?.competition?.name}"></td>
                             <td>
-                                <a th:href="@{/fr/user/hole/{id}(id=${h.id})}" class="btn btn-primary">Afficher</a>
+                                <a th:href="@{/fr/user/time/{id}(id=${t.id})}" class="btn btn-primary">Afficher</a>
                             </td>
-
                             <td>
-                                <a th:href="@{/fr/admin/editHole(idHole=${h.id})}" class="btn btn-primary">Modifier</a>
+                                <a th:href="@{/fr/admin/editTime(idTime=${t.id})}" class="btn btn-primary">Modifier</a>
                             </td>
-
                         </tr>
                         </tbody>
                     </table>
                     <nav aria-label="Page navigation">
                         <ul class="pagination">
                             <li class="page-item">
-                                <a class="page-link" th:href="@{/fr/user/searchHole(page=${currentPage > 0} ? ${currentPage - 1} : ${currentPage} , size=${size}, mc=${mc})}">Previous</a>
+                                <a class="page-link" th:href="@{/fr/user/searchTime(page=${currentPage > 0} ? ${currentPage - 1} : ${currentPage} , size=${size}, mc=${mc})}">Previous</a>
                             </li>
-                            <li class="page-item" th:each="p,status:${pages}" >
+                            <li class="page-item" th:each="p,status:${pages}">
                                 <a class="page-link" th:text="${status.index+1}"
-                                   th:href="@{/fr/user/searchHole(page=${status.index}, size=${size}, mc=${mc})}"></a>
+                                   th:href="@{/fr/user/searchTime(page=${status.index}, size=${size}, mc=${mc})}"></a>
                             </li>
                             <li class="page-item">
                                 <a class="page-link"
-                                   th:href="@{/fr/user/searchHole(page=${currentPage + 1}, size=${size}, mc=${mc})}">Next</a>
+                                   th:href="@{/fr/user/searchTime(page=${currentPage + 1}, size=${size}, mc=${mc})}">Next</a>
                             </li>
                         </ul>
                     </nav>

@@ -5,10 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
@@ -28,16 +30,18 @@ public class Competition implements Serializable {
 
     /* Données permettant de générer chaque partie(ligne du tableau PDF) */
     @NotNull
+    @Min(2) @Max(5)
     private int nbPlayersByGame;
     @NotNull
+    @Min(7) @Max(15)
     private int intervalBtGames;
     @NotNull
     private String departureHour;
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Course course;
     @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL)
-    private Set<Game> games;
+    private List<Game> games;
 
     @Override
     public boolean equals(Object o) {

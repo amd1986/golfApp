@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{main}">
+<head>
+  <meta charset="utf-8"/>
+  <title>Cadence de jeu</title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+<!-- Begin Page Content -->
+  <div class="w-100 h-100">
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Temps de jeu</h6>
+      </div>
+
+      <div class="card-body">
+        <div class="table-responsive">
+          <form class="user" action="/fr/user/gameRate/collectData" method="post">
+            <input type="hidden" name="idCompet" th:value="${competition?.id}"/>
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th th:each="h,status:${course?.holes}" th:text="${status.index+1}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="g:${competition?.games}">
+              <td th:text="${g.num}"></td>
+              <td th:each="h:${course?.holes}">
+                <input type="time" name="times" value="07:00"/>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+            <button type="submit" class="btn btn-primary btn-user btn-block">Sauvegarder les données</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

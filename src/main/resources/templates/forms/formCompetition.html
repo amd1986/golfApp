@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main}">
+<head>
+    <meta charset="utf-8"/>
+    <title>Cadence de jeu</title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+    <!-- Begin Page Content -->
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Étape 1 : Éditer la compétition</h1>
+                        </div>
+
+                        <div th:hidden="${courses} ? false : true">
+                            <form class="user" method="get" th:action="@{/fr/user/generateCompetPdf/competition}">
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="idCompet">Competitions</label>
+                                    <select name="idCompet" id="idCompet" class="custom-select">
+                                        <div th:each="course:${courses}" th:hidden="${course?.competitions} ? false : true">
+                                        <option th:each="c:${course?.competitions}" th:value="${c.id}" th:text="|${course.name} - ${c.name}|"></option>
+                                        </div>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-user btn-block">Sélectionner cette competition</button>
+                            </form>
+                        </div>
+
+                        <div th:hidden="${competition?.id} ? false : true">
+                            <form class="user" method="post" th:action="@{/fr/user/generateCompetPdf/competition}">
+                                <input type="hidden" name="id" th:value="${competition?.id}"/>
+                                <input type="hidden" name="course" th:value="${competition?.course?.id}"/>
+
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="name">Nom</label>
+                                    <input class="form-control col-9" th:value="${competition?.name}" type="text" id="name" name="name">
+                                    <div class="col-3"></div><div class="text-danger col-9"></div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="description">Intitulé</label>
+                                    <input class="form-control col-9" th:value="${competition?.description}" type="text" id="description" name="description">
+                                    <div class="col-3"></div><div class="text-danger col-9"></div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="type">Type</label>
+                                    <input class="form-control col-9" th:value="${competition?.type}" type="text" id="type" name="type">
+                                    <div class="col-3"></div><div class="text-danger col-9"></div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="dateCompetition">Date</label>
+                                    <input class="form-control col-9" th:value="${competition?.dateCompetition}"
+                                           type="date" id="dateCompetition" name="dateCompetition">
+                                    <div class="col-3"></div><div class="text-danger col-9"></div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="departureHour">Hour</label>
+                                    <input class="form-control col-9" th:value="${competition?.departureHour}"
+                                           type="time" id="departureHour" name="departureHour">
+                                    <div class="col-3"></div><div class="text-danger col-9"></div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="nbPlayersByGame">Balles</label>
+                                    <input class="form-control col-9" th:value="${competition?.nbPlayersByGame}"
+                                           type="text" id="nbPlayersByGame" name="nbPlayersByGame">
+                                    <div class="col-3"></div><div class="text-danger col-9"></div>
+                                </div>
+                              <div class="form-group form-inline">
+                                <label class="col-form-label col-3" for="intervalBtGames">Interval</label>
+                                <input class="form-control col-9" th:value="${competition?.intervalBtGames}"
+                                       type="text" id="intervalBtGames" name="intervalBtGames">
+                                <div class="col-3"></div><div class="text-danger col-9"></div>
+                              </div>
+                                <button type="submit" class="btn btn-primary btn-user btn-block">Valider</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>     <!-- End Page Content -->
+</section>
+</body>
+</html>

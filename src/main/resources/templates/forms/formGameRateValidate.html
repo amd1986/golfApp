@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{main}">
+<head>
+  <meta charset="utf-8"/>
+  <title>Cadence de jeu</title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+<!-- Begin Page Content -->
+  <div class="row justify-content-center">
+
+    <div class="col-md-10">
+
+      <div class="card border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+
+          <div class="p-5">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-4">Étape 3 : Valider cadence de jeu</h1>
+            </div>
+
+            <form class="user" method="post" th:action="@{/fr/user/generateCompetPdf/gameRateValidate}" >
+              <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>Dép.</th>
+                <th th:if="${status.index<9}" th:each="h,status:${competition?.course?.holes}" th:text="${status.index+1}"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td th:text="${game?.dhour}"></td>
+                <td th:if="${status.index<9}" th:each="t,status:${game?.timesPerHPerG}">
+                  <input type="time" name="times" th:value="${t.time}"/>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+              <table class="table table-bordered">
+                <thead>
+                <tr>
+                  <th th:if="${status.index>8}" th:each="h,status:${competition?.course?.holes}" th:text="${status.index+1}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td th:if="${status.index<9}" th:each="t,status:${game?.timesPerHPerG}">
+                    <input type="time" name="times" th:value="${t.time}"/>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <button type="submit" class="btn btn-primary btn-user btn-block" >Valider</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

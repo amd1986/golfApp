@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title>Product admin</title>
+    <title>Golf admin</title>
 
     <!-- Custom fonts for this template-->
     <link href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css"
@@ -46,6 +46,23 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider">
+
+        <!-- Nav Item - Links Collapse Golf Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRate" aria-expanded="true"
+               aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Cadences</span>
+            </a>
+            <div id="collapseRate" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Cadences de jeu:</h6>
+                    <a class="collapse-item" href="/fr/user/searchGolf" th:href="@{/fr/user/generateCompetPdf/competition}">Générer un pdf</a>
+                    <a class="collapse-item" href="/fr/admin/formGolf" th:href="@{/fr/user/gameRate/selectCompetition}">Saisie des temps</a>
+                    <a class="collapse-item" href="/fr/admin/formGolf" th:href="@{/fr/user/contactAdmin/sendRequest}">Requête pour l'admin</a>
+                </div>
+            </div>
+        </li>
 
         <!-- Nav Item - Links Collapse Golf Menu -->
         <li class="nav-item">
@@ -90,8 +107,8 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Gestion des trous:</h6>
                     <a class="collapse-item" href="/fr/user/searchHole" th:href="@{/fr/user/searchHole}">Afficher tous</a>
-                    <a class="collapse-item" href="/fr/admin/formHole" th:href="@{/fr/admin/addHole}">Ajouter un trou</a>
-                    <a class="collapse-item" href="/fr/admin/deleteHole" th:href="@{/fr/admin/deleteHole}">Supprimer un trou</a>
+                    <a class="collapse-item" th:href="@{/fr/admin/addHole}">Ajouter un trou</a>
+                    <a class="collapse-item" th:href="@{/fr/admin/deleteHole}">Supprimer un trou</a>
                 </div>
             </div>
         </li>
@@ -105,9 +122,25 @@
             </a>
             <div id="collapseTimeBtGames" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Gestion des temps:</h6>
+                    <h6 class="collapse-header">Temps de marche:</h6>
                     <a class="collapse-item" href="/fr/user/searchCompetition" th:href="@{/fr/user/searchTimeBtHoles}">Afficher tous</a>
                     <a class="collapse-item" href="/fr/admin/formCompetition" th:href="@{/fr/admin/formTimeBtHoles}">Ajouter un temps</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Links Collapse Time Between Games Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGameTime" aria-expanded="true"
+               aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Temps de jeu</span>
+            </a>
+            <div id="collapseGameTime" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Temps de jeu:</h6>
+                    <a class="collapse-item" href="/fr/user/searchCompetition" th:href="@{/fr/user/searchTime}">Afficher tous</a>
+                    <a class="collapse-item" href="/fr/admin/formCompetition" th:href="@{/fr/admin/addTime}">Ajouter un temps</a>
                 </div>
             </div>
         </li>
@@ -144,7 +177,8 @@
             </div>
         </li>
 
-        <!-- Nav Item - Links Collapse Menu -->
+<!--
+        &lt;!&ndash; Nav Item - Links Collapse Menu &ndash;&gt;
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
                aria-controls="collapsePages">
@@ -154,16 +188,17 @@
             <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Login Screens:</h6>
-                    <a class="collapse-item" href="/login" th:href="@{/login}">Login</a>
-                    <a class="collapse-item" href="/register" th:href="@{/register}">Register</a>
-                    <a class="collapse-item" href="/forgottenPassword" th:href="@{/forgottenPassword}">Forgot Password</a>
+                    <a class="collapse-item" th:href="@{/login}">Login</a>
+                    <a class="collapse-item" th:href="@{/register}">Register</a>
+                    <a class="collapse-item" th:href="@{/forgottenPassword}">Forgot Password</a>
                     <div class="collapse-divider"></div>
                     <h6 class="collapse-header">Other Pages:</h6>
-                    <a class="collapse-item" href="/error" th:href="@{/error}">404 Page</a>
+                    <a class="collapse-item" th:href="@{/error}">404 Page</a>
                     <a class="collapse-item" th:href="@{/login(logout=logout)}">Logout</a>
                 </div>
             </div>
         </li>
+-->
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block"/>
@@ -231,7 +266,7 @@
                     <!-- Nav Item - User Information -->
 
                     <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link" th:href="@{/register}" href="/register" >
+                        <a class="nav-link" th:href="@{/register}" >
                             <span class="mr-2 d-none d-lg-inline text-gray-600 ">Register</span>
                         </a>
                     </li>
@@ -239,7 +274,7 @@
                     <div class="topbar-divider d-none d-lg-block"></div>
 
                     <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link" th:href="@{/login}" href="/login" >
+                        <a class="nav-link" th:href="@{/login}">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 ">Login</span>
                         </a>
                     </li>

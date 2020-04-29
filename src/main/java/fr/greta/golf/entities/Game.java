@@ -24,6 +24,11 @@ public class Game implements Serializable {
     @NotNull
     @ManyToOne
     private Competition competition;
+    @OneToMany(mappedBy = "game")
+    private List<TimePerHPerG> timesPerHPerG;
+    @Transient
+    private List<String> times;
+    private String dhour;
     @Transient
     private List<Player> players;
 

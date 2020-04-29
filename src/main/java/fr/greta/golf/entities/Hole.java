@@ -1,6 +1,8 @@
 package fr.greta.golf.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,6 +27,8 @@ public class Hole implements Serializable {
     private WalkTimeBtHoles walkTimeBtHoles2;
     @ManyToMany
     private List<Course> courses;
+    @OneToMany(mappedBy = "hole")
+    private List<TimePerHPerG> timesPerHPerG;
     @ManyToOne
     @NotNull
     private Golf golf;

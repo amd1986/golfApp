@@ -24,7 +24,7 @@
             <form class="user" method="post" th:action="@{/fr/admin/editHole}" >
 
               <input type="hidden" name="id" th:value="${hole?.id}"/>
-              <input type="hidden" name="golf" th:value="${golf}"/>
+              <input type="hidden" name="golf" th:value="${golf?.id}"/>
 
               <div class="form-group form-inline">
                 <label class="col-form-label col-3" for="name">Nom</label>

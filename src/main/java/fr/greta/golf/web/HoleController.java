@@ -41,7 +41,7 @@ public class HoleController {
                              @RequestParam(name = "page", defaultValue = "0", required = false)int page,
                              @RequestParam(name = "size", defaultValue = "5", required = false)int size,
                                 Model model){
-        Page<Hole> holes = holeRepository.findByNameContains(mc.trim(), PageRequest.of(page, size));//TODO faire un trim() pour tous les controller
+        Page<Hole> holes = holeRepository.findByNameContains(mc.trim(), PageRequest.of(page, size));
         if (!holes.hasContent()){
             holes = holeRepository.findByNameContains(mc.trim(), PageRequest.of(0, 5));
             page = 0;

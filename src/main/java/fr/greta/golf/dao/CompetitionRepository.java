@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CompetitionRepository extends JpaRepository<Competition, Long> {
-    public Page<Competition> findByNameContains(String mc, Pageable pageable);
+    Page<Competition> findByNameContains(String mc, Pageable pageable);
 }

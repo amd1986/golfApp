@@ -45,7 +45,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -57,8 +56,21 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--Validation dependancies-->
 
+        <!--POI dependancies-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+        <!--POI dependancies-->
+
+        <!--Validation dependancies-->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
@@ -86,6 +98,12 @@
         </dependency>
 
         <!--Validation dependancies-->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.7</version>
+        </dependency>
+
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>font-awesome</artifactId>
