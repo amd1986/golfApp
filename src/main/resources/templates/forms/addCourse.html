@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
     <meta charset="utf-8"/>
-    <title>Ajouter un parcours</title>
+    <title th:utext="#{course.add.h1}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -19,18 +19,18 @@
 
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Ajouter un parcours</h1>
+                            <h1 class="h4 text-gray-900 mb-4" th:utext="#{course.add.h1}"></h1>
                         </div>
 
                         <div th:hidden="${golfs} ? false : true">
                             <form class="user" method="get" th:action="@{/fr/admin/formCourse}">
                                 <div class="form-group form-inline">
-                                    <label class="col-form-label col-3" for="idGolf">Golfs</label>
+                                    <label class="col-form-label col-3" for="idGolf" th:utext="#{label.clubs}"></label>
                                     <select name="idGolf" id="idGolf" class="custom-select" >
                                         <option th:each="g:${golfs}" th:text="${g.name}" th:value="${g.id}"></option>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-user btn-block">Sélectionner ce golf</button>
+                                <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.select}"></button>
                             </form>
                         </div>
 
@@ -39,17 +39,17 @@
                                 <input type="hidden" name="golf" th:value="${golf?.id}"/>
 
                                 <div class="form-group form-inline">
-                                    <label class="col-form-label col-3" for="name">Nom</label>
+                                    <label class="col-form-label col-3" for="name" th:utext="#{label.name}"></label>
                                     <input class="form-control col-9" type="text" id="name" name="name" placeholder="Parcours bleu">
                                 </div>
                                   <div class="form-group form-inline">
-                                  <label class="col-form-label col-3" for="holes">Trous</label>
+                                  <label class="col-form-label col-3" for="holes" th:utext="#{label.holes}"></label>
                                   <select class="custom-select" name="holes" id="holes" multiple="multiple">
                                       <option th:each="h:${golf?.holes}" th:text="|${h.num} - ${h.name}|" th:value="${h.id}"></option>
                                   </select>
                                   </div>
                                 <h6 class="text-gray-400 text-center mt-1">Maintenez la <code>Ctrl</code> et cliquez sur les trous à sélectionner</h6>
-                                <button type="submit" class="btn btn-primary btn-user btn-block">Ajouter ce parcours</button>
+                                <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.add}"></button>
                             </form>
                         </div>
                     </div>

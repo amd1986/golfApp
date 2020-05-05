@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
   <meta charset="utf-8"/>
-  <title>Ajouter une partie</title>
+  <title th:utext="#{game.add.h1}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -19,18 +19,18 @@
 
           <div class="p-5">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">Ajouter une partie</h1>
+              <h1 class="h4 text-gray-900 mb-4" th:utext="#{game.add.h1}"></h1>
             </div>
 
             <div th:hidden="${competitions} ? false : true">
             <form class="user" method="get" th:action="@{/fr/admin/formGame}">
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="idCompet">Compétition</label>
+                <label class="col-form-label col-3" for="idCompet" th:utext="#{competition.span.heading}"></label>
                 <select name="idCompet" id="idCompet" class="custom-select">
                   <option th:each="c:${competitions}" th:value="${c.id}" th:text="${c.name}"></option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary btn-user btn-block">Sélectionner cette compétition</button>
+              <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.select}"></button>
             </form>
           </div>
 
@@ -41,16 +41,16 @@
               <input type="hidden" name="competition" th:value="${competition?.id}"/>
 
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="num">Numéro</label>
+                <label class="col-form-label col-3" for="num" th:utext="#{label.num}"></label>
                 <input class="form-control col-9"  type="text" id="num" name="num">
                 <div class="col-3"></div><div class="text-danger col-9" ></div>
               </div>
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="name">Nom</label>
+                <label class="col-form-label col-3" for="name" th:utext="#{label.name}"></label>
                 <input class="form-control col-9"  type="text" id="name" name="name">
                 <div class="col-3"></div><div class="text-danger col-9" ></div>
               </div>
-              <button type="submit" class="btn btn-primary btn-user btn-block" >Ajouter cette partie</button>
+              <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.add}"></button>
             </form>
             </div>
           </div>

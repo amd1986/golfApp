@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
   <meta charset="utf-8"/>
-  <title>Parcours</title>
+  <title th:utext="#{course.span.heading}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -18,15 +18,15 @@
         <div class="card-body">
           <div class="table-responsive p-5">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">Afficher un parcours</h1>
+              <h1 class="h4 text-gray-900 mb-4" th:utext="#{course.display.h1}"></h1>
             </div>
             <table class="table table-bordered" id="dataTable">
               <tr>
-                <td>Nom</td>
+                <td th:utext="#{label.name}"></td>
                 <td th:text="${course?.name}"></td>
               </tr>
               <tr>
-                <td>Trous</td>
+                <td th:utext="#{label.holes}"></td>
                 <td>
                   <select class="custom-select">
                     <option th:each="h:${course?.holes}" th:text="${h.name}"></option>

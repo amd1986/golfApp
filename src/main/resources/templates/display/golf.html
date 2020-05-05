@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
   <meta charset="utf-8"/>
-  <title>Golf</title>
+  <title th:utext="#{golf.span.heading}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -18,27 +18,27 @@
         <div class="card-body">
           <div class="table-responsive p-5">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">Afficher un golf</h1>
+              <h1 class="h4 text-gray-900 mb-4" th:utext="#{golf.display.h1}"></h1>
             </div>
             <table class="table table-bordered" id="dataTable">
               <tr>
-                <td>Nom</td>
+                <td th:utext="#{label.name}"></td>
                 <td th:text="${golf?.name}"></td>
               </tr>
               <tr>
-                <td>Adresse</td>
+                <td th:utext="#{label.address}"></td>
                 <td th:text="${golf?.address}"></td>
               </tr>
               <tr>
-                <td>Code postal</td>
+                <td th:utext="#{label.postalCode}"></td>
                 <td th:text="${golf?.zipCode}"></td>
               </tr>
               <tr>
-                <td>Ville</td>
+                <td th:utext="#{label.city}"></td>
                 <td th:text="${golf?.city}"></td>
               </tr>
               <tr>
-                <td>Pays</td>
+                <td th:utext="#{label.country}"></td>
                 <td th:text="${golf?.country}"></td>
               </tr>
             </table>

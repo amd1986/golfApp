@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
   <meta charset="utf-8"/>
-  <title>Partie</title>
+  <title th:utext="#{game.span.heading}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -18,19 +18,19 @@
         <div class="card-body">
           <div class="table-responsive p-5">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">Afficher une partie</h1>
+              <h1 class="h4 text-gray-900 mb-4" th:utext="#{game.display.h1}"></h1>
             </div>
             <table class="table table-bordered" id="dataTable">
               <tr>
-                <td>Compétition</td>
+                <td th:utext="#{game.span.heading}"></td>
                 <td th:text="${game?.competition?.name}"></td>
               </tr>
               <tr>
-                <td>Nom</td>
+                <td th:utext="#{label.name}"></td>
                 <td th:text="${game?.name}"></td>
               </tr>
               <tr>
-                <td>Num</td>
+                <td th:utext="#{label.num}"></td>
                 <td th:text="${game?.num}"></td>
               </tr>
             </table>

@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
   <meta charset="utf-8"/>
-  <title>Trou</title>
+  <title th:utext="#{hole.span.heading}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -18,23 +18,23 @@
         <div class="card-body">
           <div class="table-responsive p-5">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">Afficher un trou</h1>
+              <h1 class="h4 text-gray-900 mb-4" th:utext="#{hole.display.h1}"></h1>
             </div>
             <table class="table table-bordered" id="dataTable">
               <tr>
-                <td>Golf</td>
+                <td th:utext="#{golf.span.heading}"></td>
                 <td th:text="${hole?.golf?.name}"></td>
               </tr>
               <tr>
-                <td>Parcours</td>
+                <td th:utext="#{course.span.heading}"></td>
                 <td><span th:each="c:${hole?.courses}" th:text="|${c.name} |"></span></td>
               </tr>
               <tr>
-                <td>Nom</td>
+                <td th:utext="#{label.name}"></td>
                 <td th:text="${hole?.name}"></td>
               </tr>
               <tr>
-                <td>Num</td>
+                <td th:utext="#{label.num}"></td>
                 <td th:text="${hole?.num}"></td>
               </tr>
               <tr>
@@ -42,7 +42,7 @@
                 <td th:text="${hole?.par}"></td>
               </tr>
               <tr>
-                <td>Décalage</td>
+                <td th:utext="#{label.offset}"></td>
                 <td th:text="${hole?.offset}"></td>
               </tr>
             </table>

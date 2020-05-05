@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
   <meta charset="utf-8"/>
-  <title>Modifier un temps de jeu</title>
+  <title th:utext="#{playTime.edit.h1}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -19,7 +19,7 @@
 
           <div class="p-5">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">Modifier un temps de jeu</h1>
+              <h1 class="h4 text-gray-900 mb-4" th:utext="#{playTime.edit.h1}"></h1>
             </div>
             <form class="user" method="post" th:action="@{/fr/admin/editTime}" >
 
@@ -28,11 +28,11 @@
               <input type="hidden" name="game" th:value="${time?.game?.id}"/>
 
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="time">Temps</label>
+                <label class="col-form-label col-3" for="time" th:utext="#{label.time}"></label>
                 <input class="form-control col-9" th:value="${time?.time}" type="time" id="time" name="time">
                 <div class="col-3"></div><div class="text-danger col-9"></div>
               </div>
-              <button type="submit" class="btn btn-primary btn-user btn-block" >Modifier</button>
+              <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.edit}"></button>
             </form>
           </div>
         </div>

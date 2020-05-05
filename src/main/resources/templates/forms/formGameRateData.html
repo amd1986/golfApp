@@ -3,7 +3,7 @@
        layout:decorate="~{main}">
 <head>
   <meta charset="utf-8"/>
-  <title>Cadence de jeu</title>
+  <title th:utext="#{playPace.saveData.title}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -13,7 +13,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Temps de jeu</h6>
+        <h6 class="m-0 font-weight-bold text-primary" th:utext="#{playPace.saveData.h6}"></h6>
       </div>
 
       <div class="card-body">
@@ -36,7 +36,7 @@
             </tr>
             </tbody>
           </table>
-            <button type="submit" class="btn btn-primary btn-user btn-block">Sauvegarder les données</button>
+            <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.saveData}"></button>
           </form>
         </div>
       </div>

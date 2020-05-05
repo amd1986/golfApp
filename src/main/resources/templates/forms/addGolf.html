@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
   <meta charset="utf-8"/>
-  <title>Ajouter un golf</title>
+  <title th:utext="#{golf.add.h1}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -19,38 +19,38 @@
 
           <div class="p-5">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">Ajouter un golf</h1>
+              <h1 class="h4 text-gray-900 mb-4" th:utext="#{golf.add.h1}"></h1>
             </div>
             <form class="user" method="post" th:action="@{/fr/admin/editGolf}" >
 
               <input type="hidden" name="id" th:value="${golf?.id}"/>
 
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="name">Nom</label>
+                <label class="col-form-label col-3" for="name" th:utext="#{label.name}"></label>
                 <input class="form-control col-9" th:value="${golf?.name}" type="text" id="name" name="name" placeholder="Golf Bluegreen">
                 <div class="col-3"></div><div class="text-danger col-9" ></div>
               </div>
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="address">Adresse</label>
+                <label class="col-form-label col-3" for="address" th:utext="#{label.address}"></label>
                 <input class="form-control col-9" th:value="${golf?.address}" type="text" id="address" name="address" placeholder="25 Boulevard Marcel Pourtout">
                 <div class="col-3"></div><div class="text-danger col-9"></div>
               </div>
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="zipCode">Code Postale</label>
+                <label class="col-form-label col-3" for="zipCode" th:utext="#{label.postalCode}"></label>
                 <input class="form-control col-9" th:value="${golf?.zipCode}" type="text" id="zipCode" name="zipCode" placeholder="92500">
                 <div class="col-3"></div><div class="text-danger col-9" ></div>
               </div>
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="city">Ville</label>
+                <label class="col-form-label col-3" for="city" th:utext="#{label.city}"></label>
                 <input class="form-control col-9" th:value="${golf?.city}" type="text" id="city" name="city" placeholder="Rueil-Malmaison">
                 <div class="col-3"></div><div class="text-danger col-9" ></div>
               </div>
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="country">Pays</label>
+                <label class="col-form-label col-3" for="country" th:utext="#{label.country}"></label>
                 <input class="form-control col-9" th:value="${golf?.country}" type="text" id="country" name="country" placeholder="France">
                 <div class="col-3"></div><div class="text-danger col-9" ></div>
               </div>
-              <button type="submit" class="btn btn-primary btn-user btn-block" >Ajouter ce golf</button>
+              <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.add}"></button>
             </form>
           </div>
         </div>

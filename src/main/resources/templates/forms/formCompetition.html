@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
     <meta charset="utf-8"/>
-    <title>Cadence de jeu</title>
+    <title th:utext="#{playPace.generatePdf.title}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -19,20 +19,20 @@
 
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Étape 1 : Éditer la compétition</h1>
+                            <h1 class="h4 text-gray-900 mb-4" th:utext="#{playPace.generatePdf.step1}"></h1>
                         </div>
 
                         <div th:hidden="${courses} ? false : true">
                             <form class="user" method="get" th:action="@{/fr/user/generateCompetPdf/competition}">
                                 <div class="form-group form-inline">
-                                    <label class="col-form-label col-3" for="idCompet">Competitions</label>
+                                    <label class="col-form-label col-3" for="idCompet" th:utext="#{label.competitions}"></label>
                                     <select name="idCompet" id="idCompet" class="custom-select">
                                         <div th:each="course:${courses}" th:hidden="${course?.competitions} ? false : true">
                                         <option th:each="c:${course?.competitions}" th:value="${c.id}" th:text="|${course.name} - ${c.name}|"></option>
                                         </div>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-user btn-block">Sélectionner cette competition</button>
+                                <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.select}"></button>
                             </form>
                         </div>
 
@@ -42,45 +42,45 @@
                                 <input type="hidden" name="course" th:value="${competition?.course?.id}"/>
 
                                 <div class="form-group form-inline">
-                                    <label class="col-form-label col-3" for="name">Nom</label>
+                                    <label class="col-form-label col-3" for="name" th:utext="#{label.name}"></label>
                                     <input class="form-control col-9" th:value="${competition?.name}" type="text" id="name" name="name">
                                     <div class="col-3"></div><div class="text-danger col-9"></div>
                                 </div>
                                 <div class="form-group form-inline">
-                                    <label class="col-form-label col-3" for="description">Intitulé</label>
+                                    <label class="col-form-label col-3" for="description" th:utext="#{label.description}"></label>
                                     <input class="form-control col-9" th:value="${competition?.description}" type="text" id="description" name="description">
                                     <div class="col-3"></div><div class="text-danger col-9"></div>
                                 </div>
                                 <div class="form-group form-inline">
-                                    <label class="col-form-label col-3" for="type">Type</label>
+                                    <label class="col-form-label col-3" for="type" th:utext="#{label.type}"></label>
                                     <input class="form-control col-9" th:value="${competition?.type}" type="text" id="type" name="type">
                                     <div class="col-3"></div><div class="text-danger col-9"></div>
                                 </div>
                                 <div class="form-group form-inline">
-                                    <label class="col-form-label col-3" for="dateCompetition">Date</label>
+                                    <label class="col-form-label col-3" for="dateCompetition" th:utext="#{label.date}"></label>
                                     <input class="form-control col-9" th:value="${competition?.dateCompetition}"
                                            type="date" id="dateCompetition" name="dateCompetition">
                                     <div class="col-3"></div><div class="text-danger col-9"></div>
                                 </div>
                                 <div class="form-group form-inline">
-                                    <label class="col-form-label col-3" for="departureHour">Hour</label>
+                                    <label class="col-form-label col-3" for="departureHour" th:utext="#{label.hour}"></label>
                                     <input class="form-control col-9" th:value="${competition?.departureHour}"
                                            type="time" id="departureHour" name="departureHour">
                                     <div class="col-3"></div><div class="text-danger col-9"></div>
                                 </div>
                                 <div class="form-group form-inline">
-                                    <label class="col-form-label col-3" for="nbPlayersByGame">Balles</label>
+                                    <label class="col-form-label col-3" for="nbPlayersByGame" th:utext="#{label.nbPlayers}"></label>
                                     <input class="form-control col-9" th:value="${competition?.nbPlayersByGame}"
                                            type="text" id="nbPlayersByGame" name="nbPlayersByGame">
                                     <div class="col-3"></div><div class="text-danger col-9"></div>
                                 </div>
                               <div class="form-group form-inline">
-                                <label class="col-form-label col-3" for="intervalBtGames">Interval</label>
+                                <label class="col-form-label col-3" for="intervalBtGames" th:utext="#{label.interval}"></label>
                                 <input class="form-control col-9" th:value="${competition?.intervalBtGames}"
                                        type="text" id="intervalBtGames" name="intervalBtGames">
                                 <div class="col-3"></div><div class="text-danger col-9"></div>
                               </div>
-                                <button type="submit" class="btn btn-primary btn-user btn-block">Valider</button>
+                                <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.validate}"></button>
                             </form>
                         </div>
                     </div>

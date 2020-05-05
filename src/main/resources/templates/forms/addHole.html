@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
   <meta charset="utf-8"/>
-  <title>Ajouter un trou</title>
+  <title th:utext="#{hole.add.h1}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -19,18 +19,18 @@
 
           <div class="p-5">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">Ajouter un trou</h1>
+              <h1 class="h4 text-gray-900 mb-4" th:utext="#{hole.add.h1}"></h1>
             </div>
 
               <div th:hidden="${golfs} ? false : true">
               <form class="user" method="get" th:action="@{/fr/admin/addHole}">
               <div class="form-group form-inline" >
-                <label class="col-form-label col-3" for="idGolf">Golfs</label>
+                <label class="col-form-label col-3" for="idGolf" th:utext="#{label.clubs}"></label>
                 <select name="idGolf" id="idGolf" class="custom-select">
                   <option th:each="g:${golfs}" th:value="${g.id}" th:text="${g.name}"></option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary btn-user btn-block">Sélectionner ce golf</button>
+              <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.select}"></button>
               </form>
               </div>
 
@@ -40,12 +40,12 @@
                 <input type="hidden" name="golf" th:value="${golf?.id}"/>
 
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="name">Nom</label>
+                <label class="col-form-label col-3" for="name" th:utext="#{label.name}"></label>
                 <input class="form-control col-9" type="text" id="name" name="name" placeholder="Trou 1">
                 <div class="col-3"></div><div class="text-danger col-9"></div>
               </div>
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="num">Numéro</label>
+                <label class="col-form-label col-3" for="num" th:utext="#{label.num}"></label>
                 <input class="form-control col-9" type="text" id="num" name="num" placeholder="18">
                 <div class="col-3"></div><div class="text-danger col-9" ></div>
               </div>
@@ -55,11 +55,11 @@
                 <div class="col-3"></div><div class="text-danger col-9" ></div>
               </div>
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="offset">Décalage</label>
+                <label class="col-form-label col-3" for="offset" th:utext="#{label.offset}"></label>
                 <input class="form-control col-9" type="text" id="offset" name="offset" placeholder="5">
                 <div class="col-3"></div><div class="text-danger col-9" ></div>
               </div>
-              <button type="submit" class="btn btn-primary btn-user btn-block" >Ajouter ce trou</button>
+              <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.add}"></button>
             </form>
           </div>
           </div>

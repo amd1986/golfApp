@@ -3,7 +3,7 @@
        layout:decorate="~{main}">
 <head>
   <meta charset="utf-8"/>
-  <title>Cadence de jeu</title>
+  <title th:utext="#{playPace.saveData.title}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -13,7 +13,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Liste des compétitions</h6>
+        <h6 class="m-0 font-weight-bold text-primary" th:utext="#{competition.h6.subtitle}"></h6>
       </div>
       <div class="card-body">
         <!-- Topbar Search -->
@@ -25,7 +25,7 @@
             <input type="hidden" name="size" th:value="${size}">
             <div class="input-group-append">
               <button class="btn btn-primary" type="submit">
-                <span class="mr-2">Chercher</span>
+                <span class="mr-2" th:utext="#{label.search}"></span>
                 <i class="fas fa-search fa-sm"></i>
               </button>
             </div>
@@ -37,20 +37,20 @@
           <table class="table table-bordered">
             <thead>
             <tr>
-              <th>Id</th>
-              <th>Nom</th>
-              <th>Type</th>
-              <th>Date début</th>
-              <th>Sélectionner</th>
+              <th th:utext="#{label.id}"></th>
+              <th th:utext="#{label.name}"></th>
+              <th th:utext="#{label.type}"></th>
+              <th th:utext="#{label.date}"></th>
+              <th th:utext="#{label.select}"></th>
             </tr>
             </thead>
             <tfoot>
             <tr>
-              <th>Id</th>
-              <th>Nom</th>
-              <th>Type</th>
-              <th>Date début</th>
-              <th>Sélectionner</th>
+              <th th:utext="#{label.id}"></th>
+              <th th:utext="#{label.name}"></th>
+              <th th:utext="#{label.type}"></th>
+              <th th:utext="#{label.date}"></th>
+              <th th:utext="#{label.select}"></th>
             </tr>
             </tfoot>
             <tbody>
@@ -60,7 +60,7 @@
               <td th:text="${c.type}"></td>
               <td th:text="${c.dateCompetition}"></td>
               <td>
-                <a th:href="@{/fr/user/gameRate/collectData(idCompet=${c.id})}" class="btn btn-primary">Sélectionner</a>
+                <a th:href="@{/fr/user/gameRate/collectData(idCompet=${c.id})}" class="btn btn-primary" th:utext="#{label.select}"></a>
               </td>
             </tr>
             </tbody>
@@ -68,14 +68,16 @@
           <nav aria-label="Page navigation">
             <ul class="pagination">
               <li class="page-item">
-                <a class="page-link" th:href="@{/fr/user/gameRate/selectCompetition(page=${currentPage > 0} ? ${currentPage - 1} : ${currentPage} , size=${size}, mc=${mc})}">Previous</a>
+                <a th:href="@{/fr/user/gameRate/selectCompetition(page=${currentPage > 0} ? ${currentPage - 1} : ${currentPage} , size=${size}, mc=${mc})}"
+                   class="page-link" th:utext="#{label.previous}"></a>
               </li>
               <li class="page-item" th:each="p,status:${pages}">
                 <a class="page-link" th:text="${status.index+1}"
                    th:href="@{/fr/user/gameRate/selectCompetition(page=${status.index}, size=${size}, mc=${mc})}"></a>
               </li>
               <li class="page-item">
-                <a class="page-link" th:href="@{/fr/user/gameRate/selectCompetition(page=${currentPage + 1}, size=${size}, mc=${mc})}">Next</a>
+                <a class="page-link" th:href="@{/fr/user/gameRate/selectCompetition(page=${currentPage + 1}, size=${size}, mc=${mc})}"
+                   th:utext="#{label.next}"></a>
               </li>
             </ul>
           </nav>

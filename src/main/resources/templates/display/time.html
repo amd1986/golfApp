@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
   <meta charset="utf-8"/>
-  <title>Temps de jeu</title>
+  <title th:utext="#{playTime.span.heading}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -18,23 +18,23 @@
         <div class="card-body">
           <div class="table-responsive p-5">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">Afficher un temps de jeu</h1>
+              <h1 class="h4 text-gray-900 mb-4" th:utext="#{playTime.display.h1}"></h1>
             </div>
             <table class="table table-bordered" id="dataTable">
               <tr>
-                <td>Temps</td>
+                <td th:utext="#{label.time}"></td>
                 <td th:text="${time?.time}"></td>
               </tr>
               <tr>
-                <td>Trou</td>
+                <td th:utext="#{hole.span.heading}"></td>
                 <td th:text="|${time?.hole?.id} - ${time?.hole?.name}|"></td>
               </tr>
               <tr>
-                <td>Partie</td>
+                <td th:utext="#{game.span.heading}"></td>
                 <td th:text="|${time?.game?.id} - ${time?.game?.name}|"></td>
               </tr>
               <tr>
-                <td>Compétition</td>
+                <td th:utext="#{competition.span.heading}"></td>
                 <td th:text="${time?.game?.competition?.name}"></td>
               </tr>
             </table>

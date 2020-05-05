@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
     <meta charset="utf-8"/>
-    <title>Cadence de jeu</title>
+    <title th:utext="#{playPace.generatePdf.title}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -19,16 +19,16 @@
 
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Étape 2 : Envoyer le fichier Excel</h1>
+                            <h1 class="h4 text-gray-900 mb-4" th:utext="#{playPace.generatePdf.step2}"></h1>
                         </div>
                         <form class="user" action="/fr/user/generateCompetPdf/upload" method="post" enctype="multipart/form-data">
                             <div class="form-group form-inline">
-                                <label class="col-form-label col-3" for="file">Fichier</label>
+                                <label class="col-form-label col-3" for="file" th:utext="#{label.file}"></label>
                                 <input class="form-control col-9" type="file" id="file" name="file" required
                                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                                 <div class="col-3"></div><div class="text-danger col-9" th:text="${error}"></div>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-user btn-block">Envoyer</button>
+                            <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.send}"></button>
                         </form>
                     </div>
                 </div>

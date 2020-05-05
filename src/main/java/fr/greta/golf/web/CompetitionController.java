@@ -29,14 +29,14 @@ public class CompetitionController {
         this.golfRepository = golfRepository;
     }
 
-    @GetMapping(path = "/fr/user/competition/{id}")
+    @GetMapping(path = "/{locale:en|fr|es}/user/competition/{id}")
     public String competition(Model model, @PathVariable(name = "id") Long id){
         Optional<Competition> competition = competitionRepository.findById(id);
         competition.ifPresent(value -> model.addAttribute("competition", value));
         return "/display/competition";
     }
 
-    @GetMapping(path = "/fr/user/searchCompetition")
+    @GetMapping(path = "/{locale:en|fr|es}/user/searchCompetition")
     public String displayCompetitions(@RequestParam(name = "mc", defaultValue = "", required = false)String mc,
                              @RequestParam(name = "page", defaultValue = "0", required = false)int page,
                              @RequestParam(name = "size", defaultValue = "5", required = false)int size,
@@ -65,7 +65,7 @@ public class CompetitionController {
         return String.format("redirect:/fr/user/searchCompetition?mc=%s&page=%d&size=%d", mc, page, size);
     }
 
-    @GetMapping(path = "/fr/admin/formCompetition")
+    @GetMapping(path = "/{locale:en|fr|es}/admin/formCompetition")
     public String addCompetition(Model model, @RequestParam(name = "idGolf", required = false, defaultValue = "-1") Long id){
         if (id != -1){
             Optional<Golf> golf = golfRepository.findById(id);
@@ -96,7 +96,7 @@ public class CompetitionController {
         return "redirect:/fr/admin/formCompetition";
     }
 
-    @GetMapping(path = "/fr/admin/editCompetition")
+    @GetMapping(path = "/f{locale:en|fr|es}r/admin/editCompetition")
     public String formCompetition(Model model, @RequestParam(name = "idCompet", required = false, defaultValue = "-1") Long id){
         if (id != -1){
             Optional<Competition> competition = competitionRepository.findById(id);

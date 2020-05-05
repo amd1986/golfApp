@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
   <meta charset="utf-8"/>
-  <title>Modifier une partie</title>
+  <title th:utext="#{game.edit.h1}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -19,7 +19,7 @@
 
           <div class="p-5">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">Modifier une partie</h1>
+              <h1 class="h4 text-gray-900 mb-4" th:utext="#{game.edit.h1}"></h1>
             </div>
 
             <form class="user" method="post" th:action="@{/fr/admin/editGame}" >
@@ -27,16 +27,16 @@
               <input type="hidden" name="competition" th:value="${competition?.id}"/>
 
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="num">Numéro</label>
+                <label class="col-form-label col-3" for="num" th:utext="#{label.num}"></label>
                 <input class="form-control col-9" th:value="${game?.num}" type="text" id="num" name="num">
                 <div class="col-3"></div><div class="text-danger col-9" ></div>
               </div>
               <div class="form-group form-inline">
-                <label class="col-form-label col-3" for="name">Nom</label>
+                <label class="col-form-label col-3" for="name" th:utext="#{label.name}"></label>
                 <input class="form-control col-9" th:value="${game?.name}" type="text" id="name" name="name">
                 <div class="col-3"></div><div class="text-danger col-9" ></div>
               </div>
-              <button type="submit" class="btn btn-primary btn-user btn-block" >Modifier une partie</button>
+              <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.edit}"></button>
             </form>
           </div>
         </div>

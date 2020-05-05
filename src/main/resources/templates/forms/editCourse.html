@@ -3,7 +3,7 @@
       layout:decorate="~{main}">
 <head>
     <meta charset="utf-8"/>
-    <title>Modifier un parcours</title>
+    <title th:utext="#{course.edit.h1}"></title>
 </head>
 <body id="page-top">
 <section layout:fragment="content">
@@ -19,7 +19,7 @@
 
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Modifier un parcours</h1>
+                            <h1 class="h4 text-gray-900 mb-4" th:utext="#{course.edit.h1}"></h1>
                         </div>
 
                         <form class="user" method="post" th:action="@{/fr/admin/editCourse}">
@@ -27,19 +27,19 @@
                             <input type="hidden" name="id" th:value="${course?.id}"/>
 
                             <div class="form-group form-inline">
-                                <label class="col-form-label col-3" for="name">Nom</label>
+                                <label class="col-form-label col-3" for="name" th:utext="#{label.name}"></label>
                                 <input class="form-control col-9" th:value="${course?.name}" type="text" id="name"
                                        name="name">
                             </div>
                             <div class="form-group form-inline">
-                                <label class="col-form-label col-3" for="holes">Trous</label>
+                                <label class="col-form-label col-3" for="holes" th:utext="#{label.holes}"></label>
                                 <select class="custom-select" name="holes" id="holes" multiple="multiple">
                                     <option th:each="h:${golf?.holes}" th:text="|${h.num} - ${h.name}|"
                                             th:value="${h.id}"></option>
                                 </select>
                             </div>
                             <h6 class="text-gray-400 text-center mt-1">Maintenez la <code>Ctrl</code> et cliquez sur les trous à sélectionner</h6>
-                            <button type="submit" class="btn btn-primary btn-user btn-block">Modifier ce parcours</button>
+                            <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.edit}"></button>
                         </form>
                     </div>
                 </div>
