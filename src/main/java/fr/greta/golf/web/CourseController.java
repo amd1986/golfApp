@@ -29,14 +29,14 @@ public class CourseController {
         this.golfRepository = golfRepository;
     }
 
-    @GetMapping(path = "/fr/user/course/{id}")
+    @GetMapping(path = "/{locale:en|fr|es}/user/course/{id}")
     public String afficherCourse(Model model, @PathVariable(name = "id") Long id){
         Optional<Course> course = courseRepository.findById(id);
         course.ifPresent(value -> model.addAttribute("course", value));
         return "/display/course";
     }
 
-    @GetMapping(path = "/fr/user/searchCourse")
+    @GetMapping(path = "/{locale:en|fr|es}/user/searchCourse")
     public String courseView(@RequestParam(name = "mc", defaultValue = "", required = false)String mc,
                                 @RequestParam(name = "page", defaultValue = "0", required = false)int page,
                                 @RequestParam(name = "size", defaultValue = "5", required = false)int size,
@@ -55,25 +55,26 @@ public class CourseController {
         return "search/course";
     }
 
-    @PostMapping(path = "/fr/admin/deleteCourse")
+    @PostMapping(path = "/{locale:en|fr|es}/admin/deleteCourse")
     public String deleteGolf(@RequestParam(name = "mc")String mc,
                              @RequestParam(name = "page")int page,
                              @RequestParam(name = "size")int size,
-                             @RequestParam(name = "idCourse")Long id){
+                             @RequestParam(name = "idCourse")Long id,
+                             @PathVariable String locale){
         courseRepository.deleteById(id);
-        return String.format("redirect:/fr/user/searchCourse?mc=%s&page=%d&size=%d", mc, page, size);
+        return String.format("redirect:/"+locale+"/user/searchCourse?mc=%s&page=%d&size=%d", mc, page, size);
     }
 
-    @GetMapping(path = "/fr/admin/formCourse")
+    @GetMapping(path = "/{locale:en|fr|es}/admin/formCourse")
     public String formCourse(@RequestParam(name = "idGolf", required = false, defaultValue = "-1") Long id,
-                             Model model){
+                             @PathVariable String locale, Model model){
         if (id != -1){
             Optional<Golf> golf = golfRepository.findById(id);
             if (golf.isPresent()){
                 model.addAttribute("golf", golf.get());
             }
             else {
-                return "redirect:/fr/user/searchCourse";
+                return "redirect:/"+locale+"/user/searchCourse";
             }
         }else {
             model.addAttribute("golfs", golfRepository.findAll());
@@ -82,12 +83,12 @@ public class CourseController {
     }
 
     @Transactional
-    @PostMapping(path = "/fr/admin/addCourse")
-    public String addCourse(@Validated Course course, BindingResult bindingResult){
+    @PostMapping(path = "/{locale:en|fr|es}/admin/addCourse")
+    public String addCourse(@Validated Course course, BindingResult bindingResult, @PathVariable String locale){
         if (!bindingResult.hasErrors()){
             for (Course course1 : courseRepository.findAll()){
                 if (course.equals(course1))
-                    return "redirect:/fr/admin/formCourse";
+                    return "redirect:/"+locale+"/admin/formCourse";
             }
             if (course.getHoles() != null){
                 course.getHoles().forEach(hole -> {
@@ -95,14 +96,14 @@ public class CourseController {
                 });
             }
             courseRepository.save(course);
-            return "redirect:/fr/user/course/"+course.getId();
+            return "redirect:/"+locale+"/user/course/"+course.getId();
         }
-        return "redirect:/fr/admin/formCourse";
+        return "redirect:/"+locale+"/admin/formCourse";
     }
 
-    @GetMapping(path = "/fr/admin/editCourse")
+    @GetMapping(path = "/{locale:en|fr|es}/admin/editCourse")
     public String editCourse(@RequestParam(name = "idCourse", required = false, defaultValue = "-1") Long id,
-                             Model model){
+                             @PathVariable String locale, Model model){
         if (id != -1){
             Optional<Course> course1 = courseRepository.findById(id);
             if (course1.isPresent()){
@@ -112,14 +113,14 @@ public class CourseController {
                 golf.ifPresent(golf1 -> model.addAttribute("golf", golf1));
             }
         } else {
-            return "redirect:/fr/user/searchCourse";
+            return "redirect:/"+locale+"/user/searchCourse";
         }
         return "/forms/editCourse";
     }
 
     @Transactional
-    @PostMapping(path = "/fr/admin/editCourse")
-    public String editCourse(@Validated Course course, BindingResult bindingResult){
+    @PostMapping(path = "/{locale:en|fr|es}/admin/editCourse")
+    public String editCourse(@Validated Course course, BindingResult bindingResult, @PathVariable String locale){
         if (!bindingResult.hasErrors()){
             Optional<Course> c = courseRepository.findById(course.getId());
             if (c.isPresent()){
@@ -135,7 +136,7 @@ public class CourseController {
                 courseRepository.save(course);
             }
         }
-        return "redirect:/fr/user/course/"+course.getId();
+        return "redirect:/"+locale+"/user/course/"+course.getId();
     }
 
 }

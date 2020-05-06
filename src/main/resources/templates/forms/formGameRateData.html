@@ -8,7 +8,7 @@
 <body id="page-top">
 <section layout:fragment="content">
 <!-- Begin Page Content -->
-  <div class="w-100 h-100">
+  <div class="w-100 h-100" th:with="locale=#{lang.locale}">
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -18,7 +18,7 @@
 
       <div class="card-body">
         <div class="table-responsive">
-          <form class="user" action="/fr/user/gameRate/collectData" method="post">
+          <form class="user" th:action="@{'/'+${locale}+'/user/gameRate/collectData'}" method="post">
             <input type="hidden" name="idCompet" th:value="${competition?.id}"/>
           <table class="table table-bordered">
             <thead>

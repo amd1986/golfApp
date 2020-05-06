@@ -23,7 +23,7 @@
             </div>
 
             <div th:hidden="${competitions} ? false : true">
-            <form class="user" method="get" th:action="@{/fr/admin/formGame}">
+            <form class="user" method="get" th:action="@{'/'+${locale}+'/admin/formGame'}">
               <div class="form-group form-inline">
                 <label class="col-form-label col-3" for="idCompet" th:utext="#{competition.span.heading}"></label>
                 <select name="idCompet" id="idCompet" class="custom-select">
@@ -36,7 +36,7 @@
 
 
             <div th:hidden="${competition?.id} ? false : true">
-            <form class="user" method="post" th:action="@{/fr/admin/addGame}" >
+            <form class="user" method="post" th:action="@{'/'+${locale}+'/admin/addGame'}" >
 
               <input type="hidden" name="competition" th:value="${competition?.id}"/>
 

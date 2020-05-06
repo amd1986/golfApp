@@ -39,8 +39,7 @@ public class CompetitionController {
     @GetMapping(path = "/{locale:en|fr|es}/user/searchCompetition")
     public String displayCompetitions(@RequestParam(name = "mc", defaultValue = "", required = false)String mc,
                              @RequestParam(name = "page", defaultValue = "0", required = false)int page,
-                             @RequestParam(name = "size", defaultValue = "5", required = false)int size,
-                             Model model){
+                             @RequestParam(name = "size", defaultValue = "5", required = false)int size, Model model){
         Page<Competition> competitions = competitionRepository.findByNameContains(mc, PageRequest.of(page, size));
         if (!competitions.hasContent()){
             competitions = competitionRepository.findByNameContains(mc, PageRequest.of(0, 5));
@@ -56,24 +55,26 @@ public class CompetitionController {
     }
 
     @Transactional
-    @PostMapping(path = "/fr/admin/deleteCompetition")
+    @PostMapping(path = "/{locale:en|fr|es}/admin/deleteCompetition")
     public String deleteCompetition(@RequestParam(name = "mc")String mc,
                                     @RequestParam(name = "page")int page,
                                     @RequestParam(name = "size")int size,
-                                    @RequestParam(name = "idComp")Long id){
+                                    @RequestParam(name = "idComp")Long id,
+                                    @PathVariable String locale){
         competitionRepository.deleteById(id);
-        return String.format("redirect:/fr/user/searchCompetition?mc=%s&page=%d&size=%d", mc, page, size);
+        return String.format("redirect:/"+locale+"/user/searchCompetition?mc=%s&page=%d&size=%d", mc, page, size);
     }
 
     @GetMapping(path = "/{locale:en|fr|es}/admin/formCompetition")
-    public String addCompetition(Model model, @RequestParam(name = "idGolf", required = false, defaultValue = "-1") Long id){
+    public String addCompetition(Model model, @RequestParam(name = "idGolf", required = false, defaultValue = "-1") Long id,
+                                 @PathVariable String locale){
         if (id != -1){
             Optional<Golf> golf = golfRepository.findById(id);
             if (golf.isPresent()){
                 model.addAttribute("golf", golf.get());
             }
             else {
-                return "redirect:/fr/user/searchCompetition";
+                return "redirect:/"+locale+"/user/searchCompetition";
             }
         }else {
             List<Golf> golfs = golfRepository.findAll();
@@ -83,21 +84,22 @@ public class CompetitionController {
         return "forms/addCompetition";
     }
 
-    @PostMapping(path = "/fr/admin/addCompetition")
-    public String addCompetition(@Validated Competition competition, BindingResult bindingResult){
+    @PostMapping(path = "/{locale:en|fr|es}/admin/addCompetition")
+    public String addCompetition(@Validated Competition competition, BindingResult bindingResult, @PathVariable String locale){
         if (!bindingResult.hasErrors()){
             for (Competition competition1 : competitionRepository.findAll()) {
                 if (competition.equals(competition1)) {
-                    return "redirect:/fr/admin/formCompetition";
+                    return "redirect:/"+locale+"/admin/formCompetition";
                 }
             }
             competitionRepository.save(competition);
         }
-        return "redirect:/fr/admin/formCompetition";
+        return "redirect:/"+locale+"/admin/formCompetition";
     }
 
-    @GetMapping(path = "/f{locale:en|fr|es}r/admin/editCompetition")
-    public String formCompetition(Model model, @RequestParam(name = "idCompet", required = false, defaultValue = "-1") Long id){
+    @GetMapping(path = "/{locale:en|fr|es}/admin/editCompetition")
+    public String formCompetition(Model model, @RequestParam(name = "idCompet", required = false, defaultValue = "-1") Long id,
+                                  @PathVariable String locale){
         if (id != -1){
             Optional<Competition> competition = competitionRepository.findById(id);
             if (competition.isPresent()){
@@ -107,18 +109,18 @@ public class CompetitionController {
                 golf.ifPresent(golf1 -> model.addAttribute("courses", golf1.getCourses()));
             }
             else {
-                return "redirect:/fr/user/searchCompetition";
+                return "redirect:/"+locale+"/user/searchCompetition";
             }
         }
         return "forms/editCompetition";
     }
 
-    @PostMapping(path = "/fr/admin/editCompetition")
-    public String editCompetition(@Validated Competition competition, BindingResult bindingResult){
+    @PostMapping(path = "/{locale:en|fr|es}/admin/editCompetition")
+    public String editCompetition(@Validated Competition competition, BindingResult bindingResult, @PathVariable String locale){
         if (!bindingResult.hasErrors()){
             competitionRepository.save(competition);
         }
-        return "redirect:/fr/admin/formCompetition";
+        return "redirect:/"+locale+"/admin/formCompetition";
     }
 
 }

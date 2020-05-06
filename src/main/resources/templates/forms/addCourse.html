@@ -23,7 +23,7 @@
                         </div>
 
                         <div th:hidden="${golfs} ? false : true">
-                            <form class="user" method="get" th:action="@{/fr/admin/formCourse}">
+                            <form class="user" method="get" th:action="@{'/'+${locale}+'/admin/formCourse'}">
                                 <div class="form-group form-inline">
                                     <label class="col-form-label col-3" for="idGolf" th:utext="#{label.clubs}"></label>
                                     <select name="idGolf" id="idGolf" class="custom-select" >
@@ -35,7 +35,7 @@
                         </div>
 
                         <div th:hidden="${golf?.id} ? false : true">
-                            <form class="user" method="post" th:action="@{/fr/admin/addCourse}">
+                            <form class="user" method="post" th:action="@{'/'+${locale}+'/admin/addCourse'}">
                                 <input type="hidden" name="golf" th:value="${golf?.id}"/>
 
                                 <div class="form-group form-inline">

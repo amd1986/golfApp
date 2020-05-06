@@ -299,11 +299,12 @@
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-us"> </span> English</a>
+                        <a class="nav-link dropdown-toggle" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span th:class="'flag-icon flag-icon-'+${locale == 'en' ? 'us' : locale}"> </span> </a>
                         <div class="dropdown-menu" aria-labelledby="dropdown09">
-                            <a class="dropdown-item" th:href="@{/fr}" th:utext="#{lang.french}"><span class="flag-icon flag-icon-fr"> </span> </a>
-                            <a class="dropdown-item" th:href="@{/en}" th:utext="#{lang.english}"><span class="flag-icon flag-icon-it"> </span> </a>
-                            <a class="dropdown-item" th:href="@{/es}" th:utext="#{lang.spanish}"><span class="flag-icon flag-icon-ru"> </span> </a>
+                            <a class="dropdown-item" th:href="@{/fr/}" th:utext="#{lang.french}"><span class="flag-icon flag-icon-fr"> </span> </a>
+                            <a class="dropdown-item" th:href="@{/en/}" th:utext="#{lang.english}"><span class="flag-icon flag-icon-en"> </span> </a>
+                            <a class="dropdown-item" th:href="@{/es/}" th:utext="#{lang.spanish}"><span class="flag-icon flag-icon-es"> </span> </a>
                         </div>
                     </li>
 

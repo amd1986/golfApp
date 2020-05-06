@@ -9,7 +9,7 @@
 <section layout:fragment="content">
     <!-- Begin Page Content -->
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" th:with="locale=#{lang.locale}">
 
         <div class="col-md-6">
 
@@ -21,7 +21,7 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4" th:utext="#{playPace.generatePdf.step2}"></h1>
                         </div>
-                        <form class="user" action="/fr/user/generateCompetPdf/upload" method="post" enctype="multipart/form-data">
+                        <form class="user" th:action="@{'/'+${locale}+'/user/generateCompetPdf/upload'}" method="post" enctype="multipart/form-data">
                             <div class="form-group form-inline">
                                 <label class="col-form-label col-3" for="file" th:utext="#{label.file}"></label>
                                 <input class="form-control col-9" type="file" id="file" name="file" required

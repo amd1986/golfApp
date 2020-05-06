@@ -8,7 +8,7 @@
 <body id="page-top">
 <section layout:fragment="content">
 <!-- Begin Page Content -->
-        <div class="w-100 h-100">
+        <div class="w-100 h-100" th:with="locale=#{lang.locale}">
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -17,7 +17,7 @@
             </div>
             <div class="card-body">
               <!-- Topbar Search -->
-              <form th:action="@{/fr/user/searchGolf}" method="get" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+              <form th:action="@{'/'+${locale}+'/user/searchGolf'}" method="get" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                 <div class="input-group mb-3 ml-0">
                   <input type="text" name="mc" class="form-control  small" placeholder="Chercher..." th:value="${mc}"
                          aria-label="Search" aria-describedby="basic-addon2">
@@ -74,14 +74,14 @@
                       <td th:text="${g.city}"></td>
                       <td th:text="${g.country}"></td>
                       <td>
-                        <a th:href="@{/fr/user/golf/{id}(id=${g.id})}" class="btn btn-primary" th:utext="#{label.display}"></a>
+                        <a th:href="@{'/'+${locale}+'/user/golf/'+${g.id}}" class="btn btn-primary" th:utext="#{label.display}"></a>
                       </td>
                       <div sec:authorize="hasRole('ADMIN')">
                         <td>
-                          <a th:href="@{/fr/admin/formGolf(idGolf=${g.id})}" class="btn btn-primary" th:utext="#{label.edit}"></a>
+                          <a th:href="@{'/'+${locale}+'/admin/formGolf'(idGolf=${g.id})}" class="btn btn-primary" th:utext="#{label.edit}"></a>
                         </td>
                         <td>
-                          <form method="post" th:action="@{/fr/admin/deleteGolf(idGolf=${g.id}, page=${currentPage}, size=${size}, mc=${mc})}">
+                          <form method="post" th:action="@{'/'+${locale}+'/admin/deleteGolf'(idGolf=${g.id}, page=${currentPage}, size=${size}, mc=${mc})}">
                             <button type="submit" class="btn btn-primary" onclick="window.confirm('Are you sure?')" th:utext="#{label.delete}"></button>
                           </form>
                         </td>
@@ -92,15 +92,15 @@
                 <nav aria-label="Page navigation">
                 <ul class="pagination">
                   <li class="page-item">
-                    <a th:href="@{/fr/user/searchGolf(page=${currentPage > 0} ? ${currentPage - 1} : ${currentPage} , size=${size}, mc=${mc})}"
+                    <a th:href="@{'/'+${locale}+'/user/searchGolf'(page=${currentPage > 0} ? ${currentPage - 1} : ${currentPage} , size=${size}, mc=${mc})}"
                        class="page-link" th:utext="#{label.previous}"></a>
                   </li>
                   <li class="page-item" th:each="p,status:${pages}" >
                     <a class="page-link" th:text="${status.index+1}"
-                       th:href="@{/fr/user/searchGolf(page=${status.index}, size=${size}, mc=${mc})}"></a>
+                       th:href="@{'/'+${locale}+'/user/searchGolf'(page=${status.index}, size=${size}, mc=${mc})}"></a>
                   </li>
                   <li class="page-item">
-                    <a class="page-link" th:href="@{/fr/user/searchGolf(page=${currentPage + 1}, size=${size}, mc=${mc})}"
+                    <a class="page-link" th:href="@{'/'+${locale}+'/user/searchGolf'(page=${currentPage + 1}, size=${size}, mc=${mc})}"
                        th:utext="#{label.next}"></a>
                   </li>
                 </ul>

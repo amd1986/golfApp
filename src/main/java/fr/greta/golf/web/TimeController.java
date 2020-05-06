@@ -28,14 +28,14 @@ public class TimeController {
         this.competitionRepository = competitionRepository;
     }
 
-    @GetMapping(path = "/fr/user/time/{id}")
+    @GetMapping(path = "/{locale:en|fr|es}/user/time/{id}")
     public String searchTime(Model model, @PathVariable(name = "id") Long id){
         Optional<TimePerHPerG> timePerHPerG = timesRepository.findById(id);
         timePerHPerG.ifPresent(value -> model.addAttribute("time", value));
         return "/display/time";
     }
 
-    @GetMapping(path = "/fr/user/searchTime")
+    @GetMapping(path = "/{locale:en|fr|es}/user/searchTime")
     public String searchTime(@RequestParam(name = "mc", defaultValue = "", required = false)String mc,
                              @RequestParam(name = "page", defaultValue = "0", required = false)int page,
                              @RequestParam(name = "size", defaultValue = "5", required = false)int size,
@@ -54,15 +54,16 @@ public class TimeController {
         return "/search/time";
     }
 
-  @GetMapping(path = "/fr/admin/addTime")
-    public String addTime(Model model, @RequestParam(name = "idCompet", required = false, defaultValue = "-1") Long id){
+  @GetMapping(path = "/{locale:en|fr|es}/admin/addTime")
+    public String addTime(Model model, @RequestParam(name = "idCompet", required = false, defaultValue = "-1") Long id,
+                          @PathVariable String locale){
         if (id != -1){
             Optional<Competition> competition = competitionRepository.findById(id);
             if (competition.isPresent()){
                 model.addAttribute("competition", competition.get());
                 model.addAttribute("course", competition.get().getCourse());
             }else {
-                return "redirect:/fr/user/searchTime";
+                return "redirect:/"+locale+"/user/searchTime";
             }
         }else {
             List<Competition> competitions = competitionRepository.findAll();
@@ -72,8 +73,8 @@ public class TimeController {
         return "/forms/addTime";
     }
 
-    @PostMapping(path = "/fr/admin/addTime")
-    public String addTime(@Validated TimePerHPerG timePerHPerG, BindingResult bindingResult){
+    @PostMapping(path = "/{locale:en|fr|es}/admin/addTime")
+    public String addTime(@PathVariable String locale, @Validated TimePerHPerG timePerHPerG, BindingResult bindingResult){
         if (!bindingResult.hasErrors()){
             for (TimePerHPerG perHPerG : timesRepository.findAll()){
                 if (timePerHPerG.equals(perHPerG))
@@ -81,25 +82,26 @@ public class TimeController {
             }
             timesRepository.save(timePerHPerG);
         }
-        return "redirect:/fr/admin/addTime";
+        return "redirect:/"+locale+"/admin/addTime";
     }
 
-    @GetMapping(path = "/fr/admin/editTime")
-    public String editTime(Model model, @RequestParam(name = "idTime", required = false, defaultValue = "-1") Long id){
+    @GetMapping(path = "/{locale:en|fr|es}/admin/editTime")
+    public String editTime(Model model, @RequestParam(name = "idTime", required = false, defaultValue = "-1") Long id,
+                           @PathVariable String locale){
         Optional<TimePerHPerG> perHPerG = timesRepository.findById(id);
         if (perHPerG.isPresent()){
             TimePerHPerG timePerHPerG = perHPerG.get();
             model.addAttribute("time", timePerHPerG);
             return "/forms/editTime";
         }else {
-            return "redirect:/fr/admin/addTime";
+            return "redirect:/"+locale+"/admin/addTime";
         }
     }
 
-    @PostMapping(path = "/fr/admin/editTime")
-    public String editTime(@Validated TimePerHPerG timePerHPerG, BindingResult bindingResult){
+    @PostMapping(path = "/{locale:en|fr|es}/admin/editTime")
+    public String editTime(@PathVariable String locale, @Validated TimePerHPerG timePerHPerG, BindingResult bindingResult){
         if (!bindingResult.hasErrors())
             timesRepository.save(timePerHPerG);
-        return "redirect:/fr/admin/addHole";
+        return "redirect:/"+locale+"/admin/addHole";
     }
 }

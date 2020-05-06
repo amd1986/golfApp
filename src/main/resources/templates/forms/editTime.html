@@ -21,7 +21,7 @@
             <div class="text-center">
               <h1 class="h4 text-gray-900 mb-4" th:utext="#{playTime.edit.h1}"></h1>
             </div>
-            <form class="user" method="post" th:action="@{/fr/admin/editTime}" >
+            <form class="user" method="post" th:action="@{'/'+${locale}+'/admin/editTime'}" >
 
               <input type="hidden" name="id" th:value="${time?.id}"/>
               <input type="hidden" name="hole" th:value="${time?.hole?.id}"/>

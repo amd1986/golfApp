@@ -9,7 +9,7 @@
 <section layout:fragment="content">
 <!-- Begin Page Content -->
 
-  <div class="row justify-content-center">
+  <div class="row justify-content-center" th:with="locale=#{lang.locale}">
 
     <div class="col-md-6">
 
@@ -23,7 +23,7 @@
             </div>
 
               <div th:hidden="${golfs} ? false : true">
-              <form class="user" method="get" th:action="@{/fr/admin/deleteHole}">
+              <form class="user" method="get" th:action="@{'/'+${locale}+'/admin/deleteHole'}">
               <div class="form-group form-inline" >
                 <label class="col-form-label col-3" for="listProduct" th:utext="#{label.clubs}"></label>
                 <select name="idGolf" id="listProduct" class="custom-select">

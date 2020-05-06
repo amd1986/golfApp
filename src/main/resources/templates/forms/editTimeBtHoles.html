@@ -22,7 +22,7 @@
                             <h1 class="h4 text-gray-900 mb-4" th:utext="#{walkTime.edit.h1}"></h1>
                         </div>
 
-                            <form class="user" method="post" th:action="@{/fr/admin/editTimeBtHoles}">
+                            <form class="user" method="post" th:action="@{'/'+${locale}+'/admin/editTimeBtHoles'}">
 
                                 <input type="hidden" name="id" th:value="${timeBtHoles?.id}"/>
                                 <input type="hidden" name="hole1" th:value="${timeBtHoles?.hole1?.id}"/>

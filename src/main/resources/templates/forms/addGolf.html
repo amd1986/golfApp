@@ -9,7 +9,7 @@
 <section layout:fragment="content">
 <!-- Begin Page Content -->
 
-  <div class="row justify-content-center">
+  <div class="row justify-content-center" th:with="locale=#{lang.locale}">
 
     <div class="col-md-6">
 
@@ -21,7 +21,7 @@
             <div class="text-center">
               <h1 class="h4 text-gray-900 mb-4" th:utext="#{golf.add.h1}"></h1>
             </div>
-            <form class="user" method="post" th:action="@{/fr/admin/editGolf}" >
+            <form class="user" method="post" th:action="@{'/'+${locale}+'/admin/editGolf'}" >
 
               <input type="hidden" name="id" th:value="${golf?.id}"/>
 

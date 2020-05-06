@@ -5,7 +5,7 @@
     <meta charset="utf-8"/>
     <title th:utext="#{competition.add.h1}"></title>
 </head>
-<body id="page-top">
+<body id="page-top" th:with="locale=#{lang.locale}">
 <section layout:fragment="content">
     <!-- Begin Page Content -->
 
@@ -25,7 +25,7 @@
                         <!--<input type="hidden" name="id" th:value="${competition?.id}"/>-->
 
                         <div th:hidden="${golfs} ? false : true">
-                            <form class="user" method="get" th:action="@{/fr/admin/formCompetition}">
+                            <form class="user" method="get" th:action="@{'/'+${locale}+'/admin/formCompetition'}">
                                 <div class="form-group form-inline">
                                     <label class="col-form-label col-3" for="idGolf" th:utext="#{golf.span.heading}"></label>
                                     <select name="idGolf" id="idGolf" class="custom-select">
@@ -37,7 +37,7 @@
                         </div>
 
                         <div th:hidden="${golf?.id} ? false : true">
-                            <form class="user" method="post" th:action="@{/fr/admin/addCompetition}">
+                            <form class="user" method="post" th:action="@{'/'+${locale}+'/admin/addCompetition'}">
 
                               <div class="form-group form-inline">
                                 <label class="col-form-label col-3" for="idCourse" th:utext="#{course.span.heading}"></label>

@@ -22,7 +22,7 @@
               <h1 class="h4 text-gray-900 mb-4" th:utext="#{game.edit.h1}"></h1>
             </div>
 
-            <form class="user" method="post" th:action="@{/fr/admin/editGame}" >
+            <form class="user" method="post" th:action="@{'/'+${locale}+'/admin/editGame'}" >
               <input type="hidden" name="id" th:value="${game?.id}"/>
               <input type="hidden" name="competition" th:value="${competition?.id}"/>
 

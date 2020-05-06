@@ -28,14 +28,14 @@ public class GameController {
         this.competitionRepository = competitionRepository;
     }
 
-    @GetMapping(path = "/fr/user/game/{id}")
+    @GetMapping(path = "/{locale:en|fr|es}/user/game/{id}")
     public String game(Model model, @PathVariable(name = "id") Long id){
         Optional<Game> game = gameRepository.findById(id);
         game.ifPresent(value -> model.addAttribute("game", value));
         return "/display/game";
     }
 
-    @GetMapping(path = "/fr/user/searchGame")
+    @GetMapping(path = "/{locale:en|fr|es}/user/searchGame")
     public String games(@RequestParam(name = "mc", defaultValue = "", required = false)String mc,
                                 @RequestParam(name = "page", defaultValue = "0", required = false)int page,
                                 @RequestParam(name = "size", defaultValue = "5", required = false)int size,
@@ -54,23 +54,25 @@ public class GameController {
         return "search/game";
     }
 
-    @PostMapping(path = "/fr/admin/deleteGame")
+    @PostMapping(path = "/{locale:en|fr|es}/admin/deleteGame")
     public String deleteGame(@RequestParam(name = "mc")String mc,
                              @RequestParam(name = "page")int page,
                              @RequestParam(name = "size")int size,
-                             @RequestParam(name = "idGame")Long id){
+                             @RequestParam(name = "idGame")Long id,
+                             @PathVariable String locale){
         gameRepository.deleteById(id);
-        return String.format("redirect:/fr/user/searchGame?mc=%s&page=%d&size=%d", mc, page, size);
+        return String.format("redirect:/"+locale+"/user/searchGame?mc=%s&page=%d&size=%d", mc, page, size);
     }
 
-    @GetMapping(path = "/fr/admin/formGame")
-    public String addGame(Model model, @RequestParam(name = "idCompet", required = false, defaultValue = "-1") Long id){
+    @GetMapping(path = "/{locale:en|fr|es}/admin/formGame")
+    public String addGame(Model model, @RequestParam(name = "idCompet", required = false, defaultValue = "-1") Long id,
+                          @PathVariable String locale){
         if (id != -1){
             Optional<Competition> competition = competitionRepository.findById(id);
             if (competition.isPresent()) {
                 model.addAttribute("competition", competition.get());
             } else {
-                return "redirect:/fr/user/searchGame";
+                return "redirect:/"+locale+"/user/searchGame";
             }
         }else {
             List<Competition> competitions = competitionRepository.findAll();
@@ -80,21 +82,22 @@ public class GameController {
         return "forms/addGame";
     }
 
-    @PostMapping(path = "/fr/admin/addGame")
-    public String addGame(@Validated Game game, BindingResult bindingResult){
+    @PostMapping(path = "/{locale:en|fr|es}/admin/addGame")
+    public String addGame(@PathVariable String locale, @Validated Game game, BindingResult bindingResult){
         if (!bindingResult.hasErrors()){
             for (Game game1 : gameRepository.findAll()){
                 if (game.equals(game1))
                     return "redirect:/fr/admin/formGame";
             }
             gameRepository.save(game);
-            return "redirect:/fr/user/searchGame";
+            return "redirect:/"+locale+"/user/searchGame";
         }
-        return "redirect:/fr/admin/formGame";
+        return "redirect:/"+locale+"/admin/formGame";
     }
 
-    @GetMapping(path = "/fr/admin/editGame")
-    public String editGame(Model model, @RequestParam(name = "idGame", required = false, defaultValue = "-1") Long id){
+    @GetMapping(path = "/{locale:en|fr|es}/admin/editGame")
+    public String editGame(Model model, @RequestParam(name = "idGame", required = false, defaultValue = "-1") Long id,
+                           @PathVariable String locale){
         if (id != -1){
             Optional<Game> game = gameRepository.findById(id);
             if (game.isPresent()){
@@ -107,16 +110,16 @@ public class GameController {
                 return "forms/addGame";
             }
         }
-        return "redirect:/fr/user/searchGame";
+        return "redirect:/"+locale+"/user/searchGame";
     }
 
-    @PostMapping(path = "/fr/admin/editGame")
-    public String editGame(@Validated Game game, BindingResult bindingResult){
+    @PostMapping(path = "/{locale:en|fr|es}/admin/editGame")
+    public String editGame(@PathVariable String locale, @Validated Game game, BindingResult bindingResult){
         if (!bindingResult.hasErrors()){
             gameRepository.save(game);
-            return "redirect:/fr/user/searchGame";
+            return "redirect:/"+locale+"/user/searchGame";
         }else {
-            return "redirect:/fr/admin/formGame";
+            return "redirect:/"+locale+"/admin/formGame";
         }
     }
 

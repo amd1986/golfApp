@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,20 +19,20 @@ public class ContactController {
         this.contactRepository = contactRepository;
     }
 
-    @GetMapping(path = "/fr/user/contactAdmin/sendRequest")
+    @GetMapping(path = "/{locale:en|fr|es}/user/contactAdmin/sendRequest")
     public String formCompetition(@RequestParam(name = "msg", defaultValue = "", required = false) String msg, Model model) {
         model.addAttribute("msg", msg);
         return "forms/formAdminRequest";
     }
 
-    @PostMapping(path = "/fr/user/contactAdmin/sendRequest")
-    public String formCompetition(@Validated Contact contact, BindingResult bindingResult) {
+    @PostMapping(path = "/{locale:en|fr|es}/user/contactAdmin/sendRequest")
+    public String formCompetition(@PathVariable String locale, @Validated Contact contact, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()){
             if (contactRepository.findAll().size() < 100){
                 contact.setMessage(contact.getMessage().replaceAll("[<>;}{|@#&]", ""));
                 contactRepository.save(contact);
             }
         }
-        return "redirect:/fr/user/contactAdmin/sendRequest";
+        return "redirect:/"+locale+"/user/contactAdmin/sendRequest";
     }
 }

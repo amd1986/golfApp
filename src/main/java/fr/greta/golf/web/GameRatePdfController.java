@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +36,7 @@ public class GameRatePdfController {
 
     }
 
-    @GetMapping(path = "/fr/user/generateCompetPdf/competition")
+    @GetMapping(path = "/{locale:en|fr|es}/user/generateCompetPdf/competition")
     public String formCompetition(@RequestParam(name = "idCompet", defaultValue = "-1", required = false) Long id,
                                   HttpServletRequest request, Model model) {
         if (id == -1) {
@@ -51,36 +52,37 @@ public class GameRatePdfController {
         return "forms/formCompetition";
     }
 
-    @PostMapping(path = "/fr/user/generateCompetPdf/competition")
-    public String formCompetition(@Validated Competition competition, BindingResult bindingResult, HttpServletRequest request) {
+    @PostMapping(path = "/{locale:en|fr|es}/user/generateCompetPdf/competition")
+    public String formCompetition(@PathVariable String locale, @Validated Competition competition,
+                                  BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-            return "redirect:/fr/user/generateCompetPdf/competition";
+            return "redirect:/"+locale+"/user/generateCompetPdf/competition";
         } else {
             request.getSession().setAttribute("competition", competition);
-            return "redirect:/fr/user/generateCompetPdf/upload";
+            return "redirect:/"+locale+"/user/generateCompetPdf/upload";
         }
     }
 
-    @GetMapping(path = "/fr/user/generateCompetPdf/upload")
+    @GetMapping(path = "/{locale:en|fr|es}/user/generateCompetPdf/upload")
     public String uploadCompetitions(@RequestParam(name = "error", defaultValue = "", required = false) String err, Model model) {
         model.addAttribute("error", err);
         return "forms/formUploadFile";
     }
 
-    @PostMapping(path = "/fr/user/generateCompetPdf/upload")
-    public String uploadCompetition(@RequestParam(name = "file") MultipartFile file, HttpServletRequest request) {
+    @PostMapping(path = "/{locale:en|fr|es}/user/generateCompetPdf/upload")
+    public String uploadCompetition(@PathVariable String locale, @RequestParam(name = "file") MultipartFile file, HttpServletRequest request) {
         List<Player> players = this.iExtractor.extractPlayers(file);
         if (!players.isEmpty()) {
             Competition competition = (Competition) request.getSession().getAttribute("competition");
             this.iGameRateServices.buildGames(competition, players);
             request.getSession().setAttribute("competition", competition);
-            return "redirect:/fr/user/generateCompetPdf/gameRateValidate";
+            return "redirect:/"+locale+"/user/generateCompetPdf/gameRateValidate";
         } else {
-            return "redirect:/fr/user/generateCompetPdf/upload";
+            return "redirect:/"+locale+"/user/generateCompetPdf/upload";
         }
     }
 
-    @GetMapping(path = "/fr/user/generateCompetPdf/gameRateValidate")
+    @GetMapping(path = "/{locale:en|fr|es}/user/generateCompetPdf/gameRateValidate")
     public String gameRateValidate(HttpServletRequest request, Model model) {
         Competition competition = (Competition) request.getSession().getAttribute("competition");
         Long courseId = (Long) request.getSession().getAttribute("courseId");
@@ -92,7 +94,7 @@ public class GameRatePdfController {
         return "forms/formGameRateValidate";
     }
 
-    @PostMapping(path = "/fr/user/generateCompetPdf/gameRateValidate")
+    @PostMapping(path = "/{locale:en|fr|es}/user/generateCompetPdf/gameRateValidate")
     public void gameRateValidate(@RequestParam("times")List<String> times, HttpServletRequest request, HttpServletResponse response) {
         Competition competition = (Competition) request.getSession().getAttribute("competition");
         this.iGameRateServices.addOffset(competition, times);
@@ -121,13 +123,3 @@ public class GameRatePdfController {
     }
 
 }
-
-
-
-
-
-
-
-
-
-

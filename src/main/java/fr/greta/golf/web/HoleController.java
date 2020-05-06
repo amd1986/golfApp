@@ -29,14 +29,14 @@ public class HoleController {
         this.golfRepository = golfRepository;
     }
 
-    @GetMapping(path = "/fr/user/hole/{id}")
+    @GetMapping(path = "/{locale:en|fr|es}/user/hole/{id}")
     public String afficherGolf(Model model, @PathVariable(name = "id") Long id){
         Optional<Hole> hole = holeRepository.findById(id);
         hole.ifPresent(value -> model.addAttribute("hole", value));
         return "/display/hole";
     }
 
-    @GetMapping(path = "/fr/user/searchHole")
+    @GetMapping(path = "/{locale:en|fr|es}/user/searchHole")
     public String tableHoles(@RequestParam(name = "mc", defaultValue = "", required = false)String mc,
                              @RequestParam(name = "page", defaultValue = "0", required = false)int page,
                              @RequestParam(name = "size", defaultValue = "5", required = false)int size,
@@ -55,7 +55,7 @@ public class HoleController {
         return "/search/hole";
     }
 
-    @GetMapping(path = "/fr/admin/deleteHole")
+    @GetMapping(path = "/{locale:en|fr|es}/admin/deleteHole")
     public String deleteHole(Model model, @RequestParam(name = "idGolf", required = false, defaultValue = "-1") Long id){
         if (id != -1){
             Optional<Golf> golf = golfRepository.findById(id);
@@ -76,20 +76,21 @@ public class HoleController {
         return "/forms/deleteHole";
     }
 
-    @PostMapping(path = "/fr/admin/deleteHole")
-    public String deleteHole(@RequestParam(name = "idHole")Long id){
+    @PostMapping(path = "/{locale:en|fr|es}/admin/deleteHole")
+    public String deleteHole(@RequestParam(name = "idHole")Long id, @PathVariable String locale){
         holeRepository.deleteById(id);
-        return "redirect:/fr/user/searchHole";
+        return "redirect:/"+locale+"/user/searchHole";
     }
 
-    @GetMapping(path = "/fr/admin/addHole")
-    public String addHole(Model model, @RequestParam(name = "idGolf", required = false, defaultValue = "-1") Long id){
+    @GetMapping(path = "/{locale:en|fr|es}/admin/addHole")
+    public String addHole(Model model, @RequestParam(name = "idGolf", required = false, defaultValue = "-1") Long id,
+                          @PathVariable String locale){
         if (id != -1){
             Optional<Golf> golf = golfRepository.findById(id);
             if (golf.isPresent()){
                 model.addAttribute("golf", golf.get());
             }else {
-                return "redirect:/fr/user/searchHole";
+                return "redirect:/"+locale+"/user/searchHole";
             }
         }else {
             List<Golf> golfs = golfRepository.findAll();
@@ -99,20 +100,21 @@ public class HoleController {
         return "/forms/addHole";
     }
 
-    @PostMapping(path = "/fr/admin/addHole")
-    public String addHole(@Validated Hole hole, BindingResult bindingResult){
+    @PostMapping(path = "/{locale:en|fr|es}/admin/addHole")
+    public String addHole(@PathVariable String locale, @Validated Hole hole, BindingResult bindingResult){
         if (!bindingResult.hasErrors()){
             for (Hole hole1 : holeRepository.findAll()){
                 if (hole.equals(hole1))
-                    return "redirect:/fr/admin/addHole";
+                    return "redirect:/"+locale+"/admin/addHole";
             }
             holeRepository.save(hole);
         }
-        return "redirect:/fr/admin/addHole";
+        return "redirect:/"+locale+"/admin/addHole";
     }
 
-    @GetMapping(path = "/fr/admin/editHole")
-    public String editHole(Model model, @RequestParam(name = "idHole", required = false, defaultValue = "-1") Long id){
+    @GetMapping(path = "/{locale:en|fr|es}/admin/editHole")
+    public String editHole(Model model, @RequestParam(name = "idHole", required = false, defaultValue = "-1") Long id,
+                           @PathVariable String locale){
         Optional<Hole> hole1 = holeRepository.findById(id);
         if (hole1.isPresent()){
             Hole hole = hole1.get();
@@ -120,16 +122,16 @@ public class HoleController {
             Optional<Golf> golf = golfRepository.findById(hole.getGolf().getId());
             golf.ifPresent(golf1 -> model.addAttribute("golf", golf1));
         }else {
-            return "redirect:/fr/admin/addHole";
+            return "redirect:/"+locale+"/admin/addHole";
         }
         return "/forms/editHole";
     }
 
-    @PostMapping(path = "/fr/admin/editHole")
-    public String editHole(@Validated Hole hole, BindingResult bindingResult){
+    @PostMapping(path = "/{locale:en|fr|es}/admin/editHole")
+    public String editHole(@PathVariable String locale, @Validated Hole hole, BindingResult bindingResult){
         if (!bindingResult.hasErrors())
             holeRepository.save(hole);
-        return "redirect:/fr/admin/addHole";
+        return "redirect:/"+locale+"/admin/addHole";
     }
 
 }

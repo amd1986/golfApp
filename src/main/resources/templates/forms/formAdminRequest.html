@@ -9,7 +9,7 @@
 <section layout:fragment="content">
     <!-- Begin Page Content -->
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" th:with="locale=#{lang.locale}">
 
         <div class="col-md-6">
 
@@ -23,7 +23,7 @@
                         </div>
 
                         <h6 class="text-gray-900" th:value="${msg}"></h6>
-                            <form class="user" method="post" th:action="@{/fr/user/contactAdmin/sendRequest}">
+                            <form class="user" method="post" th:action="@{'/'+${locale}+'/user/contactAdmin/sendRequest'}">
 
                                 <div class="form-group form-inline">
                                     <label class="col-form-label col-3" for="firstName" th:utext="#{label.name}"></label>

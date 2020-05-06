@@ -24,14 +24,14 @@ public class GolfController {
         this.golfRepository = golfRepository;
     }
 
-    @GetMapping(path = "/fr/user/golf/{id}")
+    @GetMapping(path = "/{locale:en|fr|es}/user/golf/{id}")
     public String golf(Model model, @PathVariable(name = "id") Long id){
         Optional<Golf> golf = golfRepository.findById(id);
         golf.ifPresent(value -> model.addAttribute("golf", value));
         return "/display/golf";
     }
 
-    @GetMapping(path = "/fr/user/searchGolf")
+    @GetMapping(path = "/{locale:en|fr|es}/user/searchGolf")
     public String golfs(@RequestParam(name = "mc", defaultValue = "", required = false)String mc,
                                 @RequestParam(name = "page", defaultValue = "0", required = false)int page,
                                 @RequestParam(name = "size", defaultValue = "5", required = false)int size,
@@ -50,23 +50,25 @@ public class GolfController {
         return "/search/golf";
     }
 
-    @PostMapping(path = "/fr/admin/deleteGolf")
+    @PostMapping(path = "/{locale:en|fr|es}/admin/deleteGolf")
     public String deleteGolf(@RequestParam(name = "mc")String mc,
                              @RequestParam(name = "page")int page,
                              @RequestParam(name = "size")int size,
-                             @RequestParam(name = "idGolf")Long id){
+                             @RequestParam(name = "idGolf")Long id,
+                             @PathVariable String locale){
         golfRepository.deleteById(id);
-        return String.format("redirect:/fr/user/searchGolf?mc=%s&page=%d&size=%d", mc, page, size);
+        return String.format("redirect:/"+locale+"/user/searchGolf?mc=%s&page=%d&size=%d", mc, page, size);
     }
 
-    @GetMapping(path = "/fr/admin/formGolf")
-    public String formGolf(Model model, @RequestParam(name = "idGolf", required = false, defaultValue = "-1") Long id){
+    @GetMapping(path = "/{locale:en|fr|es}/admin/formGolf")
+    public String formGolf(Model model, @RequestParam(name = "idGolf", required = false, defaultValue = "-1") Long id,
+                           @PathVariable String locale){
         if (id != -1){
             Optional<Golf> golf = golfRepository.findById(id);
             if (golf.isPresent())
                 model.addAttribute("golf", golf.get());
             else {
-                return "redirect:/fr/user/searchGolf";
+                return "redirect:/"+locale+"/user/searchGolf";
             }
         }else {
             List<Golf> golfs = golfRepository.findAll();
@@ -76,18 +78,18 @@ public class GolfController {
         return "/forms/addGolf";
     }
 
-    @PostMapping(path = "/fr/admin/editGolf")
-    public String addGolf(@Validated Golf golf, BindingResult bindingResult){
+    @PostMapping(path = "/{locale:en|fr|es}/admin/editGolf")
+    public String addGolf(@PathVariable String locale, @Validated Golf golf, BindingResult bindingResult){
         if (!bindingResult.hasErrors()){
             for (Golf golf1 : golfRepository.findAll()){
                 if (golf.equals(golf1)){
-                    return "redirect:/fr/admin/formGolf";
+                    return "redirect:/"+locale+"/admin/formGolf";
                 }
             }
             golfRepository.save(golf);
-            return "redirect:/fr/user/golf/"+golf.getId();
+            return "redirect:/"+locale+"/user/golf/"+golf.getId();
         }else {
-            return "redirect:/fr/user/searchGolf";
+            return "redirect:/"+locale+"/user/searchGolf";
         }
     }
 
