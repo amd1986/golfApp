@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main}">
+<head>
+    <meta charset="utf-8"/>
+    <title th:utext="#{user.add.h1}"></title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+    <!-- Begin Page Content -->
+
+    <div class="row justify-content-center" th:with="locale=#{lang.locale}">
+
+        <div class="col-md-6">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4" th:utext="#{user.add.h1}"></h1>
+                        </div>
+                        <form class="user" method="post" th:action="@{'/'+${locale}+'/superAdmin/formUser'}" >
+
+                            <input type="hidden" name="up" th:if="${user?.username}" th:value="${user?.username}"/>
+                            <div class="form-group form-inline">
+                                <label class="col-form-label col-3" for="username" th:utext="#{label.username}"></label>
+                                <input class="form-control col-9" th:value="${user?.username}" type="text" id="username" name="username" placeholder="John1234">
+                                <div class="col-3"></div><div class="text-danger col-9" ></div>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label class="col-form-label col-3" for="password" th:utext="#{label.password}"></label>
+                                <input class="form-control col-9" th:value="${user?.password}" type="text" id="password" name="password" placeholder="MyPass1234&">
+                                <div class="col-3"></div><div class="text-danger col-9"></div>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label class="col-form-label col-3" for="active" th:utext="#{label.status}"></label>
+                                <select name="active" id="active" class="custom-select">
+                                    <option th:selected="${user?.active == 1}" value="1" th:utext="#{label.yes}"></option>
+                                    <option th:selected="${user?.active == 0}" value="0" th:utext="#{label.no}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label class="col-form-label col-3" for="roles" th:utext="#{label.roles}"></label>
+                                <select name="roles" id="roles" class="custom-select" multiple>
+                                    <option th:if="${r.role != 'USERADMIN'}"
+                                            th:each="r:${roles}" th:value="${r.role}" th:text="${r.role}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label class="col-form-label col-3" for="languages" th:utext="#{label.languages}"></label>
+                                <select name="languages" id="languages" class="custom-select" multiple>
+                                    <option th:each="l:${languages}" th:value="${l.language}" th:text="${l.language}"></option>
+                                </select>
+                            </div>
+                            <div class="text-danger">
+                                <small th:if="${err?.equals('username')}" th:utext="#{user.add.error.username}"></small>
+                                <small th:if="${err?.equals('password')}" th:utext="#{user.add.error.password}"></small>
+                            </div>
+                            <div class="text-gray-900">
+                                <small th:utext="#{user.add.message}"></small>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="|#{label.add}/#{label.edit}|"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Page Content -->
+</section>
+</body>
+</html>

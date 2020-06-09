@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main}">
+<head>
+  <meta charset="utf-8"/>
+  <title th:utext="#{user.span.heading}"></title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+<!-- Begin Page Content -->
+
+  <div class="row justify-content-center">
+
+    <div class="col-md-6">
+
+      <div class="card border-0 shadow-lg my-5">
+
+        <div class="card-body">
+          <div class="table-responsive p-5">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-4" th:utext="#{user.display.h1}"></h1>
+            </div>
+            <table class="table table-bordered" id="dataTable">
+              <tr>
+                <td th:utext="#{label.username}"></td>
+                <td th:text="${user?.username}"></td>
+              </tr>
+              <tr>
+                <td th:utext="#{label.password}"></td>
+                <td th:text="${user?.password}"></td>
+              </tr>
+              <tr>
+                <td th:utext="#{label.status}"></td>
+                <td th:text="${user?.active == false} ? 'NO' : 'YES'"></td>
+              </tr>
+              <tr>
+                <td th:utext="#{label.roles}"></td>
+                <td>
+                  <span th:each="r:${user?.roles}" th:text="|${r.role} |"></span>
+                </td>
+              </tr>
+              <tr>
+                <td th:utext="#{label.languages}"></td>
+                <td>
+                  <span th:each="l:${user?.languages}" th:text="|${l.language} |"></span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- End Page Content -->
+</section>
+</body>
+</html>

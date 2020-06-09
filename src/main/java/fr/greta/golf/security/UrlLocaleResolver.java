@@ -32,7 +32,7 @@ public class UrlLocaleResolver implements LocaleResolver {
         else if (uri.startsWith(prefixFr)) {
             locale = Locale.FRANCE;
         }
-        // Vietnamese
+        // spanish
         else if (uri.startsWith(prefixEs)) {
             locale = new Locale("es", "SP");
         }

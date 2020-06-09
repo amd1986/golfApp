@@ -3,21 +3,22 @@ package fr.greta.golf.entities.security;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity @Table(name = "roles")
 @Data @AllArgsConstructor @NoArgsConstructor
 public class Role {
-    @Id
+    @Id @Length(max = 20)
     private String role;
     @ManyToMany
-    @JoinTable(name = "users_roles",
-            joinColumns = { @JoinColumn(name = "roles") },
-            inverseJoinColumns = { @JoinColumn(name = "username") })
-    private List<User> users;
+    private Set<User> users;
 
     @Override
     public boolean equals(Object o) {
@@ -30,5 +31,12 @@ public class Role {
     @Override
     public int hashCode() {
         return Objects.hash(role);
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "role='" + role + '\'' +
+                '}';
     }
 }

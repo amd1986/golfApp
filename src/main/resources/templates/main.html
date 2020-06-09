@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="fr" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
     <title>Golf admin</title>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <!-- Custom fonts for this template-->
-    <link href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css"
-    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
-    <link href="/webjars/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" type="text/css"
-          th:href="@{/webjars/font-awesome/5.13.0/css/all.min.css}">
+    <link href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
+    type="text/css">
+    <link href="/webjars/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" th:href="@{/webjars/font-awesome/5.13.0/css/all.min.css}"
+          type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet"/>
-    <link th:href="@{/css/sb-admin-2.min.css}" href="/css/sb-admin-2.min.css" rel="stylesheet"/>
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}"/>
 </head>
 <body id="page-top" th:with="locale=#{lang.locale}">
 
@@ -39,25 +39,106 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
-        <div sec:authorize="hasAnyRole('USER', 'ADMIN')">
-        <!-- Nav Item - Home -->
+
         <li class="nav-item active">
-            <a class="nav-link" th:href="@{/}" >
+            <a class="nav-link" th:href="@{'/'+${locale}}" >
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span th:utext="#{link.home}"></span></a>
         </li>
 
-        <!-- Divider -->
-        <hr class="sidebar-divider">
+        <hr class="sidebar-divider my-0">
 
+        <!-- Nav Item - Links Collapse User Menu -->
+        <div sec:authorize="hasRole('USERADMIN')">
+            <li class="nav-item">
+                <a aria-controls="collapsePages" aria-expanded="true" class="nav-link collapsed" data-target="#collapseUser" data-toggle="collapse"
+                   href="#">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span th:utext="#{user.span.heading}"></span>
+                </a>
+                <div aria-labelledby="headingPages" class="collapse" data-parent="#accordionSidebar" id="collapseUser">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header" th:utext="#{user.h6.subtitle}"></h6>
+                        <a class="collapse-item" href="/fr/user/searchGolf" th:href="@{'/'+${locale}+'/superAdmin/searchUser'}"
+                           th:utext="#{user.link.all}"></a>
+                        <a class="collapse-item" href="/fr/admin/formGolf" th:href="@{'/'+${locale}+'/superAdmin/formUser'}"
+                               th:utext="#{user.add.h1}"></a>
+                    </div>
+                </div>
+            </li>
+        </div>
+
+            <!-- Nav Item - Links Collapse Section Menu -->
+        <div sec:authorize="hasAnyRole('EDITOR', 'MANAGER')">
+            <li class="nav-item">
+                <a aria-controls="collapsePages" aria-expanded="true" class="nav-link collapsed" data-target="#collapseSection" data-toggle="collapse"
+                   href="#">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span th:utext="#{section.span.heading}"></span>
+                </a>
+                <div aria-labelledby="headingPages" class="collapse" data-parent="#accordionSidebar" id="collapseSection">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header" th:utext="#{section.h6.subtitle}"></h6>
+                        <a class="collapse-item" href="/fr/user/searchGolf" th:href="@{'/'+${locale}+'/editor/searchSection'}"
+                           th:utext="#{section.link.all}"></a>
+                        <div sec:authorize="hasRole('MANAGER')">
+                            <a class="collapse-item" href="/fr/admin/formGolf" th:href="@{'/'+${locale}+'/manager/addSection'}"
+                               th:utext="#{section.link.add}"></a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Links Collapse Subsection Menu -->
+            <li class="nav-item">
+                <a aria-controls="collapsePages" aria-expanded="true" class="nav-link collapsed" data-target="#collapseSubsection" data-toggle="collapse"
+                   href="#">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span th:utext="#{subsection.span.heading}"></span>
+                </a>
+                <div aria-labelledby="headingPages" class="collapse" data-parent="#accordionSidebar" id="collapseSubsection">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header" th:utext="#{subsection.h6.subtitle}"></h6>
+                        <a class="collapse-item" href="/fr/user/searchGolf" th:href="@{'/'+${locale}+'/editor/searchSubsection'}"
+                           th:utext="#{subsection.link.all}"></a>
+                        <div sec:authorize="hasRole('MANAGER')">
+                            <a class="collapse-item" href="/fr/admin/formGolf" th:href="@{'/'+${locale}+'/manager/addSubsection'}"
+                               th:utext="#{subsection.link.add}"></a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Links Collapse Section Menu -->
+            <li class="nav-item">
+                <a aria-controls="collapsePages" aria-expanded="true" class="nav-link collapsed" data-target="#collapseRule" data-toggle="collapse"
+                   href="#">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span th:utext="#{rule.span.heading}"></span>
+                </a>
+                <div aria-labelledby="headingPages" class="collapse" data-parent="#accordionSidebar" id="collapseRule">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header" th:utext="#{rule.h6.subtitle}"></h6>
+                        <a class="collapse-item" href="/fr/user/searchGolf" th:href="@{'/'+${locale}+'/editor/searchRule'}"
+                           th:utext="#{rule.link.all}"></a>
+                        <div sec:authorize="hasRole('MANAGER')">
+                            <a class="collapse-item" href="/fr/admin/formGolf" th:href="@{'/'+${locale}+'/manager/addRule'}"
+                               th:utext="#{rule.link.add}"></a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </div>
+
+        <div sec:authorize="hasRole('USER')">
         <!-- Nav Item - Links Collapse Golf Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRate" aria-expanded="true"
-               aria-controls="collapsePages">
+            <a aria-controls="collapsePages" aria-expanded="true" class="nav-link collapsed" data-target="#collapseRate" data-toggle="collapse"
+               href="#">
                 <i class="fas fa-fw fa-folder"></i>
                 <span th:utext="#{gameRate.span.heading}"></span>
             </a>
-            <div id="collapseRate" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div aria-labelledby="headingPages" class="collapse" data-parent="#accordionSidebar" id="collapseRate">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header" th:utext="#{gameRate.h6.subtitle}"></h6>
                     <a class="collapse-item" href="/fr/user/searchGolf"  th:href="@{'/'+${locale}+'/user/generateCompetPdf/competition'}"
@@ -69,15 +150,17 @@
                 </div>
             </div>
         </li>
+        </div>
 
+        <div sec:authorize="hasAnyRole('USER', 'ADMIN')">
         <!-- Nav Item - Links Collapse Golf Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGolf" aria-expanded="true"
-               aria-controls="collapsePages">
+            <a aria-controls="collapsePages" aria-expanded="true" class="nav-link collapsed" data-target="#collapseGolf" data-toggle="collapse"
+               href="#">
                 <i class="fas fa-fw fa-folder"></i>
                 <span th:utext="#{golf.span.heading}"></span>
             </a>
-            <div id="collapseGolf" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div aria-labelledby="headingPages" class="collapse" data-parent="#accordionSidebar" id="collapseGolf">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header" th:utext="#{golf.h6.subtitle}"></h6>
                     <a class="collapse-item" href="/fr/user/searchGolf" th:href="@{'/'+${locale}+'/user/searchGolf'}"
@@ -92,12 +175,12 @@
 
         <!-- Nav Item - Links Collapse Course Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCourse" aria-expanded="true"
-               aria-controls="collapsePages">
+            <a aria-controls="collapsePages" aria-expanded="true" class="nav-link collapsed" data-target="#collapseCourse" data-toggle="collapse"
+               href="#">
                 <i class="fas fa-fw fa-folder"></i>
                 <span th:utext="#{course.span.heading}"></span>
             </a>
-            <div id="collapseCourse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div aria-labelledby="headingPages" class="collapse" data-parent="#accordionSidebar" id="collapseCourse">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header" th:utext="#{course.h6.subtitle}"></h6>
                     <a class="collapse-item" href="/fr/user/searchCourse" th:href="@{'/'+${locale}+'/user/searchCourse'}"
@@ -112,12 +195,12 @@
 
         <!-- Nav Item - Links Collapse Hole Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHole" aria-expanded="true"
-               aria-controls="collapsePages">
+            <a aria-controls="collapsePages" aria-expanded="true" class="nav-link collapsed" data-target="#collapseHole" data-toggle="collapse"
+               href="#">
                 <i class="fas fa-fw fa-folder"></i>
                 <span th:utext="#{hole.span.heading}"></span>
             </a>
-            <div id="collapseHole" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div aria-labelledby="headingPages" class="collapse" data-parent="#accordionSidebar" id="collapseHole">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header" th:utext="#{hole.h6.subtitle}"></h6>
                     <a class="collapse-item" href="/fr/user/searchHole" th:href="@{'/'+${locale}+'/user/searchHole'}"
@@ -132,12 +215,12 @@
 
         <!-- Nav Item - Links Collapse Time Between Games Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTimeBtGames" aria-expanded="true"
-               aria-controls="collapsePages">
+            <a aria-controls="collapsePages" aria-expanded="true" class="nav-link collapsed" data-target="#collapseTimeBtGames" data-toggle="collapse"
+               href="#">
                 <i class="fas fa-fw fa-folder"></i>
                 <span th:utext="#{walkTime.span.heading}"></span>
             </a>
-            <div id="collapseTimeBtGames" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div aria-labelledby="headingPages" class="collapse" data-parent="#accordionSidebar" id="collapseTimeBtGames">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header" th:utext="#{walkTime.h6.subtitle}"></h6>
                     <a class="collapse-item" href="/fr/user/searchCompetition" th:href="@{'/'+${locale}+'/user/searchTimeBtHoles'}"
@@ -152,12 +235,12 @@
 
         <!-- Nav Item - Links Collapse Time Between Games Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGameTime" aria-expanded="true"
-               aria-controls="collapsePages">
+            <a aria-controls="collapsePages" aria-expanded="true" class="nav-link collapsed" data-target="#collapseGameTime" data-toggle="collapse"
+               href="#">
                 <i class="fas fa-fw fa-folder"></i>
                 <span th:utext="#{playTime.span.heading}"></span>
             </a>
-            <div id="collapseGameTime" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div aria-labelledby="headingPages" class="collapse" data-parent="#accordionSidebar" id="collapseGameTime">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header" th:utext="#{playTime.h6.subtitle}"></h6>
                     <a class="collapse-item" href="/fr/user/searchCompetition" th:href="@{'/'+${locale}+'/user/searchTime'}"
@@ -172,12 +255,12 @@
 
         <!-- Nav Item - Links Collapse Competition Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCompetition" aria-expanded="true"
-               aria-controls="collapsePages">
+            <a aria-controls="collapsePages" aria-expanded="true" class="nav-link collapsed" data-target="#collapseCompetition" data-toggle="collapse"
+               href="#">
                 <i class="fas fa-fw fa-folder"></i>
                 <span th:utext="#{competition.span.heading}"></span>
             </a>
-            <div id="collapseCompetition" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div aria-labelledby="headingPages" class="collapse" data-parent="#accordionSidebar" id="collapseCompetition">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header" th:utext="#{competition.h6.subtitle}"></h6>
                     <a class="collapse-item" href="/fr/user/searchCompetition" th:href="@{'/'+${locale}+'/user/searchCompetition'}"
@@ -192,12 +275,12 @@
 
         <!-- Nav Item - Links Collapse Game Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGame" aria-expanded="true"
-               aria-controls="collapsePages">
+            <a aria-controls="collapsePages" aria-expanded="true" class="nav-link collapsed" data-target="#collapseGame" data-toggle="collapse"
+               href="#">
                 <i class="fas fa-fw fa-folder"></i>
                 <span th:utext="#{game.span.heading}"></span>
             </a>
-            <div id="collapseGame" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div aria-labelledby="headingPages" class="collapse" data-parent="#accordionSidebar" id="collapseGame">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header" th:utext="#{game.h6.subtitle}"></h6>
                     <a class="collapse-item" href="/fr/user/searchGame" th:href="@{'/'+${locale}+'/user/searchGame'}"
@@ -223,7 +306,7 @@
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
+    <div class="d-flex flex-column" id="content-wrapper">
 
         <!-- Top bar -->
         <section id="topBar">
@@ -231,15 +314,15 @@
             <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
 
                 <!-- Sidebar Toggle (Top bar) -->
-                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                <button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop">
                     <i class="fa fa-bars fa-sm"></i>
                 </button>
 
                 <!-- Topbar Search -->
                 <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                               aria-label="Search" aria-describedby="basic-addon2">
+                        <input aria-describedby="basic-addon2" aria-label="Search" class="form-control bg-light border-0 small"
+                               placeholder="Search for..." type="text">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button">
                                 <i class="fas fa-search fa-sm"></i>
@@ -253,17 +336,17 @@
 
                     <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                     <li class="nav-item dropdown no-arrow d-sm-none">
-                        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
+                        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
+                           id="searchDropdown" role="button">
                             <i class="fas fa-search fa-fw"></i>
                         </a>
                         <!-- Dropdown - Messages -->
-                        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                             aria-labelledby="searchDropdown">
+                        <div aria-labelledby="searchDropdown"
+                             class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in">
                             <form class="form-inline mr-auto w-100 navbar-search">
                                 <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                           aria-label="Search" aria-describedby="basic-addon2">
+                                    <input aria-describedby="basic-addon2" aria-label="Search" class="form-control bg-light border-0 small"
+                                           placeholder="Search for..." type="text">
                                     <div class="input-group-append">
                                         <button class="btn btn-primary" type="button">
                                             <i class="fas fa-search fa-sm"></i>
@@ -276,32 +359,34 @@
 
                     <!-- Nav Item - User Information -->
 
+                    <div sec:authorize="!hasAnyRole('ADMIN', 'USER', 'EDITOR', 'MANAGER')">
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link" th:href="@{/register}" >
                             <span class="mr-2 d-none d-lg-inline text-gray-600 " th:utext="#{link.register}"></span>
                         </a>
                     </li>
+                    </div>
 
-                    <div class="topbar-divider d-none d-lg-block"></div>
-
+                    <div sec:authorize="!hasAnyRole('ADMIN', 'USER', 'EDITOR', 'MANAGER')">
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link" th:href="@{/login}">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 " th:utext="#{link.login}"></span>
                         </a>
                     </li>
+                    </div>
 
-                    <div class="topbar-divider d-none d-lg-block"></div>
-
+                    <div sec:authorize="hasAnyRole('ADMIN', 'USER', 'EDITOR', 'MANAGER')">
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link" th:href="@{/login(logout=logout)}" >
                             <span class="mr-2 d-none d-lg-inline text-gray-600 " th:utext="#{link.logout}"></span>
                         </a>
                     </li>
+                    </div>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown09">
                             <span th:class="'flag-icon flag-icon-'+${locale == 'en' ? 'us' : locale}"> </span> </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown09">
+                        <div aria-labelledby="dropdown09" class="dropdown-menu">
                             <a class="dropdown-item" th:href="@{/fr/}" th:utext="#{lang.french}"><span class="flag-icon flag-icon-fr"> </span> </a>
                             <a class="dropdown-item" th:href="@{/en/}" th:utext="#{lang.english}"><span class="flag-icon flag-icon-en"> </span> </a>
                             <a class="dropdown-item" th:href="@{/es/}" th:utext="#{lang.spanish}"><span class="flag-icon flag-icon-es"> </span> </a>
@@ -322,9 +407,9 @@
         <!-- End of the main content -->
 
         <!-- Footer -->
-        <footer class="sticky-footer bg-white ">
-            <div class="container ">
-                <div class="copyright text-center">
+        <footer class="bg-white col position-fixed" style="bottom: 0" >
+            <div class="col-4 mx-auto">
+                <div class="p-3">
                     <span>Copyright &copy; Golf Admin 2020</span>
                 </div>
             </div>
@@ -343,9 +428,9 @@
 </a>
 
 <!-- Bootstrap core JavaScript-->
-<script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
-<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="/webjars/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery.min.js" th:href="@{/js/jquery.min.js}"></script>
+<script src="js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
+<script src="/js/bootstrap.bundle.min.js" th:href="@{/js/bootstrap.bundle.min.js}"></script>
 
 <!-- Custom scripts for all pages-->
 <script src="/js/sb-admin-2.min.js"></script>

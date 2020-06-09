@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main}">
+<head>
+    <meta charset="utf-8"/>
+    <title th:utext="#{section.edit.h1}"></title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+    <!-- Begin Page Content -->
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card o-hidden border-0 shadow-lg my-3">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4" th:utext="#{section.edit.h1}"></h1>
+                        </div>
+
+                            <form class="user" method="post" th:action="@{'/'+${locale}+'/editor/editSection'}">
+
+                                <input type="hidden" name="id" th:value="${section?.id}"/>
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="lang" th:utext="#{label.languages}"></label>
+                                    <select name="lang" id="lang" class="custom-select" >
+                                        <option th:each="l:${languages}" th:text="${l.language}" th:value="${l.language}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="code" th:utext="#{label.code}"></label>
+                                    <input class="form-control col-9" th:value="${section?.code}" type="text" id="code" name="code">
+                                    <div class="col-3"></div><div class="text-danger col-9"></div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="title" th:utext="#{label.title}"></label>
+                                    <input class="form-control col-9" th:value="${section?.title}" type="text" id="title" name="title">
+                                    <div class="col-3"></div><div class="text-danger col-9"></div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.edit}"></button>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>     <!-- End Page Content -->
+</section>
+</body>
+</html>

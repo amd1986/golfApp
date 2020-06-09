@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main}">
+<head>
+  <meta charset="utf-8"/>
+  <title th:utext="#{rule.span.heading}"></title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+<!-- Begin Page Content -->
+
+  <div class="row justify-content-center">
+
+    <div class="col-md-6">
+
+      <div class="card border-0 shadow-lg my-5">
+
+        <div class="card-body">
+          <div class="table-responsive p-5">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-4" th:utext="#{rule.display.h1}"></h1>
+            </div>
+            <table class="table table-bordered" id="dataTable">
+              <tr>
+                <td th:utext="#{label.code}"></td>
+                <td th:text="${rule?.getFullCode()}"></td>
+              </tr>
+              <tr>
+                <td th:utext="#{label.title}"></td>
+                <td th:text="${rule?.title}"></td>
+              </tr>
+              <tr>
+                <td th:utext="#{label.description}"></td>
+                <td th:utext="${rule?.text}"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="text-danger" th:text="${errorMsg}"></div>
+      </div>
+    </div>
+  </div>
+  <!-- End Page Content -->
+</section>
+</body>
+</html>

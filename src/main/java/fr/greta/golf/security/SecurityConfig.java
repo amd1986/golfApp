@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(this.dataSource)
                 .usersByUsernameQuery("select username as principal, password as credentials, active from users where username = ?")
-                .authoritiesByUsernameQuery("select username as principal, roles as role from users_roles where username = ?")
+                .authoritiesByUsernameQuery("select users_username as principal, roles_role as role from roles_users where users_username = ?")
                 .rolePrefix("ROLE_")
                 .passwordEncoder(this.getPasswordEncoder());
 
@@ -33,9 +33,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin().loginPage("/login");
+        http.formLogin().loginPage("/login").defaultSuccessUrl("/");
         http.authorizeRequests().antMatchers("/{[fr|en|es]}/admin/**").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers("/{[fr|en|es]}/user/**").hasRole("USER");
+        http.authorizeRequests().antMatchers("/{[fr|en|es]}/user/**").hasAnyRole("USER", "ADMIN");
+        http.authorizeRequests().antMatchers("/{[fr|en|es]}/editor/**").hasAnyRole("EDITOR", "MANAGER");
+        http.authorizeRequests().antMatchers("/{[fr|en|es]}/manager/**").hasRole("MANAGER");
+        http.authorizeRequests().antMatchers("/{[fr|en|es]}/superAdmin/**").hasRole("USERADMIN");
         http.logout().invalidateHttpSession(true).logoutSuccessUrl("/");
     }
 

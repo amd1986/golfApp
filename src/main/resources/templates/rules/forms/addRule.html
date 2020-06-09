@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main}">
+<head>
+    <meta charset="utf-8"/>
+    <title th:utext="#{rule.add.h1}"></title>
+    <script src="https://cdn.ckeditor.com/4.14.0/standard-all/ckeditor.js"></script>
+    <script type="text/javascript">
+        window.onload = function(){
+            CKEDITOR.replace( 'text', {
+                customConfig: '/ckeditor_settings/config.js'
+            } );
+            CKEDITOR.editorConfig = function( config ) {
+                config.toolbarGroups = [
+                    { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+                    { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+                    { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+                    { name: 'forms', groups: [ 'forms' ] },
+                    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+                    { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+                    { name: 'links', groups: [ 'links' ] },
+                    { name: 'insert', groups: [ 'insert' ] },
+                    { name: 'styles', groups: [ 'styles' ] },
+                    { name: 'colors', groups: [ 'colors' ] },
+                    { name: 'tools', groups: [ 'tools' ] },
+                    { name: 'others', groups: [ 'others' ] },
+                    { name: 'about', groups: [ 'about' ] }
+                ];
+
+                config.removeButtons = 'Format,Save,Source,NewPage,Preview,Print,Templates,Find,Replace,Scayt,Form,Checkbox,Radio,Textarea,TextField,Select,Button,ImageButton,HiddenField,Image,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Anchor,Unlink,Link,BidiLtr,BidiRtl,Language,JustifyRight,JustifyBlock,JustifyCenter,JustifyLeft,CreateDiv,Indent,Outdent,CopyFormatting,RemoveFormat,Blockquote,BGColor,ShowBlocks,About,Styles,Font,FontSize,Superscript,Subscript,Strike';
+            };
+        };
+    </script>
+</head>
+<body id="page-top" th:with="locale=#{lang.locale}">
+<section layout:fragment="content">
+    <!-- Begin Page Content -->
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card o-hidden border-0 shadow-lg my-3">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4" th:utext="#{rule.add.h1}">Add a rule</h1>
+                        </div>
+
+                        <div th:hidden="${sections} ? false : true">
+                            <form class="user" method="get" th:action="@{'/'+${locale}+'/manager/addRule'}">
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="idSection" th:utext="#{section.span.heading}"></label>
+                                    <select name="idSection" id="idSection" class="custom-select" >
+                                        <option th:each="s:${sections}" th:text="|${s.code} ${s.title}|" th:value="${s.id}"></option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.select}"></button>
+                            </form>
+                        </div>
+
+                        <div th:hidden="${section} ? false : true">
+                            <form class="user" method="post" th:action="@{'/'+${locale}+'/manager/addRule'}">
+
+                                <input type="hidden" name="lang" th:value="${section?.lang}"/>
+
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="subSection" th:utext="#{subsection.span.heading}"></label>
+                                    <select name="subSection" id="subSection" class="custom-select col-9" >
+                                        <option th:each="sub:${section?.subSections}" th:text="|${sub.code} ${sub.title}|" th:value="${sub.id}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="code" th:utext="#{label.code}"></label>
+                                    <input class="form-control col-9" th:value="${rule?.code}" type="text" id="code" name="code">
+                                    <div class="col-3"></div><div class="text-danger col-9"></div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="title" th:utext="#{label.title}"></label>
+                                    <input class="form-control col-9" th:value="${rule?.title}" type="text" id="title" name="title">
+                                    <div class="col-3"></div><div class="text-danger col-9"></div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-form-label col-3" for="text" th:utext="#{label.description}"></label>
+                                    <textarea class="form-control col-9" th:value="${rule?.text}" type="text" id="text" name="text"></textarea>
+                                    <div class="col-3"></div><div class="text-danger col-9"></div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.add}"></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>     <!-- End Page Content -->
+</section>
+</body>
+</html>

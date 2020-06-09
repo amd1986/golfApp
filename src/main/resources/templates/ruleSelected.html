@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org" layout:decorate="~{main}">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <title>Rules</title>
+</head>
+<body id="page-top" th:with="locale=#{lang.locale}">
+
+        <!-- Begin of the main content -->
+
+        <section layout:fragment="content">
+            <div class="row justify-content-center">
+
+                <div class="col-md-10">
+
+                    <form class="user" method="post" enctype="application/x-www-form-urlencoded" th:action="@{'/'+${locale}+'/generateDoc'}" >
+                    <div class="card">
+                        <div class="card-header bg-white">
+                            <div class="row">
+                                <div class="col-4">
+                                    <span id="nbRules" class="font-weight-bolder" th:text="|${rules.size()} |">
+                                    </span><span th:utext="#{rule.span.selected}"></span>
+                                </div>
+                                <div class="text-center col-8">
+                                    <button type="submit" class="btn btn-primary float-right" th:utext="#{label.generateDocx}"></button>
+                                    <button type="button" class="btn btn-outline-primary float-right" onclick="copyToClipboard()"th:utext="#{label.copy}"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body p-0" th:each="rule:${rules}" th:id="${rule.id}">
+
+                            <div class="jumbotron p-3 my-0" >
+                                <div class="modal-header border-bottom-0">
+                                    <h5 class="h4 text-gray-900 mb-2"
+                                        th:text="|${rule.getFullCode()} - ${rule.title}|"></h5>
+                                    <button type="button" class="close" th:onclick="'removeRule('+${rule.id}+')'" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="h4 text-gray-500" th:utext="${rule.text}"></div>
+                                <input type="hidden" name="rules" th:value="${rule.id}"/>
+                            </div>
+
+                            <hr class="sidebar-divider my-0">
+
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                function copyToClipboard() {
+                    let copyText = document.querySelector(".card-body").innerText;
+
+                    navigator.clipboard.writeText(copyText);
+                    document.execCommand("copy");
+                }
+                function removeRule(id) {
+                    let input = document.getElementById(id);
+                    let span = document.getElementById("nbRules");
+                    span.innerText = (parseInt(span.innerText.trim(), 10) - 1).toString();
+                    input.remove();
+                }
+            </script>
+        </section>
+<!-- End Page Content -->
+
+<!-- Bootstrap core JavaScript-->
+<script src="/js/jquery.min.js" th:href="@{/js/jquery.min.js}"></script>
+<script src="js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
+<script src="/js/bootstrap.bundle.min.js" th:href="@{/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/js/sb-admin-2.min.js"></script>
+
+<!-- font-awesome JavaScript-->
+<script src="/webjars/font-awesome/5.13.0/js/all.min.js"></script>
+
+</body>
+
+</html>

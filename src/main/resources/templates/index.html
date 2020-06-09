@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org" layout:decorate="~{main}">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+    <title th:utext="#{link.home}"></title>
+</head>
+<body id="page-top" th:with="locale=#{lang.locale}">
+
+<!-- Begin of the main content -->
+
+<section layout:fragment="content">
+    <div class="row justify-content-center">
+
+        <div class="col-md-10">
+
+            <form class="user" method="get" th:action="@{'/'+${locale}+'/ruleList'}">
+                <div class="card shadow-lg my-1">
+                    <div class="card-header ">
+                        <ul class="nav nav-tabs card-header-tabs" id="sectionList" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#description" role="tab"
+                                   aria-controls="description" aria-selected="true">#</a>
+                            </li>
+                            <li class="nav-item" th:each="s:${sections}">
+                                <a class="nav-link" th:href="@{'#'+${s.code}}" role="tab" aria-controls="history"
+                                   aria-selected="false"
+                                   th:text="${s.code}" data-toggle="tooltip" data-placement="top"
+                                   th:title="${s.title}"></a>
+                            </li>
+                            <li>
+                                <button type="submit" id="ruleSubmit" class="btn btn-primary" disabled="disabled" th:utext="#{label.validate}"></button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="description" role="tabpanel">
+                                <div class="o-hidden border-0 shadow-lg my-5">
+                                    <div class="card-body p-0">
+                                        <!-- Nested Row within Card Body -->
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="p-5">
+                                                    <div class="text-center">
+                                                        <h1 class="h4 text-gray-900 mb-2" th:utext="#{rule.index.h1}"></h1>
+                                                        <p class="mb-4" th:utext="#{rule.index.intro}"></p>
+                                                    </div>
+                                                    <div>
+                                                        <h5 class="h5 text-gray-900" th:utext="#{label.instructions}"></h5>
+                                                        <ul class="text-gray-500 mb-2 list-group">
+                                                            <li class="list-group-item" th:utext="#{rule.index.instruction1}"></li>
+                                                            <li class="list-group-item" th:utext="#{rule.index.instruction2}"></li>
+                                                            <li class="list-group-item" th:utext="#{rule.index.instruction3}"></li>
+                                                            <li class="list-group-item" th:utext="#{rule.index.instruction4}"></li>
+                                                            <li class="list-group-item" th:utext="#{rule.index.instruction5}"></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" th:id="${s.code}" role="tabpanel" aria-labelledby="history-tab"
+                                 th:each="s:${sections}">
+                                <div class="card-body p-0">
+
+                                    <ul class="navbar-nav  sidebar accordion" id="accordionSidebar"
+                                        style="width:100%!important">
+
+                                        <!-- Nav Item - Links Collapse Subsection Menu -->
+                                        <div th:each="sub:${s.subSections}">
+                                        <li class="card-header bg-white font-weight-bolder" style="width:100%!important">
+                                            <a aria-controls="collapsePages" aria-expanded="true"
+                                               class="nav-link collapsed" th:data-target="'#'+${sub.code}"
+                                               data-toggle="collapse"
+                                               href="#">
+                                                <span class="h4 text-gray-900" th:text="|${sub.getFullCode()} - ${sub.title}|"></span>
+                                                <button type="button" class="close" aria-label="Close">
+                                                    <i class="fas fa-chevron-down"></i>
+                                                </button>
+                                            </a>
+                                            <div aria-labelledby="headingPages" class="collapse"
+                                                 data-parent="#accordionSidebar" th:id="${sub.code}">
+                                                <div class="py-2 collapse-inner rounded">
+                                                    <h6 class="text-gray-500" th:utext="${sub.description}"></h6>
+                                                    <div th:each="rule:${sub.rules}">
+                                                        <div class="jumbotron p-3 my-0">
+                                                            <div class="modal-header border-bottom-0">
+                                                                <h5 class="h5 text-gray-900 modal-title"
+                                                                    th:text="|${rule.getFullCode()} - ${rule.title}|"></h5>
+                                                                <button type="button" class="close" aria-label="Close">
+                                                                    <input name="rules" type="checkbox"
+                                                                           th:value="${rule.id}"
+                                                                           class="custom-checkbox close">
+                                                                </button>
+                                                            </div>
+                                                            <div class="text-gray-500" th:utext="${rule.text}"></div>
+                                                        </div>
+                                                        <hr class="sidebar-divider m-0">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                            <hr class="sidebar-divider my-0">
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        window.onload = () => {
+            $('#sectionList a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+            $('input').on('change', (event) => {
+                let nb = $('input[name="rules"]:checked').length;
+                if (nb === 0) {
+                    $('button[type="submit"]').prop('disabled', true);
+                } else {
+                    $('button[type="submit"]').prop('disabled', false);
+                }
+            });
+        }
+    </script>
+</section>
+<!-- End Page Content -->
+
+<!-- Bootstrap core JavaScript-->
+<script src="/js/jquery.min.js" th:href="@{/js/jquery.min.js}"></script>
+<script src="js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
+<script src="/js/bootstrap.bundle.min.js" th:href="@{/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/js/sb-admin-2.min.js"></script>
+
+<!-- font-awesome JavaScript-->
+<script src="/webjars/font-awesome/5.13.0/js/all.min.js"></script>
+
+</body>
+
+</html>

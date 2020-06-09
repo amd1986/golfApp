@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorate="~{main}">
+<head>
+  <meta charset="utf-8"/>
+  <title th:utext="#{user.search.title}"></title>
+</head>
+<body id="page-top">
+<section layout:fragment="content">
+<!-- Begin Page Content -->
+        <div class="w-100 h-100" th:with="locale=#{lang.locale}">
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary" th:utext="#{user.search.h1}"></h6>
+            </div>
+            <div class="card-body">
+              <!-- Topbar Search -->
+              <form th:action="@{'/'+${locale}+'/superAdmin/searchUser'}" method="get" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div class="input-group mb-3 ml-0">
+                  <input type="text" name="mc" class="form-control  small" th:value="${mc}"
+                         aria-label="Search" aria-describedby="basic-addon2">
+                  <input type="hidden" name="page" th:value="${currentPage}">
+                  <input type="hidden" name="size" th:value="${size}">
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                      <span class="mr-2" th:utext="#{label.search}"></span>
+                      <i class="fas fa-search fa-sm"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                  <tr>
+                    <th th:utext="#{label.username}"></th>
+                    <th th:utext="#{label.password}"></th>
+                    <th th:utext="#{label.status}"></th>
+                    <th th:utext="#{label.roles}"></th>
+                    <th th:utext="#{label.languages}"></th>
+                    <th th:utext="#{label.display}"></th>
+                    <div sec:authorize="hasRole('USERADMIN')">
+                      <th th:utext="#{label.edit}"></th>
+                      <th th:utext="#{label.delete}"></th>
+                    </div>
+                  </tr>
+                  </thead>
+                  <tfoot>
+                  <tr>
+                    <th th:utext="#{label.username}"></th>
+                    <th th:utext="#{label.password}"></th>
+                    <th th:utext="#{label.status}"></th>
+                    <th th:utext="#{label.roles}"></th>
+                    <th th:utext="#{label.languages}"></th>
+                    <th th:utext="#{label.display}"></th>
+                    <div sec:authorize="hasRole('USERADMIN')">
+                      <th th:utext="#{label.edit}"></th>
+                      <th th:utext="#{label.delete}"></th>
+                    </div>
+                  </tr>
+                  </tfoot>
+                  <tbody>
+                    <tr th:each="u:${users}">
+                      <td th:text="${u.username}"></td>
+                      <td th:text="${u.password}"></td>
+                      <td th:text="${u.active == 0} ? 'NO' : 'YES'"></td>
+                      <td><span th:each="r:${u.roles}" th:text="|${r.role} |"></span></td>
+                      <td><span th:each="l:${u.languages}" th:text="|${l.language} |"></span></td>
+                      <td>
+                        <a th:href="@{'/'+${locale}+'/superAdmin/user/'+${u.username}}" class="btn btn-primary" th:utext="#{label.display}"></a>
+                      </td>
+                      <div sec:authorize="hasRole('USERADMIN')">
+                        <td>
+                          <a th:href="@{'/'+${locale}+'/superAdmin/formUser'(idUser=${u.username})}" class="btn btn-primary" th:utext="#{label.edit}"></a>
+                        </td>
+                        <td>
+                          <form method="post" th:action="@{'/'+${locale}+'/superAdmin/deleteUser'(idUser=${u.username}, page=${currentPage}, size=${size}, mc=${mc})}">
+                            <button type="submit" class="btn btn-primary" onclick="window.confirm('Are you sure?');" th:utext="#{label.delete}"></button>
+                          </form>
+                        </td>
+                      </div>
+                    </tr>
+                  </tbody>
+                </table>
+                <nav aria-label="Page navigation">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a th:href="@{'/'+${locale}+'/superAdmin/searchUser'(page=${currentPage > 0} ? ${currentPage - 1} : ${currentPage} , size=${size}, mc=${mc})}"
+                       class="page-link" th:utext="#{label.previous}"></a>
+                  </li>
+                  <li class="page-item" th:each="p,status:${pages}">
+                    <a class="page-link" th:text="${status.index+1}"
+                       th:href="@{'/'+${locale}+'/superAdmin/searchUser'(page=${status.index}, size=${size}, mc=${mc})}"></a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" th:href="@{'/'+${locale}+'/superAdmin/searchUser'(page=${currentPage + 1}, size=${size}, mc=${mc})}"
+                       th:utext="#{label.next}"></a>
+                  </li>
+                </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+</section>
+
+</body>
+</html>
