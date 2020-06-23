@@ -7,7 +7,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import fr.greta.golf.entities.Competition;
 import fr.greta.golf.entities.Game;
 import fr.greta.golf.entities.TimePerHPerG;
-import fr.greta.golf.model.Player;
+import fr.greta.golf.models.Player;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

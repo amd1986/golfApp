@@ -1,6 +1,6 @@
 package fr.greta.golf.services;
 
-import fr.greta.golf.model.Player;
+import fr.greta.golf.models.Player;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;

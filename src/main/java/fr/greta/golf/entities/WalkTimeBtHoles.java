@@ -1,6 +1,7 @@
 package fr.greta.golf.entities;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,6 +16,7 @@ public class WalkTimeBtHoles implements Serializable {
     private Long id;
     @NotNull
     private int walkTime;
+    @Length(max = 50)
     private String description;
     @OneToOne
     @NotNull

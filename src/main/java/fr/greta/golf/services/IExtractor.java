@@ -1,6 +1,6 @@
 package fr.greta.golf.services;
 
-import fr.greta.golf.model.Player;
+import fr.greta.golf.models.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

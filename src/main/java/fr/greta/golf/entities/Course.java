@@ -3,6 +3,7 @@ package fr.greta.golf.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,14 +18,14 @@ public class Course implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @NotNull @Length(min = 1, max = 50)
     private String name;
     @NotNull
     @ManyToMany(mappedBy = "courses")
     @Size(min = 18, max = 18)
     private List<Hole> holes;
-    @ManyToOne
     @NotNull
+    @ManyToOne
     private Golf golf;
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Competition> competitions;

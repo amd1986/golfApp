@@ -4,7 +4,7 @@ import fr.greta.golf.dao.CompetitionRepository;
 import fr.greta.golf.dao.CourseRepository;
 import fr.greta.golf.entities.Competition;
 import fr.greta.golf.entities.Course;
-import fr.greta.golf.model.Player;
+import fr.greta.golf.models.Player;
 import fr.greta.golf.services.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
@@ -29,6 +29,24 @@ public class GameRatePdfController {
     private IExtractor iExtractor;
     private IGameRateDocument iGameRateDocument;
     private IGameRateServices iGameRateServices;
+
+    @Bean
+    public IExtractor getIExtractor(){
+        this.iExtractor = new ExtractFromXlsxImpl();
+        return this.iExtractor;
+    }
+
+    @Bean
+    public IGameRateDocument getiGameRateDocument(){
+        this.iGameRateDocument = new GameRatePdfImpl();
+        return this.iGameRateDocument;
+    }
+
+    @Bean
+    public IGameRateServices getiGameRateServices(){
+        this.iGameRateServices = new GameRateServicesImpl1();
+        return this.iGameRateServices;
+    }
 
     public GameRatePdfController(CourseRepository courseRepository, CompetitionRepository competitionRepository) {
         this.courseRepository = courseRepository;
@@ -95,7 +113,7 @@ public class GameRatePdfController {
     }
 
     @PostMapping(path = "/{locale:en|fr|es}/user/generateCompetPdf/gameRateValidate")
-    public void gameRateValidate(@RequestParam("times")List<String> times, HttpServletRequest request, HttpServletResponse response) {
+    public void gameRateGeneratePdf(@RequestParam("times")List<String> times, HttpServletRequest request, HttpServletResponse response) {
         Competition competition = (Competition) request.getSession().getAttribute("competition");
         this.iGameRateServices.addOffset(competition, times);
         request.getSession().setAttribute("competition", competition);
@@ -103,23 +121,4 @@ public class GameRatePdfController {
         response.setContentType("application/pdf");
         this.iGameRateDocument.generateGameRate(competition, response);
     }
-
-    @Bean
-    public IExtractor getIExtractor(){
-        this.iExtractor = new ExtractFromXlsxImpl();
-        return this.iExtractor;
-    }
-
-    @Bean
-    public IGameRateDocument getiGameRateDocument(){
-        this.iGameRateDocument = new GameRatePdfImpl();
-        return this.iGameRateDocument;
-    }
-
-    @Bean
-    public IGameRateServices getiGameRateServices(){
-        this.iGameRateServices = new GameRateServicesImpl1();
-        return this.iGameRateServices;
-    }
-
 }

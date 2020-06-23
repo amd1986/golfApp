@@ -1,7 +1,7 @@
 package fr.greta.golf.services;
 
 import fr.greta.golf.entities.Competition;
-import fr.greta.golf.model.Player;
+import fr.greta.golf.models.Player;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

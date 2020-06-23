@@ -3,6 +3,7 @@ package fr.greta.golf.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -20,12 +21,13 @@ public class Competition implements Serializable {
     private Long id;
 
     /* Données pour construire l'entête du document PDF */
+    @Length(min = 5, max = 100)
     private String description;
-    @NotNull
+    @NotNull @Length(min = 2, max = 30)
     private String type;
-    @NotNull
+    @NotNull @Length(min = 2, max = 50)
     private String name;
-    @NotNull
+    @NotNull @Length(min = 10, max = 10)
     private String dateCompetition;
 
     /* Données permettant de générer chaque partie(ligne du tableau PDF) */
@@ -35,7 +37,7 @@ public class Competition implements Serializable {
     @NotNull
     @Min(7) @Max(15)
     private int intervalBtGames;
-    @NotNull
+    @NotNull @Length(min = 5, max = 5)
     private String departureHour;
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)

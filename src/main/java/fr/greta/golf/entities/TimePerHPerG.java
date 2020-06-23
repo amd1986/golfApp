@@ -3,6 +3,7 @@ package fr.greta.golf.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,7 +14,7 @@ import java.util.Objects;
 public class TimePerHPerG {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @NotNull @Length(min = 5, max = 5)
     private String time;
     @NotNull
     @ManyToOne

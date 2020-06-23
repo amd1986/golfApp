@@ -4,7 +4,7 @@ import fr.greta.golf.dao.CourseRepository;
 import fr.greta.golf.dao.GameRepository;
 import fr.greta.golf.dao.WalkRepository;
 import fr.greta.golf.entities.*;
-import fr.greta.golf.model.Player;
+import fr.greta.golf.models.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;

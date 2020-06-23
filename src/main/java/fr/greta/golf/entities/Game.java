@@ -1,11 +1,14 @@
 package fr.greta.golf.entities;
 
-import fr.greta.golf.model.Player;
+import fr.greta.golf.models.Player;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -17,9 +20,9 @@ public class Game implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @NotNull @Min(1) @Max(50)
     private int num;
-    @NotNull
+    @NotNull @Length(min = 5, max = 50)
     private String name;
     @NotNull
     @ManyToOne
@@ -28,6 +31,7 @@ public class Game implements Serializable {
     private List<TimePerHPerG> timesPerHPerG;
     @Transient
     private List<String> times;
+    @Length(min = 5, max = 5)
     private String dhour;
     @Transient
     private List<Player> players;

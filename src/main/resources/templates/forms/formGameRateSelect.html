@@ -19,7 +19,7 @@
         <!-- Topbar Search -->
         <form th:action="@{'/'+${locale}+'/user/gameRate/selectCompetition'}" method="get" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
           <div class="input-group mb-3 ml-0">
-            <input type="text" name="mc" class="form-control  small" placeholder="Chercher..." th:value="${mc}"
+            <input type="text" name="mc" class="form-control  small" th:value="${mc}"
                    aria-label="Search" aria-describedby="basic-addon2">
             <input type="hidden" name="page" th:value="${currentPage}">
             <input type="hidden" name="size" th:value="${size}">
