@@ -16,14 +16,56 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * <b>GolfController est la classe controller pour l'affichage et la gestion des golfs</b>
+ * <p>
+ * Cette classe founit les méthodes suivantes :
+ * <ul>
+ * <li>Un méthode Get pour afficher un golf à partir de son Id.</li>
+ * <li>Un méthode Get pour afficher les golfs avec un système de pagination.</li>
+ * <li>Un méthode Get pour afficher le formulaire d'ajout d'un golf.</li>
+ * <li>Un méthode Get pour afficher le formulaire de modification d'un golf à partir de son Id.</li>
+ * <li>Un méthode Post pour ajouter un golf.</li>
+ * <li>Un méthode Post pour modifier un golf à partir de son Id.</li>
+ * <li>Un méthode Post pour supprimer un golf à partir de son Id.</li>
+ * </ul>
+ * </p>
+ *
+ * @see Golf
+ * @see GolfRepository
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 @Controller
 public class GolfController {
     private final GolfRepository golfRepository;
 
+    /**
+     * Constructeur GolfController.
+     * <p>
+     *     On y injecte les repositories pour la gestion des golfs.
+     * </p>
+     *
+     * @param golfRepository
+     *            Repository pour la gestion des golfs.
+     *
+     * @see GolfController#golfRepository
+     */
     public GolfController(GolfRepository golfRepository) {
         this.golfRepository = golfRepository;
     }
 
+    /**
+     * Méthode golf.
+     * <p>
+     *     Méthode qui va afficher un golf.
+     * </p>
+     *
+     * @param id Identifiant du golf
+     *
+     * @see GolfRepository
+     */
     @GetMapping(path = "/{locale:en|fr|es}/user/golf/{id}")
     public String golf(Model model, @PathVariable(name = "id") Long id){
         Optional<Golf> golf = golfRepository.findById(id);
@@ -31,6 +73,19 @@ public class GolfController {
         return "/display/golf";
     }
 
+    /**
+     * Méthode golfs.
+     * <p>
+     *     Méthode qui va afficher les golfs avec une recherche par mot clé et une pagination.
+     * </p>
+     *
+     * @param mc Mot clé pour la recherche
+     * @param page Nombre de page pour la pagination
+     * @param size Nombre d'élément par page pour la pagination
+     * @param model Objet fournit par Spring pour envoyer des données à la vue
+     *
+     * @see GolfRepository
+     */
     @GetMapping(path = "/{locale:en|fr|es}/user/searchGolf")
     public String golfs(@RequestParam(name = "mc", defaultValue = "", required = false)String mc,
                                 @RequestParam(name = "page", defaultValue = "0", required = false)int page,
@@ -50,6 +105,20 @@ public class GolfController {
         return "/search/golf";
     }
 
+    /**
+     * Méthode deleteGolf.
+     * <p>
+     *     Méthode qui va supprimer un golf.
+     * </p>
+     *
+     * @param mc Mot clé pour la recherche
+     * @param page Nombre de page pour la pagination
+     * @param size Nombre d'élément par page pour la pagination
+     * @param id Identifiant de la golf
+     * @param locale Langue choisit par l'utilisateur
+     *
+     * @see GolfRepository
+     */
     @PostMapping(path = "/{locale:en|fr|es}/admin/deleteGolf")
     public String deleteGolf(@RequestParam(name = "mc")String mc,
                              @RequestParam(name = "page")int page,
@@ -60,6 +129,21 @@ public class GolfController {
         return String.format("redirect:/"+locale+"/user/searchGolf?mc=%s&page=%d&size=%d", mc, page, size);
     }
 
+    /**
+     * Méthode formGolf.
+     * <p>
+     *     Méthode qui va afficher le formulaire permettant d'ajouter un golf.
+     *     Si L'Id est fournit elle affiche les données du golf à modifier.
+     *     Si l'Id ne correspond pas à un golf, l'utilisateur est redirigé vers la page affichant toutes les golfs.
+     *     Si l'Id n'est pas renseigné, l'utilisateur est redirigé vers la page d'ajout d'un golf.
+     * </p>
+     *
+     * @param model Objet fournit par Spring pour envoyer des données à la vue
+     * @param id Identifiant du golf que l'on souhaite modifier
+     * @param locale Langue choisit par l'utilisateur
+     *
+     * @see GolfRepository
+     */
     @GetMapping(path = "/{locale:en|fr|es}/admin/formGolf")
     public String formGolf(Model model, @RequestParam(name = "idGolf", required = false, defaultValue = "-1") Long id,
                            @PathVariable String locale){
@@ -78,6 +162,18 @@ public class GolfController {
         return "/forms/addGolf";
     }
 
+    /**
+     * Méthode addGolf.
+     * <p>
+     *     Méthode qui va ajouter ou modifier un golf si les données fournit sont valides.
+     * </p>
+     *
+     * @param golf Objet golf à ajouter ou à modifier
+     * @param bindingResult Objet fournit par Spring permettant de valider les données fournit par l'utilisateur
+     * @param locale Langue choisit par l'utilisateur
+     *
+     * @see GolfRepository
+     */
     @PostMapping(path = "/{locale:en|fr|es}/admin/editGolf")
     public String addGolf(@PathVariable String locale, @Validated Golf golf, BindingResult bindingResult){
         if (!bindingResult.hasErrors()){

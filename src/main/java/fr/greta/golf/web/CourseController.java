@@ -2,6 +2,7 @@ package fr.greta.golf.web;
 
 import fr.greta.golf.dao.CourseRepository;
 import fr.greta.golf.dao.GolfRepository;
+import fr.greta.golf.entities.Competition;
 import fr.greta.golf.entities.Course;
 import fr.greta.golf.entities.Golf;
 import fr.greta.golf.entities.Hole;
@@ -19,6 +20,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
+/**
+ * <b>CourseController est la classe controller pour l'affichage et la gestion des parcours de golf</b>
+ * <p>
+ * Cette classe founit les méthodes suivantes :
+ * <ul>
+ * <li>Un méthode Get pour afficher un parcours à partir de son Id.</li>
+ * <li>Un méthode Get pour afficher les parcours avec un système de pagination.</li>
+ * <li>Un méthode Get pour afficher le formulaire d'ajout d'un parcours.</li>
+ * <li>Un méthode Get pour afficher le formulaire de modification d'un parcours à partir de son Id.</li>
+ * <li>Un méthode Post pour ajouter un parcours.</li>
+ * <li>Un méthode Post pour modifier un parcours à partir de son Id.</li>
+ * <li>Un méthode Post pour supprimer un parcours à partir de son Id.</li>
+ * </ul>
+ * </p>
+ *
+ * @see Course
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 @Controller
 public class CourseController {
     private final CourseRepository courseRepository;

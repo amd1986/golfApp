@@ -18,6 +18,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * <b>TimeBtHolesController est la classe controller pour l'affichage et la gestion des temps de marche entre les trous</b>
+ * <p>
+ * Cette classe founit les méthodes suivantes :
+ * <ul>
+ * <li>Un méthode Get pour afficher un temps de marche à partir de son Id.</li>
+ * <li>Un méthode Get pour afficher les temps de marche avec un système de pagination.</li>
+ * <li>Un méthode Get pour afficher le formulaire d'ajout d'un temps de marche.</li>
+ * <li>Un méthode Get pour afficher le formulaire de modification d'un temps de marche à partir de son Id.</li>
+ * <li>Un méthode Post pour ajouter un temps de marche.</li>
+ * <li>Un méthode Post pour modifier un temps de marche à partir de son Id.</li>
+ * <li>Un méthode Post pour supprimer un temps de marche à partir de son Id.</li>
+ * </ul>
+ * </p>
+ *
+ * @see WalkTimeBtHoles
+ * @see WalkRepository
+ * @see GolfRepository
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 @Controller
 public class TimeBtHolesController {
     private final WalkRepository walkRepository;

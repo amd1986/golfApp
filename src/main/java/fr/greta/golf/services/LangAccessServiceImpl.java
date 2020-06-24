@@ -1,14 +1,10 @@
 package fr.greta.golf.services;
 
-import fr.greta.golf.dao.UserRepository;
-import fr.greta.golf.entities.Language;
-import fr.greta.golf.entities.User;
 import fr.greta.golf.dao.RuleRepository;
 import fr.greta.golf.dao.SectionRepository;
 import fr.greta.golf.dao.SubsectionRepository;
-import fr.greta.golf.entities.Rule;
-import fr.greta.golf.entities.Section;
-import fr.greta.golf.entities.SubSection;
+import fr.greta.golf.dao.UserRepository;
+import fr.greta.golf.entities.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Cleaner;
@@ -21,6 +17,18 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * <b>LangAccessServiceImpl est la classe implémentant ILangAccessService pour la gestion des règles locales</b>
+ *
+ * @see ILangAccessService
+ * @see UserRepository
+ * @see SectionRepository
+ * @see SubsectionRepository
+ * @see RuleRepository
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 public class LangAccessServiceImpl implements ILangAccessService {
     @Autowired
     private UserRepository userRepository;
@@ -141,5 +149,5 @@ public class LangAccessServiceImpl implements ILangAccessService {
         System.out.println(elements);
         return elements.toString();
     }
-
+    /*TODO Utliser BBcode à la place du HTML*/
 }

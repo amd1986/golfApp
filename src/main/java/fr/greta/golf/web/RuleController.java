@@ -18,6 +18,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * <b>RuleController est la classe controller pour l'affichage et la gestion des règles de golf</b>
+ * <p>
+ * Cette classe founit les méthodes suivantes :
+ * <ul>
+ * <li>Un méthode Get pour afficher une règle à partir de son Id.</li>
+ * <li>Un méthode Get pour afficher les règles avec un système de pagination.</li>
+ * <li>Un méthode Get pour afficher le formulaire d'ajout d'une règle.</li>
+ * <li>Un méthode Get pour afficher le formulaire de modification d'une règle à partir de son Id.</li>
+ * <li>Un méthode Post pour ajouter une règle.</li>
+ * <li>Un méthode Post pour modifier une règle à partir de son Id.</li>
+ * <li>Un méthode Post pour supprimer une règle à partir de son Id.</li>
+ * </ul>
+ * </p>
+ *
+ * @see Rule
+ * @see RuleRepository
+ * @see ILangAccessService
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 @Controller
 public class RuleController {
     private final ILangAccessService iLangAccessService;

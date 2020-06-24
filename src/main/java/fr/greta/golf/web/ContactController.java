@@ -1,6 +1,7 @@
 package fr.greta.golf.web;
 
 import fr.greta.golf.dao.ContactRepository;
+import fr.greta.golf.entities.Competition;
 import fr.greta.golf.entities.Contact;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * <b>ContactController est la classe controller pour l'affichage et la gestion des messages pour l'admin</b>
+ * <p>
+ * Cette classe founit les méthodes suivantes :
+ * <ul>
+ * <li>Un méthode Get pour afficher le formulaire d'ajout d'un message pour l'admin.</li>
+ * <li>Un méthode Post pour ajouter un message pour l'admin.</li>
+ * </ul>
+ * </p>
+ *
+ * @see Contact
+ * @see ContactRepository
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 @Controller
 public class ContactController {
     private ContactRepository contactRepository;

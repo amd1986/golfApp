@@ -10,10 +10,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <b>GameStatServicesImpl est la classe implémentant IGameStatServices pour la gestion des statistiques des compétitions</b>
+ * <p>
+ *     Cette classe fournit les méthodes permettant de sauvegarder les temps et de récupérer la moyenne des temps
+ * </p>
+ *
+ * @see IGameStatServices
+ * @see TimesRepository
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 public class GameStatServicesImpl implements IGameStatServices {
     @Autowired
     private TimesRepository timesRepository;
 
+    /**
+     * Méthode saveTimes.
+     * <p>
+     *     Méthode qui va sauvegarder les temps des parties d'une compétition.
+     * </p>
+     *
+     * @param competition Compétition sélectionnée par l'utilisateur
+     * @param timesG Liste des temps
+     *
+     */
     @Override
     public void saveTimes(Competition competition, List<String> timesG) {
         List<Hole> holes = competition.getCourse().getHoles();
@@ -41,6 +63,16 @@ public class GameStatServicesImpl implements IGameStatServices {
         }
     }
 
+    /**
+     * Méthode getTimesAverage.
+     * <p>
+     *     Méthode qui va sauvegarder les temps des parties d'une compétition.
+     * </p>
+     *
+     * @param competition Compétition sélectionnée par l'utilisateur
+     * @param timesG Liste des temps
+     *
+     */
     @Override
     public List<String> getTimesAverage(Competition competition, List<String> timesG) {
         int sizeG = competition.getGames().size();

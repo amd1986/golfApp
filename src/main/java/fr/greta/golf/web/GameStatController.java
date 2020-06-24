@@ -1,9 +1,9 @@
 package fr.greta.golf.web;
 
 import fr.greta.golf.dao.CompetitionRepository;
+import fr.greta.golf.dao.CourseRepository;
 import fr.greta.golf.entities.Competition;
-import fr.greta.golf.services.GameStatServicesImpl;
-import fr.greta.golf.services.IGameStatServices;
+import fr.greta.golf.services.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,16 +17,72 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * <b>GameStatController est la classe controller pour la gestion des statistiques</b>
+ * <p>
+ * Cette classe founit les méthodes suivantes :
+ * <ul>
+ * <li>Un méthode Get pour afficher un formulaire avec la liste des compétitions.</li>
+ * <li>Un méthode Get pour récupérer les temps d'une compétition.</li>
+ * <li>Un méthode Post pour enregistrer les temps.</li>
+ * </ul>
+ * </p>
+ *
+ * @see Competition
+ * @see CompetitionRepository
+ * @see IGameStatServices
+ * @see GameStatServicesImpl
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 @Controller
 public class GameStatController {
     private final CompetitionRepository competitionRepository;
     private IGameStatServices gameStatServices;
 
+    /**
+     * Méthode IGameStatServices.
+     * <p>
+     *     Méthode permettant d'injecter le service dans le controller.
+     * </p>
+     *
+     * @see IGameStatServices
+     * @see GameStatServicesImpl
+     *
+     * @return IGameStatServices
+     */
+    @Bean
+    public IGameStatServices getGameStatServices(){
+        this.gameStatServices = new GameStatServicesImpl();
+        return gameStatServices;
+    }
+
+    /**
+     * Constructeur GameStatController.
+     * <p>
+     *     On injecte dans le controller les repository pour la gestion des compétitions.
+     * </p>
+     *
+     * @see CompetitionRepository
+     */
     public GameStatController(CompetitionRepository competitionRepository) {
         this.competitionRepository = competitionRepository;
 
     }
 
+    /**
+     * Méthode selectCompetition.
+     * <p>
+     *     Méthode qui va les compétitions afin que l'utilisateur en sélectionne une.
+     * </p>
+     *
+     * @param mc Mot clé
+     * @param page pagination
+     * @param size pagination
+     * @param model Pour envoyer les données à la vue
+     *
+     */
     @GetMapping(path = "/{locale:en|fr|es}/user/gameRate/selectCompetition")
     public String selectCompetition(@RequestParam(name = "mc", defaultValue = "", required = false)String mc,
                                       @RequestParam(name = "page", defaultValue = "0", required = false)int page,
@@ -46,6 +102,16 @@ public class GameStatController {
         return "forms/formGameRateSelect";
     }
 
+    /**
+     * Méthode gameRate.
+     * <p>
+     *     Méthode qui va afficher les temps de la compétition.
+     * </p>
+     *
+     * @param id Id de la compétition
+     * @param model Pour envoyer les données à la vue
+     *
+     */
     @GetMapping(path = "/{locale:en|fr|es}/user/gameRate/collectData")
     public String gameRate(@PathVariable String locale, @RequestParam(name = "idCompet")Long id, Model model){
         Optional<Competition> competition = competitionRepository.findById(id);
@@ -58,6 +124,16 @@ public class GameStatController {
         return "forms/formGameRateData";
     }
 
+    /**
+     * Méthode gameRate.
+     * <p>
+     *     Méthode qui va afficher les temps de la compétition.
+     * </p>
+     *
+     * @param id Id de la compétition
+     * @param times Les temps à persister
+     *
+     */
     @PostMapping(path = "/{locale:en|fr|es}/user/gameRate/collectData")
     public String gameRate(@RequestParam("times") List<String> times, @RequestParam(name = "idCompet")Long id){
         Competition competition = new Competition();
@@ -67,12 +143,7 @@ public class GameStatController {
         this.gameStatServices.saveTimes(competition, times);
         return "forms/formGameRateData";
     }
-
-    @Bean
-    public IGameStatServices getGameStatServices(){
-        this.gameStatServices = new GameStatServicesImpl();
-        return gameStatServices;
-    }
+    /*TODO pas de redirection, mauvais code*/
 }
 
 

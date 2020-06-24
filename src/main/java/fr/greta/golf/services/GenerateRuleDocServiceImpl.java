@@ -21,8 +21,32 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * <b>GenerateRuleDocServiceImpl est la classe implémentant IGenerateRuleDocService pour générer un document de règles locales</b>
+ * <p>
+ *     Cette classe fournit la méthode permettant de générer un document Word de règles locales
+ * </p>
+ *
+ * @see IGenerateRuleDocService
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 public class GenerateRuleDocServiceImpl implements IGenerateRuleDocService {
 
+    /**
+     * Méthode generateDocxFromHtml.
+     * <p>
+     *     Méthode qui va générer un document de règles locales.
+     * </p>
+     *
+     * @param sectionSet Set de catégories
+     * @param subSectionSet Set de sous-catégories
+     * @param ruleSet Set de règles de golf
+     *
+     * @throws Docx4JException Docx4j exception
+     * @throws JAXBException JAXB exception
+     */
     @Override @Transactional
     public WordprocessingMLPackage generateDocxFromHtml(Set<Section> sectionSet, Set<SubSection> subSectionSet, Set<Rule> ruleSet) throws Docx4JException, JAXBException {
         if (sectionSet != null) {

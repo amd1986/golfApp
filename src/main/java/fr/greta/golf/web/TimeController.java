@@ -18,6 +18,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * <b>TimeController est la classe controller pour l'affichage et la gestion des temps de chaque partie</b>
+ * <p>
+ * Cette classe founit les méthodes suivantes :
+ * <ul>
+ * <li>Un méthode Get pour afficher un temps à partir de son Id.</li>
+ * <li>Un méthode Get pour afficher les temps avec un système de pagination.</li>
+ * <li>Un méthode Get pour afficher le formulaire d'ajout d'un temps.</li>
+ * <li>Un méthode Get pour afficher le formulaire de modification d'un temps à partir de son Id.</li>
+ * <li>Un méthode Post pour ajouter un temps.</li>
+ * <li>Un méthode Post pour modifier un temps à partir de son Id.</li>
+ * <li>Un méthode Post pour supprimer un temps à partir de son Id.</li>
+ * </ul>
+ * </p>
+ *
+ * @see TimePerHPerG
+ * @see TimesRepository
+ * @see CompetitionRepository
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 @Controller
 public class TimeController {
     private final TimesRepository timesRepository;

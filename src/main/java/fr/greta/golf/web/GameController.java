@@ -3,6 +3,7 @@ package fr.greta.golf.web;
 import fr.greta.golf.dao.CompetitionRepository;
 import fr.greta.golf.dao.GameRepository;
 import fr.greta.golf.entities.Competition;
+import fr.greta.golf.entities.Course;
 import fr.greta.golf.entities.Game;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * <b>GameController est la classe controller pour l'affichage et la gestion des parties d'une compétition</b>
+ * <p>
+ * Cette classe founit les méthodes suivantes :
+ * <ul>
+ * <li>Un méthode Get pour afficher une partie à partir de son Id.</li>
+ * <li>Un méthode Get pour afficher les partie avec un système de pagination.</li>
+ * <li>Un méthode Get pour afficher le formulaire d'ajout d'un partie.</li>
+ * <li>Un méthode Get pour afficher le formulaire de modification d'une partie à partir de son Id.</li>
+ * <li>Un méthode Post pour ajouter une partie.</li>
+ * <li>Un méthode Post pour modifier une partie à partir de son Id.</li>
+ * <li>Un méthode Post pour supprimer une partie à partir de son Id.</li>
+ * </ul>
+ * </p>
+ *
+ * @see Game
+ * @see GameRepository
+ * @see CompetitionRepository
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 @Controller
 public class GameController {
     private final GameRepository gameRepository;

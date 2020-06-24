@@ -13,8 +13,29 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * <b>GameRatePdfImpl est la classe implémentant IGameRateDocument permettant de générer le document Pdf de cadence de jeu</b>
+ * <p>
+ *     Cette classe fournit la méthode permettant de générer un document Pdf
+ * </p>
+ *
+ * @see IGameRateDocument
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 public class GameRatePdfImpl implements IGameRateDocument {
 
+    /**
+     * Méthode generateGameRate.
+     * <p>
+     *     Méthode qui va générer un document Pdf de cadence de jeu.
+     * </p>
+     *
+     * @param competition Compétition sélectionnée par l'utilisateur
+     * @param response Permet d'envoyer le document généré dans la réponse
+     *
+     */
     @Override
     public void generateGameRate(Competition competition, HttpServletResponse response) {
         List<Game> games = competition.getGames();

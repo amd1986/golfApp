@@ -11,6 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * <b>ExtractFromXlsxImpl est la classe implémentant IGameRateServices pour configurer la compétition.</b>
+ * <p>
+ *     Cette classe fournit les méthodes permettant de générer les parties et ajusté leur temps.
+ * </p>
+ *
+ * @see IGameRateServices
+ * @see CourseRepository
+ * @see WalkRepository
+ * @see GameRepository
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 public class GameRateServicesImpl1 implements IGameRateServices {
     @Autowired
     private CourseRepository courseRepository;
@@ -19,6 +33,16 @@ public class GameRateServicesImpl1 implements IGameRateServices {
     @Autowired
     private GameRepository gameRepository;
 
+    /**
+     * Méthode buildGames.
+     * <p>
+     *     Méthode qui va construire la liste des parties.
+     * </p>
+     *
+     * @param competition Compétition sélectionnée par l'utilisateur
+     * @param players Joueurs participant à la compétition
+     *
+     */
     @Override
     public void buildGames(Competition competition, List<Player> players) {
         Game game = new Game();
@@ -51,6 +75,16 @@ public class GameRateServicesImpl1 implements IGameRateServices {
         }
     }
 
+    /**
+     * Méthode buildTimes.
+     * <p>
+     *     Méthode qui va ajouté les temps de chaque partie à la compétition.
+     * </p>
+     *
+     * @param competition Compétition sélectionnée par l'utilisateur
+     * @param id Identifiant de la compétition
+     *
+     */
     @Override
     public void buildTimes(Competition competition, Long id) {
         List<Game> games = competition.getGames();
@@ -127,6 +161,16 @@ public class GameRateServicesImpl1 implements IGameRateServices {
         competition.setGames(games);
     }
 
+    /**
+     * Méthode addOffset.
+     * <p>
+     *     Méthode qui va ajuster les temps de chaque partie à la compétition.
+     * </p>
+     *
+     * @param competition Compétition sélectionnée par l'utilisateur
+     * @param times Liste des temps ajustés par l'utilisateur
+     *
+     */
     @Override
     public void addOffset(Competition competition, List<String> times) {
         int interval = competition.getIntervalBtGames();

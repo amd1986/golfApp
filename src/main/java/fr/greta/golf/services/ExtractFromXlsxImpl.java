@@ -11,8 +11,27 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * <b>ExtractFromXlsxImpl est la classe implémentant IExtractor pour l'extraction des joueurs depuis un fichier Excel</b>
+ * <p>
+ *     Cette classe fournit la méthode permettant l'extraction des joueurs depuis le fichier fournit par l'utlisateur
+ * </p>
+ *
+ * @see IExtractor
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 public class ExtractFromXlsxImpl implements IExtractor {
+    /**
+     * Méthode extractPlayers.
+     * <p>
+     *     Méthode qui va extraire la liste des joueurs.
+     * </p>
+     *
+     * @param file Fichier Excel contenant les joueurs fournit par l'utilisateur
+     *
+     */
     @Override
     public List<Player> extractPlayers(MultipartFile file) {
         List<Player> players = new ArrayList<>();

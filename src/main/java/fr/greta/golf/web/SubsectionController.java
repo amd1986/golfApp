@@ -18,6 +18,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * <b>SubsectionController est la classe controller pour l'affichage et la gestion des sous-catégories de règle de golf</b>
+ * <p>
+ * Cette classe founit les méthodes suivantes :
+ * <ul>
+ * <li>Un méthode Get pour afficher une sous-catégorie à partir de son Id.</li>
+ * <li>Un méthode Get pour afficher les sous-catégories avec un système de pagination.</li>
+ * <li>Un méthode Get pour afficher le formulaire d'ajout d'une sous-catégorie.</li>
+ * <li>Un méthode Get pour afficher le formulaire de modification d'une sous-catégorie à partir de son Id.</li>
+ * <li>Un méthode Post pour ajouter une sous-catégorie.</li>
+ * <li>Un méthode Post pour modifier une sous-catégorie à partir de son Id.</li>
+ * <li>Un méthode Post pour supprimer une sous-catégorie à partir de son Id.</li>
+ * </ul>
+ * </p>
+ *
+ * @see SubSection
+ * @see ILangAccessService
+ * @see SubsectionRepository
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 @Controller
 public class SubsectionController {
     private final ILangAccessService iLangAccessService;

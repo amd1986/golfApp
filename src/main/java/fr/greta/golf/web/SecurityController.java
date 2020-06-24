@@ -8,6 +8,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 
+/**
+ * <b>SecurityController est la classe controller pour la gestion des routes non protégées.</b>
+ * <p>
+ * Cette classe founit les méthodes suivantes :
+ * <ul>
+ * <li>Un méthode Get pour afficher la page d'acceuil en fonction de la langue locale.</li>
+ * <li>Un méthode Get pour afficher la page de connexion.</li>
+ * <li>Un méthode Get pour afficher la page d'ajout d'utilisateur.</li>
+ * <li>Un méthode Get pour afficher la page de mot de passe oublié.</li>
+ * </ul>
+ * </p>
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 @Controller
 public class SecurityController {
 
@@ -36,4 +51,5 @@ public class SecurityController {
         }
         return "redirect:/en";
     }
+    /*TODO problème : l'affichage ne se fait pas en fonction de la lague locale au premier accès, à corriger*/
 }

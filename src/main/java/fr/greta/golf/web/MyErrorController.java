@@ -8,8 +8,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * <b>MyErrorController est la classe controller pour la gestion des erreurs.</b>
+ * <p>
+ * Cette classe founit les méthodes suivantes :
+ * <ul>
+ * <li>Un méthode héritée permettant de récupérer le path error.</li>
+ * <li>Un méthode héritée permettant la gestion des routes en fonction des erreurs.</li>
+ * </ul>
+ * </p>
+ *
+ * @see ErrorController
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 @Controller
 public class MyErrorController implements ErrorController {
+
     @Override
     public String getErrorPath() {
         return "/error";

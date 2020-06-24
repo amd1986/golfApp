@@ -21,6 +21,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
+/**
+ * <b>HoleController est la classe controller pour l'affichage et la gestion des trous de golf</b>
+ * <p>
+ * Cette classe founit les méthodes suivantes :
+ * <ul>
+ * <li>Un méthode Get pour afficher un trou à partir de son Id.</li>
+ * <li>Un méthode Get pour afficher les trous avec un système de pagination.</li>
+ * <li>Un méthode Get pour afficher le formulaire d'ajout d'un trou.</li>
+ * <li>Un méthode Get pour afficher le formulaire de modification d'un trou à partir de son Id.</li>
+ * <li>Un méthode Post pour ajouter un trou.</li>
+ * <li>Un méthode Post pour modifier un trou à partir de son Id.</li>
+ * <li>Un méthode Post pour supprimer un trou à partir de son Id.</li>
+ * </ul>
+ * </p>
+ *
+ * @see User
+ * @see UserRepository
+ * @see RoleRepository
+ * @see LangRepository
+ * @see fr.greta.golf.config.WebMvcConfig
+ *
+ * @author ahmed
+ * @version 1.1.0
+ */
 @Controller
 public class UserController {
     /*dkfjlgdz16556&&&*/
