@@ -1,5 +1,4 @@
 package fr.greta.golf.services;
-
 import fr.greta.golf.entities.Rule;
 import fr.greta.golf.entities.Section;
 import fr.greta.golf.entities.SubSection;
@@ -20,9 +19,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 /**
- * <b>GenerateRuleDocServiceImpl est la classe implémentant IGenerateRuleDocService pour générer un document de règles locales</b>
+ * <b>GenerateRuleDocServiceImpl est la classe implémentant IGenerateRuleDocService pour générer un
+ *  document de règles locales</b>
  * <p>
  *     Cette classe fournit la méthode permettant de générer un document Word de règles locales
  * </p>
@@ -48,12 +47,17 @@ public class GenerateRuleDocServiceImpl implements IGenerateRuleDocService {
      * @throws JAXBException JAXB exception
      */
     @Override @Transactional
-    public WordprocessingMLPackage generateDocxFromHtml(Set<Section> sectionSet, Set<SubSection> subSectionSet, Set<Rule> ruleSet) throws Docx4JException, JAXBException {
+    public WordprocessingMLPackage generateDocxFromHtml(Set<Section> sectionSet,
+                                                        Set<SubSection> subSectionSet, Set<Rule> ruleSet)
+            throws Docx4JException, JAXBException {
         if (sectionSet != null) {
 
-            List<Section> sectionsSorted = sectionSet.stream().sorted(Comparator.comparing(Section::getCode)).collect(Collectors.toList());
-            List<SubSection> subSectionsSorted = subSectionSet.stream().sorted(Comparator.comparing(SubSection::getCode)).collect(Collectors.toList());
-            List<Rule> rulesSorted = ruleSet.stream().sorted(Comparator.comparing(Rule::getCode)).collect(Collectors.toList());
+            List<Section> sectionsSorted = sectionSet.stream().sorted(
+                    Comparator.comparing(Section::getCode)).collect(Collectors.toList());
+            List<SubSection> subSectionsSorted = subSectionSet.stream().sorted(
+                    Comparator.comparing(SubSection::getCode)).collect(Collectors.toList());
+            List<Rule> rulesSorted = ruleSet.stream().sorted(
+                    Comparator.comparing(Rule::getCode)).collect(Collectors.toList());
 
             WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
 
@@ -87,7 +91,7 @@ public class GenerateRuleDocServiceImpl implements IGenerateRuleDocService {
                         P p1 = factory.createP();
                         R r1 = factory.createR();
                         Text t1 = factory.createText();
-                        t1.setValue(sub.getCode() + " - " + sub.getTitle());
+                        t1.setValue(sub.getFullCode() + " - " + sub.getTitle());
                         r1.getContent().add(t1);
                         r1.setRPr(rpr);
                         p1.getContent().add(r1);
@@ -95,18 +99,20 @@ public class GenerateRuleDocServiceImpl implements IGenerateRuleDocService {
 
                         P pSub = factory.createP();
                         R rSub = factory.createR();
-                        rSub.getContent().addAll(xhtmlImporter.convert(Jsoup.parseBodyFragment(sub.getDescription()).html(), null));
+                        rSub.getContent().addAll(xhtmlImporter.convert(
+                                Jsoup.parseBodyFragment(sub.getDescription()).html(), null));
                         pSub.getContent().add(rSub);
                         main.getContent().add(pSub);
                         xhtmlImporter = new XHTMLImporterImpl(wordMLPackage);
                     }
 
                         for (Rule rule: rulesSorted){
-                            if (sub.equals(rule.getSubSection()) && section.equals(rule.getSubSection().getSection())){
+                            if (sub.equals(rule.getSubSection()) &&
+                                    section.equals(rule.getSubSection().getSection())){
                                 P p2 = factory.createP();
                                 R r2 = factory.createR();
                                 Text t2 = factory.createText();
-                                t2.setValue(rule.getCode()+ " - " +rule.getTitle());
+                                t2.setValue(rule.getFullCode()+ " - " +rule.getTitle());
                                 r2.getContent().add(t2);
                                 r2.setRPr(rpr);
                                 p2.getContent().add(r2);
@@ -115,7 +121,8 @@ public class GenerateRuleDocServiceImpl implements IGenerateRuleDocService {
 
                                 P pRule = factory.createP();
                                 R rRule = factory.createR();
-                                rRule.getContent().addAll(xhtmlImporter.convert(Jsoup.parseBodyFragment(rule.getText()).html(), null));
+                                rRule.getContent().addAll(xhtmlImporter.convert(
+                                        Jsoup.parseBodyFragment(rule.getText()).html(), null));
                                 pRule.getContent().add(rRule);
                                 main.getContent().add(pRule);
                                 xhtmlImporter = new XHTMLImporterImpl(wordMLPackage);

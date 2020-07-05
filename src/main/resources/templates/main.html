@@ -6,9 +6,9 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
     <meta content="" name="description"/>
-    <meta content="" name="author"/>
+    <meta content="BEN THAIER" name="author"/>
     <title>Golf admin</title>
-
+<!--TODO faire le référencement naturel-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <!-- Custom fonts for this template-->
@@ -130,7 +130,7 @@
             </li>
         </div>
 
-        <div sec:authorize="hasRole('USER')">
+        <div sec:authorize="hasAnyRole('USER', 'ADMIN')">
         <!-- Nav Item - Links Collapse Golf Menu -->
         <li class="nav-item">
             <a aria-controls="collapsePages" aria-expanded="true" class="nav-link collapsed" data-target="#collapseRate" data-toggle="collapse"
@@ -359,7 +359,7 @@
 
                     <!-- Nav Item - User Information -->
 
-                    <div sec:authorize="!hasAnyRole('ADMIN', 'USER', 'EDITOR', 'MANAGER')">
+                    <div sec:authorize="!authenticated">
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link" th:href="@{/register}" >
                             <span class="mr-2 d-none d-lg-inline text-gray-600 " th:utext="#{link.register}"></span>
@@ -367,7 +367,7 @@
                     </li>
                     </div>
 
-                    <div sec:authorize="!hasAnyRole('ADMIN', 'USER', 'EDITOR', 'MANAGER')">
+                    <div sec:authorize="!authenticated">
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link" th:href="@{/login}">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 " th:utext="#{link.login}"></span>
@@ -375,7 +375,7 @@
                     </li>
                     </div>
 
-                    <div sec:authorize="hasAnyRole('ADMIN', 'USER', 'EDITOR', 'MANAGER')">
+                    <div sec:authorize="authenticated">
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link" th:href="@{/login(logout=logout)}" >
                             <span class="mr-2 d-none d-lg-inline text-gray-600 " th:utext="#{link.logout}"></span>

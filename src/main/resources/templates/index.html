@@ -25,7 +25,7 @@
                                    aria-controls="description" aria-selected="true">#</a>
                             </li>
                             <li class="nav-item" th:each="s:${sections}">
-                                <a class="nav-link" th:href="@{'#'+${s.code}}" role="tab" aria-controls="history"
+                                <a class="nav-link" th:href="@{'#a'+${s.id}}" role="tab" aria-controls="history"
                                    aria-selected="false"
                                    th:text="${s.code}" data-toggle="tooltip" data-placement="top"
                                    th:title="${s.title}"></a>
@@ -67,8 +67,11 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane" th:id="${s.code}" role="tabpanel" aria-labelledby="history-tab"
+                            <div class="tab-pane" th:id="'a'+${s.id}" role="tabpanel" aria-labelledby="history-tab"
                                  th:each="s:${sections}">
+                                <div class="card-header p-0 bg-light font-weight-bolder" >
+                                    <h1 class="h4 text-gray-900 text-center" th:text="|${s.code} - ${s.title}|"></h1>
+                                </div>
                                 <div class="card-body p-0">
 
                                     <ul class="navbar-nav  sidebar accordion" id="accordionSidebar"
@@ -76,23 +79,23 @@
 
                                         <!-- Nav Item - Links Collapse Subsection Menu -->
                                         <div th:each="sub:${s.subSections}">
-                                        <li class="card-header bg-white font-weight-bolder" style="width:100%!important">
+                                        <li class="card-header bg-white font-weight-bold" style="width:100%!important">
                                             <a aria-controls="collapsePages" aria-expanded="true"
-                                               class="nav-link collapsed" th:data-target="'#'+${sub.code}"
+                                               class="nav-link collapsed" th:data-target="'#a'+${sub.id}"
                                                data-toggle="collapse"
                                                href="#">
-                                                <span class="h4 text-gray-900" th:text="|${sub.getFullCode()} - ${sub.title}|"></span>
+                                                <span class="h5 text-gray-700" th:text="|${sub.getFullCode()} - ${sub.title}|"></span>
                                                 <button type="button" class="close" aria-label="Close">
                                                     <i class="fas fa-chevron-down"></i>
                                                 </button>
                                             </a>
                                             <div aria-labelledby="headingPages" class="collapse"
-                                                 data-parent="#accordionSidebar" th:id="${sub.code}">
+                                                 data-parent="#accordionSidebar" th:id="'a'+${sub.id}">
                                                 <div class="py-2 collapse-inner rounded">
                                                     <h6 class="text-gray-500" th:utext="${sub.description}"></h6>
                                                     <div th:each="rule:${sub.rules}">
                                                         <div class="jumbotron p-3 my-0">
-                                                            <div class="modal-header border-bottom-0">
+                                                            <div class="mb-3 border-bottom-0">
                                                                 <h5 class="h5 text-gray-900 modal-title"
                                                                     th:text="|${rule.getFullCode()} - ${rule.title}|"></h5>
                                                                 <button type="button" class="close" aria-label="Close">
@@ -101,7 +104,7 @@
                                                                            class="custom-checkbox close">
                                                                 </button>
                                                             </div>
-                                                            <div class="text-gray-500" th:utext="${rule.text}"></div>
+                                                            <h6 class="text-gray-500" th:utext="${rule.text}"></h6>
                                                         </div>
                                                         <hr class="sidebar-divider m-0">
                                                     </div>
@@ -127,7 +130,7 @@
                 e.preventDefault();
                 $(this).tab('show');
             });
-            $('input').on('change', (event) => {
+            $('input').on('change', () => {
                 let nb = $('input[name="rules"]:checked').length;
                 if (nb === 0) {
                     $('button[type="submit"]').prop('disabled', true);

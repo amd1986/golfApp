@@ -20,20 +20,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
- * <b>PublicRuleController est la classe controller pour la génération de règles de golf</b>
- * <p>
+ * <b>PublicRuleController est la classe controller pour la génération de règles de golf</b><br>
  * Cette classe founit les méthodes suivantes :
  * <ul>
  * <li>Un méthode Get pour afficher toutes les règles de golf.</li>
  * <li>Un méthode Get pour afficher les règles sélectionnées.</li>
  * <li>Un méthode Post pour générer le document Word de règles locales.</li>
  * </ul>
- * </p>
  *
  * @see ILangAccessService
  * @see IGenerateRuleDocService
@@ -69,6 +69,7 @@ public class PublicRuleController {
      *     On injecte dans le controller le service.
      * </p>
      *
+     * @param iLangAccessService j'injecte le service dans le contrôleur
      * @see ILangAccessService
      */
     public PublicRuleController(@Qualifier("getiLangAccessService") ILangAccessService iLangAccessService) {
@@ -83,13 +84,14 @@ public class PublicRuleController {
      *
      * @param model Pour l'échange de données avec la vue
      * @param locale Langue que l'utilisateur a choisit
-     *
+     * @return index.html page d'accueil du génnérateur de règles
      * @see ILangAccessService
      */
     @GetMapping(path = "/{locale:en|fr|es}")
     public String allRules(@PathVariable(name = "locale") String locale, Model model){
         List<Section> sections = this.iLangAccessService.getAllSectionByLang(locale);
-        model.addAttribute("sections", sections);
+        List<Section> sectionsSorted = sections.stream().sorted(Comparator.comparing(Section::getCode)).collect(Collectors.toList());
+        model.addAttribute("sections", sectionsSorted);
         return "index";
     }
 
@@ -102,7 +104,7 @@ public class PublicRuleController {
      * @param model Pour l'échange de données avec la vue
      * @param locale Langue que l'utilisateur a choisit
      * @param ruleListId On récupère les identifiants des règles choisit par l'utilisateur
-     *
+     * @return ruleSelected.html affiche les règles sélectionnées
      * @see ILangAccessService
      */
     @GetMapping(path = "/{locale:en|fr|es}/ruleList")
@@ -112,11 +114,12 @@ public class PublicRuleController {
             Set<Rule> ruleSet = new HashSet<>();
             for (Long ruleId: ruleListId){
                 Rule r = this.iLangAccessService.ruleLangAccess(locale, ruleId);
-                if (r != null){
+                if (r.getCode() != null){
                     ruleSet.add(r);
                 }
             }
-            model.addAttribute("rules", ruleSet);
+            List<Rule> ruleList = ruleSet.stream().sorted(Comparator.comparing(Rule::getFullCode)).collect(Collectors.toList());
+            model.addAttribute("rules", ruleList);
             return "ruleSelected";
         }
         return "redirect:/"+locale;
@@ -132,6 +135,9 @@ public class PublicRuleController {
      * @param locale Langue que l'utilisateur a choisit
      * @param response Pour envoyer le document dans la réponse
      *
+     * @throws JAXBException Exception déclenchée lorsque la classe JAXB n'a pad été trouvée
+     * @throws Docx4JException Exception lors de la génération du document Word
+     * @throws IOException Exception dans les flux d'entrée et sortie
      * @see ILangAccessService
      * @see IGenerateRuleDocService
      */
@@ -153,7 +159,7 @@ public class PublicRuleController {
             WordprocessingMLPackage wordMLPackage = this.IGenerateRuleDocService.generateDocxFromHtml(sectionSet, subsectionSet, ruleSet);
             if (wordMLPackage != null){
                 response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-                response.setHeader("content-disposition","filename=LocalGolfRules.doc");
+                response.setHeader("content-disposition","filename=LocalGolfRules.docx");
                 wordMLPackage.save(response.getOutputStream());
             }
         }

@@ -23,8 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * <b>GameRatePdfController est la classe controller pour la génération de document Pdf de candence de jeu</b>
- * <p>
+ * <b>GameRatePdfController est la classe controller pour la génération de document Pdf de candence de jeu</b><br>
  * Cette classe founit les méthodes suivantes :
  * <ul>
  * <li>Un méthode Get pour afficher un formulaire avec la liste des compétitions.</li>
@@ -34,7 +33,6 @@ import java.util.Optional;
  * <li>Un méthode Get pour calculer les temps et les afficher à l'utilisateur.</li>
  * <li>Un méthode Post pour générer le document Pdf de cadence de jeu.</li>
  * </ul>
- * </p>
  *
  * @see Competition
  * @see CompetitionRepository
@@ -110,7 +108,8 @@ public class GameRatePdfController {
      * <p>
      *     On injecte dans le controller les repositories pour la gestion des parcours et des compétitions.
      * </p>
-     *
+     * @param competitionRepository dao gestion des compétitions
+     * @param courseRepository dao gestion des parcours
      * @see CourseRepository
      * @see CompetitionRepository
      */
@@ -127,8 +126,10 @@ public class GameRatePdfController {
      * </p>
      *
      * @param id Identifiant de la compétition
-     *
+     * @param request On a besoin de récupérer l'utilisateur à partir de HttpServletRequest
+     * @param model Objet fournit par Spring pour envoyer des données à la vue
      * @see CompetitionRepository
+     * @return formCompetition.html affichage du formulaire de sélection d'une compétition
      */
     @GetMapping(path = "/{locale:en|fr|es}/user/generateCompetPdf/competition")
     public String formCompetition(@RequestParam(name = "idCompet", defaultValue = "-1", required = false) Long id,
@@ -162,10 +163,10 @@ public class GameRatePdfController {
     public String formCompetition(@PathVariable String locale, @Validated Competition competition,
                                   BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-            return "redirect:/"+locale+"/user/generateCompetPdf/competition";
+            return String.format("redirect:/%s/user/generateCompetPdf/competition", locale);
         } else {
             request.getSession().setAttribute("competition", competition);
-            return "redirect:/"+locale+"/user/generateCompetPdf/upload";
+            return String.format("redirect:/%s/user/generateCompetPdf/upload", locale);
         }
     }
 
@@ -204,9 +205,9 @@ public class GameRatePdfController {
             Competition competition = (Competition) request.getSession().getAttribute("competition");
             this.iGameRateServices.buildGames(competition, players);
             request.getSession().setAttribute("competition", competition);
-            return "redirect:/"+locale+"/user/generateCompetPdf/gameRateValidate";
+            return String.format("redirect:/%s/user/generateCompetPdf/gameRateValidate", locale);
         } else {
-            return "redirect:/"+locale+"/user/generateCompetPdf/upload";
+            return String.format("redirect:/%s/user/generateCompetPdf/upload", locale);
         }
     }
 
@@ -250,6 +251,7 @@ public class GameRatePdfController {
         request.getSession().setAttribute("competition", competition);
 
         response.setContentType("application/pdf");
+        response.setHeader("content-disposition","filename=CadenceDeJeu.pdf");
         this.iGameRateDocument.generateGameRate(competition, response);
     }
 }

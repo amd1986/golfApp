@@ -46,7 +46,7 @@ public class GameRatePdfImpl implements IGameRateDocument {
             document.open();
 
             String[] tab = competition.getDateCompetition().split("-");
-            String date = tab[2] + tab[1] + tab[0];
+            String date = tab[2]+ "/" + tab[1]+ "/" + tab[0];
             String str = competition.getName() + " - " + competition.getCourse().getName() + " - " + date;
             document.add(new Phrase(str));
             int nbHoles = competition.getCourse().getHoles().size();
@@ -105,6 +105,10 @@ public class GameRatePdfImpl implements IGameRateDocument {
                 }
                 cell = new PdfPCell(p);
                 cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(games.get(i).getDhour(), FontFactory.getFont("Arial", 7)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
                 for (TimePerHPerG perHPerG: games.get(i).getTimesPerHPerG()){

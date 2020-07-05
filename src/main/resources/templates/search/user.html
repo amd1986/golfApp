@@ -67,7 +67,7 @@
                     <tr th:each="u:${users}">
                       <td th:text="${u.username}"></td>
                       <td th:text="${u.password}"></td>
-                      <td th:text="${u.active == 0} ? 'NO' : 'YES'"></td>
+                      <td th:text="${u.active} ? #{label.yes} : #{label.no}"></td>
                       <td><span th:each="r:${u.roles}" th:text="|${r.role} |"></span></td>
                       <td><span th:each="l:${u.languages}" th:text="|${l.language} |"></span></td>
                       <td>

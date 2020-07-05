@@ -16,7 +16,7 @@
                 <div class="col-md-10">
 
                     <form class="user" method="post" enctype="application/x-www-form-urlencoded" th:action="@{'/'+${locale}+'/generateDoc'}" >
-                    <div class="card">
+                    <div class="card my-1">
                         <div class="card-header bg-white">
                             <div class="row">
                                 <div class="col-4">
@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="text-center col-8">
                                     <button type="submit" class="btn btn-primary float-right" th:utext="#{label.generateDocx}"></button>
-                                    <button type="button" class="btn btn-outline-primary float-right" onclick="copyToClipboard()"th:utext="#{label.copy}"></button>
+                                    <button type="button" class="btn btn-outline-primary float-right" onclick="copyToClipboard()" th:utext="#{label.copy}"></button>
                                 </div>
                             </div>
                         </div>

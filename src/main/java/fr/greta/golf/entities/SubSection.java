@@ -1,19 +1,19 @@
 package fr.greta.golf.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
- * <b>Subsection est la classe représentant une sous-catégorie de règle de golf dans la BDD</b>
- * <p>
+ * <b>Subsection est la classe représentant une sous-catégorie de règle de golf dans la BDD</b><br>
  * Une sous-catégorie est caractérisée par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement.</li>
@@ -24,14 +24,13 @@ import java.util.Objects;
  * <li>Une catégorie dans laquelle est présente la règle, suceptible d'être changé.</li>
  * <li>Une liste de règle de golf, suceptible d'être changé.</li>
  * </ul>
- * </p>
  *
  * @see Section
  *
  * @author ahmed
  * @version 1.1.0
  */
-@Entity @Data @NoArgsConstructor @AllArgsConstructor
+@Entity @NoArgsConstructor @AllArgsConstructor
 public class SubSection implements Serializable {
     /**
      * L'ID de la sous catégorie de règle de golf. Cet ID n'est pas modifiable et auto incrémenté.
@@ -103,29 +102,87 @@ public class SubSection implements Serializable {
     @OneToMany(mappedBy = "subSection")
     private List<Rule> rules;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) { this.id = id; }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    public Section getSection() {
+        return section;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
+    }
+
+    public List<Rule> getRules() {
+        return rules.stream().sorted(Comparator.comparing(Rule::getCode)).collect(Collectors.toList());
+    }
+
+    public void setRules(List<Rule> rules) {
+        this.rules = rules;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SubSection that = (SubSection) o;
         return code.equals(that.code) &&
+                title.equals(that.title) &&
                 lang.equals(that.lang);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, lang);
+        return Objects.hash(code, section);
+    }
+
+    public String getFullCode(){
+        return this.getSection().getCode()+"."+this.getCode();
     }
 
     @Override
     public String toString() {
         return "SubSection{" +
-                "code='" + code + '\'' +
+                "id=" + id +
+                ", code='" + code + '\'' +
                 ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", lang='" + lang + '\'' +
                 '}';
-    }
-
-    public String getFullCode(){
-        return this.getSection().getCode()+"."+this.getCode();
     }
 }

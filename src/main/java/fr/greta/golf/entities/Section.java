@@ -1,19 +1,19 @@
 package fr.greta.golf.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
- * <b>Section est la classe représentant un catégorie de règle de golf dans la BDD</b>
- * <p>
+ * <b>Section est la classe représentant un catégorie de règle de golf dans la BDD</b><br>
  * Une catégorie est caractérisée par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement.</li>
@@ -22,12 +22,11 @@ import java.util.Objects;
  * <li>Un langue, suceptible d'être changé.</li>
  * <li>Une liste de sous-catégories, suceptible d'être changé.</li>
  * </ul>
- * </p>
  *
  * @author ahmed
  * @version 1.1.0
  */
-@Entity @Data @NoArgsConstructor @AllArgsConstructor
+@Entity @NoArgsConstructor @AllArgsConstructor
 public class Section implements Serializable {
     /**
      * L'ID de la catégorie de règle de golf. Cet ID n'est pas modifiable et auto incrémenté.
@@ -78,6 +77,44 @@ public class Section implements Serializable {
      */
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
     private List<SubSection> subSections;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) { this.id = id; }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    public List<SubSection> getSubSections() {
+        return subSections.stream().sorted(Comparator.comparing(SubSection::getCode)).collect(Collectors.toList());
+    }
+
+    public void setSubSections(List<SubSection> subSections) {
+        this.subSections = subSections;
+    }
 
     @Override
     public boolean equals(Object o) {

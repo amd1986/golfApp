@@ -10,9 +10,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
     // To solver URL like:
-    // /SomeContextPath/en/login2
-    // /SomeContextPath/es/login2
-    // /SomeContextPath/fr/login2
+    // /SomeContextPath/en/something
+    // /SomeContextPath/es/something
+    // /SomeContextPath/fr/something
     @Bean(name = "localeResolver")
     public LocaleResolver getLocaleResolver(){
         return new UrlLocaleResolver();

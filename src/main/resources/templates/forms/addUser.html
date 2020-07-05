@@ -57,6 +57,7 @@
                             <div class="text-danger">
                                 <small th:if="${err?.equals('username')}" th:utext="#{user.add.error.username}"></small>
                                 <small th:if="${err?.equals('password')}" th:utext="#{user.add.error.password}"></small>
+                                <small th:if="${err?.equals('select')}" th:utext="#{user.add.error.roleLang}"></small>
                             </div>
                             <div class="text-gray-900">
                                 <small th:utext="#{user.add.message}"></small>
@@ -65,7 +66,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div>=
         </div>
     </div>
 

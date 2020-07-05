@@ -8,6 +8,7 @@
     <script type="text/javascript">
         window.onload = function(){
             CKEDITOR.replace( 'text', {
+                /*extraPlugins: 'bbcode',*/
                 customConfig: '/ckeditor_settings/config.js'
             } );
             CKEDITOR.editorConfig = function( config ) {
@@ -54,7 +55,7 @@
                                 <div class="form-group form-inline">
                                     <label class="col-form-label col-3" for="idSection" th:utext="#{section.span.heading}"></label>
                                     <select name="idSection" id="idSection" class="custom-select" >
-                                        <option th:each="s:${sections}" th:text="|${s.code} ${s.title}|" th:value="${s.id}"></option>
+                                        <option th:each="s:${sections}" th:text="|${s.code} - ${s.title}|" th:value="${s.id}"></option>
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-user btn-block" th:utext="#{label.select}"></button>
