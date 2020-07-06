@@ -5,15 +5,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.Set;
 
 /**
- * <b>User est la classe représentant un utilisateur dans la BDD</b>
- * <p>
+ * <b>User est la classe représentant un utilisateur dans la BDD</b><br>
  * Un utilisateur est caractérisé par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement correspondant au nom de l'utilisateur.</li>
@@ -22,13 +24,12 @@ import java.util.Set;
  * <li>Une liste de langue correspondant aux langue(s) attribuée(s) à cet utilisateur, suceptible d'être changé.</li>
  * <li>Une liste de rôle correspondant aux rôle(s) attribué(s) à cet utilisateur, suceptible d'être changé.</li>
  * </ul>
- * </p>
  *
  * @author ahmed
  * @version 1.1.0
  */
 @Entity @Table(name = "users")
-@Data @AllArgsConstructor @NoArgsConstructor
+@Data @NoArgsConstructor
 public class User {
     /**<ul>
      * Le nom d'utilisateur.
@@ -50,7 +51,7 @@ public class User {
      * @see User#getPassword()
      * @see User#setPassword(String)
      */
-    @NotNull @Length(min = 8)
+    @NotNull @Length(min = 8, max = 255)
     private String password;
     /**
      * Status de l'utilisateur, actif ou non(2 valeurs possibles 0 ou 1)
@@ -69,7 +70,7 @@ public class User {
      * @see User#getLanguages()
      * @see User#setLanguages(Set)
      */
-    @Size(min = 1)
+    @Size(min = 1, max = 5)
     @ManyToMany(mappedBy = "users")
     private Set<Language> languages;
     /**<ul>
@@ -81,7 +82,7 @@ public class User {
      * @see User#getRoles()
      * @see User#setRoles(Set)
      */
-    @Size(min = 1)
+    @Size(min = 1, max = 5)
     @ManyToMany(mappedBy = "users")
     private Set<Role> roles;
 

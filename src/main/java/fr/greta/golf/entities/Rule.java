@@ -11,8 +11,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * <b>Rule est la classe représentant un règle de golf dans la BDD</b>
- * <p>
+ * <b>Rule est la classe représentant un règle de golf dans la BDD</b><br>
  * Une règle de golf est caractérisée par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement.</li>
@@ -22,14 +21,13 @@ import java.util.Objects;
  * <li>Une langue, suceptible d'être changé.</li>
  * <li>Une sous-catégorie dans laquelle est présente la règle, suceptible d'être changé.</li>
  * </ul>
- * </p>
  *
  * @see Section
  *
  * @author ahmed
  * @version 1.1.0
  */
-@Entity @Data @NoArgsConstructor @AllArgsConstructor
+@Entity @Data @NoArgsConstructor
 public class Rule implements Serializable {
     /**
      * L'ID de la règle de golf. Cet ID n'est pas modifiable et auto incrémenté.

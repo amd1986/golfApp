@@ -13,14 +13,12 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * <b>Role est la classe représentant un rôle dans la BDD</b>
- * <p>
+ * <b>Role est la classe représentant un rôle dans la BDD</b><br>
  * Un rôle est caractérisé par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement correspondant au nom du rôle.</li>
  * <li>La liste des utilisateurs ayant ce rôle, suceptible d'être changé.</li>
  * </ul>
- * </p>
  *
  * @see User
  *
@@ -28,7 +26,7 @@ import java.util.Set;
  * @version 1.1.0
  */
 @Entity @Table(name = "roles")
-@Data @AllArgsConstructor @NoArgsConstructor
+@Data @NoArgsConstructor
 public class Role {
     /**
      * <p>

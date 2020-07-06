@@ -11,11 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * <b>Contact es l'entité de gestion des données du formulaire de contact, permettant à l'arbitre de contacter l'admin</b>
- * <p>
+ * <b>Contact es l'entité de gestion des données du formulaire de contact, permettant à l'arbitre de contacter l'admin</b><br>
  * Un contact est caractérisé par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement.</li>
@@ -24,7 +24,6 @@ import java.util.Objects;
  * <li>Un email correspondant à celui de l'arbitre.</li>
  * <li>Le message de l'arbitre.</li>
  * </ul>
- * </p>
  *
  * @see User
  *
@@ -32,8 +31,8 @@ import java.util.Objects;
  * @version 1.1.0
  */
 @Entity
-@Data @AllArgsConstructor @NoArgsConstructor
-public class Contact {
+@Data @NoArgsConstructor
+public class Contact implements Serializable {
     /**
      * L'ID de l'entité Contact. Cet ID n'est pas modifiable et auto incrémenté.
      *

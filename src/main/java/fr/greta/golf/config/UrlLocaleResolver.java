@@ -16,8 +16,6 @@ public class UrlLocaleResolver implements LocaleResolver {
         // ==> /SomeContextPath/WEB-INF/pages/...
         String uri = request.getRequestURI();
 
-        System.out.println("URI=" + uri);
-
         String prefixEn = request.getServletContext().getContextPath() + "/en/";
         String prefixFr = request.getServletContext().getContextPath() + "/fr/";
         String prefixEs = request.getServletContext().getContextPath() + "/es/";

@@ -20,8 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * <b>HoleController est la classe controller pour l'affichage et la gestion des trous de golf</b>
- * <p>
+ * <b>HoleController est la classe controller pour l'affichage et la gestion des trous de golf</b><br>
  * Cette classe founit les méthodes suivantes :
  * <ul>
  * <li>Un méthode Get pour afficher un trou à partir de son Id.</li>
@@ -32,7 +31,6 @@ import java.util.Optional;
  * <li>Un méthode Post pour modifier un trou à partir de son Id.</li>
  * <li>Un méthode Post pour supprimer un trou à partir de son Id.</li>
  * </ul>
- * </p>
  *
  * @see Hole
  * @see HoleRepository
@@ -52,7 +50,9 @@ public class HoleController {
     }
 
     @GetMapping(path = "/{locale:en|fr|es}/user/hole/{id}")
-    public String afficherGolf(Model model, @PathVariable(name = "id") Long id){
+    public String afficherGolf(Model model,
+                               @PathVariable(name = "id") Long id,
+                               @PathVariable String locale){
         Optional<Hole> hole = holeRepository.findById(id);
         hole.ifPresent(value -> model.addAttribute("hole", value));
         return "/display/hole";
@@ -101,7 +101,7 @@ public class HoleController {
     @PostMapping(path = "/{locale:en|fr|es}/admin/deleteHole")
     public String deleteHole(@RequestParam(name = "idHole")Long id, @PathVariable String locale){
         holeRepository.deleteById(id);
-        return "redirect:/"+locale+"/user/searchHole";
+        return String.format("redirect:/%s/user/searchHole", locale);
     }
 
     @GetMapping(path = "/{locale:en|fr|es}/admin/addHole")
@@ -112,7 +112,7 @@ public class HoleController {
             if (golf.isPresent()){
                 model.addAttribute("golf", golf.get());
             }else {
-                return "redirect:/"+locale+"/user/searchHole";
+                return String.format("redirect:/%s/user/searchHole", locale);
             }
         }else {
             List<Golf> golfs = golfRepository.findAll();
@@ -127,11 +127,11 @@ public class HoleController {
         if (!bindingResult.hasErrors()){
             for (Hole hole1 : holeRepository.findAll()){
                 if (hole.equals(hole1))
-                    return "redirect:/"+locale+"/admin/addHole";
+                    return String.format("redirect:/%s/admin/addHole", locale);
             }
             holeRepository.save(hole);
         }
-        return "redirect:/"+locale+"/admin/addHole";
+        return String.format("redirect:/%s/admin/addHole", locale);
     }
 
     @GetMapping(path = "/{locale:en|fr|es}/admin/editHole")
@@ -144,7 +144,7 @@ public class HoleController {
             Optional<Golf> golf = golfRepository.findById(hole.getGolf().getId());
             golf.ifPresent(golf1 -> model.addAttribute("golf", golf1));
         }else {
-            return "redirect:/"+locale+"/admin/addHole";
+            return String.format("redirect:/%s/admin/addHole", locale);
         }
         return "/forms/editHole";
     }
@@ -153,7 +153,7 @@ public class HoleController {
     public String editHole(@PathVariable String locale, @Validated Hole hole, BindingResult bindingResult){
         if (!bindingResult.hasErrors())
             holeRepository.save(hole);
-        return "redirect:/"+locale+"/admin/addHole";
+        return String.format("redirect:/%s/admin/addHole", locale);
     }
 
 }

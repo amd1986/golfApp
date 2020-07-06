@@ -19,8 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * <b>TimeBtHolesController est la classe controller pour l'affichage et la gestion des temps de marche entre les trous</b>
- * <p>
+ * <b>TimeBtHolesController est la classe controller pour l'affichage et la gestion des temps de marche entre les trous</b><br>
  * Cette classe founit les méthodes suivantes :
  * <ul>
  * <li>Un méthode Get pour afficher un temps de marche à partir de son Id.</li>
@@ -31,7 +30,6 @@ import java.util.Optional;
  * <li>Un méthode Post pour modifier un temps de marche à partir de son Id.</li>
  * <li>Un méthode Post pour supprimer un temps de marche à partir de son Id.</li>
  * </ul>
- * </p>
  *
  * @see WalkTimeBtHoles
  * @see WalkRepository
@@ -88,7 +86,7 @@ public class TimeBtHolesController {
             if (golf.isPresent())
                 model.addAttribute("golf", golf.get());
             else {
-                return "redirect:/"+locale+"/user/searchTimeBtHoles";
+                return String.format("redirect:/%s/user/searchTimeBtHoles", locale);
             }
         }else {
             List<Golf> golfs = golfRepository.findAll();
@@ -103,12 +101,12 @@ public class TimeBtHolesController {
         if (!bindingResult.hasErrors()){
             for (WalkTimeBtHoles wtbh : walkRepository.findAll()){
                 if (timeBtHoles.equals(wtbh))
-                    return "redirect:/"+locale+"/admin/formTimeBtHoles";
+                    return String.format("redirect:/%s/admin/formTimeBtHoles", locale);
             }
             walkRepository.save(timeBtHoles);
-            return "redirect:/"+locale+"/user/searchTimeBtHoles";
+            return String.format("redirect:/%s/user/searchTimeBtHoles", locale);
         }
-        return "redirect:/"+locale+"/admin/formTimeBtHoles";
+        return String.format("redirect:/%s/admin/formTimeBtHoles", locale);
 
     }
 
@@ -127,13 +125,13 @@ public class TimeBtHolesController {
                 return "/forms/addTimeBtHoles";
             }
         }
-        return "redirect:/"+locale+"/user/searchTimeBtHoles";
+        return String.format("redirect:/%s/user/searchTimeBtHoles", locale);
     }
 
     @PostMapping(path = "/{locale:en|fr|es}/admin/editTimeBtHoles")
     public String editTimeBtHoles(@PathVariable String locale, WalkTimeBtHoles timeBtHoles){
             walkRepository.save(timeBtHoles);
-        return "redirect:/"+locale+"/admin/formTimeBtHoles";
+        return String.format("redirect:/%s/admin/formTimeBtHoles", locale);
     }
 
 }

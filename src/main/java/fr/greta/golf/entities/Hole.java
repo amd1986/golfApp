@@ -14,8 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * <b>Hole est la classe représentant un trou de golf dans la BDD</b>
- * <p>
+ * <b>Hole est la classe représentant un trou de golf dans la BDD</b><br>
  * Un trou de golf est caractérisé par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement.</li>
@@ -28,7 +27,6 @@ import java.util.Objects;
  * <li>La liste des parcours dans lesquels est présent le trou, suceptible d'être changé.</li>
  * <li>La liste des temps des parties pour ce trou, suceptible d'être changé.</li>
  * </ul>
- * </p>
  *
  * @see Golf
  *
@@ -36,7 +34,7 @@ import java.util.Objects;
  * @version 1.1.0
  */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor
 public class Hole implements Serializable {
     /**
      * L'ID du trou de golf. Cet ID n'est pas modifiable et auto incrémenté.

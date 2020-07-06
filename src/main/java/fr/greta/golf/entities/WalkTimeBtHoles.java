@@ -13,8 +13,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * <b>WalkTimeBtHoles est la classe représentant un temps de marche entre 2 trous dans la BDD</b>
- * <p>
+ * <b>WalkTimeBtHoles est la classe représentant un temps de marche entre 2 trous dans la BDD</b><br>
  * Un temps est caractérisé par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement.</li>
@@ -23,7 +22,6 @@ import java.util.Objects;
  * <li>Un premier trou, suceptible d'être changé.</li>
  * <li>Un second trou, suceptible d'être changé.</li>
  * </ul>
- * </p>
  *
  * @see Hole
  *
@@ -31,7 +29,7 @@ import java.util.Objects;
  * @version 1.1.0
  */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor
 public class WalkTimeBtHoles implements Serializable {
     /**
      * L'ID d'un temps de marche entre 2 trous. Cet ID n'est pas modifiable et auto incrémenté.

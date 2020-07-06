@@ -1,7 +1,12 @@
 package fr.greta.golf.web;
 
+import fr.greta.golf.dao.CourseRepository;
 import fr.greta.golf.dao.GolfRepository;
+import fr.greta.golf.dao.HoleRepository;
+import fr.greta.golf.entities.Course;
 import fr.greta.golf.entities.Golf;
+import fr.greta.golf.entities.Hole;
+import fr.greta.golf.services.LogServices;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -13,12 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * <b>GolfController est la classe controller pour l'affichage et la gestion des golfs</b>
- * <p>
+ * <b>GolfController est la classe controller pour l'affichage et la gestion des golfs</b><br>
  * Cette classe founit les méthodes suivantes :
  * <ul>
  * <li>Un méthode Get pour afficher un golf à partir de son Id.</li>
@@ -29,7 +34,6 @@ import java.util.Optional;
  * <li>Un méthode Post pour modifier un golf à partir de son Id.</li>
  * <li>Un méthode Post pour supprimer un golf à partir de son Id.</li>
  * </ul>
- * </p>
  *
  * @see Golf
  * @see GolfRepository
@@ -40,6 +44,9 @@ import java.util.Optional;
 @Controller
 public class GolfController {
     private final GolfRepository golfRepository;
+    private final CourseRepository courseRepository;
+    private final HoleRepository holeRepository;
+    private final LogServices logServices;
 
     /**
      * Constructeur GolfController.
@@ -50,10 +57,16 @@ public class GolfController {
      * @param golfRepository
      *            Repository pour la gestion des golfs.
      *
+     * @param courseRepository dao gestion des parcours
+     * @param holeRepository dao gestion des trous
+     * @param logServices Service de journalisation
      * @see GolfController#golfRepository
      */
-    public GolfController(GolfRepository golfRepository) {
+    public GolfController(GolfRepository golfRepository, CourseRepository courseRepository, HoleRepository holeRepository, LogServices logServices) {
         this.golfRepository = golfRepository;
+        this.courseRepository = courseRepository;
+        this.holeRepository = holeRepository;
+        this.logServices = logServices;
     }
 
     /**
@@ -63,6 +76,7 @@ public class GolfController {
      * </p>
      *
      * @param id Identifiant du golf
+     * @param model Objet fournit par Spring pour envoyer des données à la vue
      *
      * @see GolfRepository
      */
@@ -116,7 +130,7 @@ public class GolfController {
      * @param size Nombre d'élément par page pour la pagination
      * @param id Identifiant de la golf
      * @param locale Langue choisit par l'utilisateur
-     *
+     * @param request On a besoin de récupérer l'utilisateur à partir de HttpServletRequest
      * @see GolfRepository
      */
     @PostMapping(path = "/{locale:en|fr|es}/admin/deleteGolf")
@@ -124,8 +138,20 @@ public class GolfController {
                              @RequestParam(name = "page")int page,
                              @RequestParam(name = "size")int size,
                              @RequestParam(name = "idGolf")Long id,
-                             @PathVariable String locale){
-        golfRepository.deleteById(id);
+                             @PathVariable String locale,
+                             HttpServletRequest request){
+
+        Optional<Golf> golf = golfRepository.findById(id);
+        if (golf.isPresent()){
+            for (Course course: golf.get().getCourses()){
+                courseRepository.delete(course);
+                for (Hole hole: course.getHoles()){
+                    holeRepository.delete(hole);
+                }
+            }
+            golfRepository.delete(golf.get());
+            this.logServices.remove(request, golf.get());
+        }
         return String.format("redirect:/"+locale+"/user/searchGolf?mc=%s&page=%d&size=%d", mc, page, size);
     }
 
@@ -152,7 +178,7 @@ public class GolfController {
             if (golf.isPresent())
                 model.addAttribute("golf", golf.get());
             else {
-                return "redirect:/"+locale+"/user/searchGolf";
+                return String.format("redirect:/%s/user/searchGolf", locale);
             }
         }else {
             List<Golf> golfs = golfRepository.findAll();
@@ -171,21 +197,23 @@ public class GolfController {
      * @param golf Objet golf à ajouter ou à modifier
      * @param bindingResult Objet fournit par Spring permettant de valider les données fournit par l'utilisateur
      * @param locale Langue choisit par l'utilisateur
-     *
+     * @param request On a besoin de récupérer l'utilisateur à partir de HttpServletRequest
      * @see GolfRepository
      */
     @PostMapping(path = "/{locale:en|fr|es}/admin/editGolf")
-    public String addGolf(@PathVariable String locale, @Validated Golf golf, BindingResult bindingResult){
+    public String addGolf(@PathVariable String locale, HttpServletRequest request,
+                          @Validated Golf golf, BindingResult bindingResult){
         if (!bindingResult.hasErrors()){
             for (Golf golf1 : golfRepository.findAll()){
                 if (golf.equals(golf1)){
-                    return "redirect:/"+locale+"/admin/formGolf";
+                    return String.format("redirect:/%s/admin/formGolf", locale);
                 }
             }
             golfRepository.save(golf);
-            return "redirect:/"+locale+"/user/golf/"+golf.getId();
+            this.logServices.edit(request, golf);
+            return String.format("redirect:/%s/user/golf/%d", locale, golf.getId());
         }else {
-            return "redirect:/"+locale+"/user/searchGolf";
+            return String.format("redirect:/%s/user/searchGolf", locale);
         }
     }
 

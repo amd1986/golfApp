@@ -19,14 +19,13 @@ import java.util.Optional;
 
 /**
  * <b>GameStatController est la classe controller pour la gestion des statistiques</b>
- * <p>
+ * <br>
  * Cette classe founit les méthodes suivantes :
  * <ul>
  * <li>Un méthode Get pour afficher un formulaire avec la liste des compétitions.</li>
  * <li>Un méthode Get pour récupérer les temps d'une compétition.</li>
  * <li>Un méthode Post pour enregistrer les temps.</li>
  * </ul>
- * </p>
  *
  * @see Competition
  * @see CompetitionRepository
@@ -64,6 +63,7 @@ public class GameStatController {
      *     On injecte dans le controller les repository pour la gestion des compétitions.
      * </p>
      *
+     * @param competitionRepository dao gestion des compétitions
      * @see CompetitionRepository
      */
     public GameStatController(CompetitionRepository competitionRepository) {
@@ -110,6 +110,7 @@ public class GameStatController {
      *
      * @param id Id de la compétition
      * @param model Pour envoyer les données à la vue
+     * @param locale Langue choisit par l'utilisateur
      *
      */
     @GetMapping(path = "/{locale:en|fr|es}/user/gameRate/collectData")
@@ -119,7 +120,7 @@ public class GameStatController {
             model.addAttribute("competition", competition.get());
             model.addAttribute("course", competition.get().getCourse());
         }else {
-            return "redirect:/"+locale+"/user/gameRate/selectCompetition";
+            return String.format("redirect:/%s/user/gameRate/selectCompetition", locale);
         }
         return "forms/formGameRateData";
     }

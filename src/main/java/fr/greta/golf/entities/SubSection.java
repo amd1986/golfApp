@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  * @author ahmed
  * @version 1.1.0
  */
-@Entity @NoArgsConstructor @AllArgsConstructor
+@Entity @NoArgsConstructor
 public class SubSection implements Serializable {
     /**
      * L'ID de la sous catégorie de règle de golf. Cet ID n'est pas modifiable et auto incrémenté.

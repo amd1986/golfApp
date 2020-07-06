@@ -12,14 +12,12 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
- * <b>Language est la classe représentant une langue dans la BDD</b>
- * <p>
+ * <b>Language est la classe représentant une langue dans la BDD</b><br>
  * Une langue est caractérisé par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement, cette identifiant correspond à la langue codée sur 2 caractères.</li>
  * <li>Une liste d'utilisateurs auxquels le SUPERADMIN a attribué cette langue, suceptible d'être changé.</li>
  * </ul>
- * </p>
  *
  * @see User
  *
@@ -27,7 +25,7 @@ import java.util.Set;
  * @version 1.1.0
  */
 @Entity
-@Data @AllArgsConstructor @NoArgsConstructor
+@Data @NoArgsConstructor
 public class Language implements Serializable {
     /**
      * <p>

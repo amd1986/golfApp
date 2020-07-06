@@ -1,6 +1,4 @@
 package fr.greta.golf.entities;
-
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
@@ -11,7 +9,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 /**
  * <b>Section est la classe représentant un catégorie de règle de golf dans la BDD</b><br>
  * Une catégorie est caractérisée par les information suivantes :
@@ -26,10 +23,11 @@ import java.util.stream.Collectors;
  * @author ahmed
  * @version 1.1.0
  */
-@Entity @NoArgsConstructor @AllArgsConstructor
+@Entity @NoArgsConstructor
 public class Section implements Serializable {
     /**
-     * L'ID de la catégorie de règle de golf. Cet ID n'est pas modifiable et auto incrémenté.
+     * L'ID de la catégorie de règle de golf.
+     * Cet ID n'est pas modifiable et auto incrémenté.
      *
      * @see Section#getId()
      * @see Section#setId(Long)
@@ -77,6 +75,7 @@ public class Section implements Serializable {
      */
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
     private List<SubSection> subSections;
+    /*...*/
 
     public Long getId() {
         return id;

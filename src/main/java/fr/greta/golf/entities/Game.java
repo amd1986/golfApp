@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * <b>Game est la classe représentant une partie d'une compétition dans la BDD</b>
- * <p>
+ * <b>Game est la classe représentant une partie d'une compétition dans la BDD</b><br>
  * Une partie est caractérisé par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement.</li>
@@ -27,7 +26,6 @@ import java.util.Objects;
  * <li>La liste des temps de cette partie pour les différents trous.</li>
  * <li>La liste des joueurs de cette partie, les informations des joueurs ne sont pas persistées dans la BDD.</li>
  * </ul>
- * </p>
  *
  * @see Competition
  *
@@ -35,7 +33,7 @@ import java.util.Objects;
  * @version 1.1.0
  */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor
 public class Game implements Serializable {
     /**
      * L'ID de la partie de compétition. Cet ID n'est pas modifiable et auto incrémenté.
@@ -67,7 +65,7 @@ public class Game implements Serializable {
      */
     @NotNull @Length(min = 5, max = 50)
     private String name;
-    /**<ul>
+    /**
      * La compétition à laquelle participent les parties(joueurs), ne peut être nul
      *
      * @see Game#getName()
@@ -87,16 +85,15 @@ public class Game implements Serializable {
     /**
      * Le temps pour chaque trou pour une partie en chaîne de caractère, n'est pas persisté en BDD
      *
-     * @see Game#getTimesPerHPerG()
-     * @see Game#setTimesPerHPerG(List)
+     * @see Game
      */
     @Transient
     private List<String> times;
     @Length(min = 5, max = 5)
-    /**
-     * Le temps de départ de la partie
-     *
-     * @see Game#getDhour()
+    /*
+      Le temps de départ de la partie
+
+      @see Game#getDhour()
      * @see Game#setDhour(String)
      */
     private String dhour;

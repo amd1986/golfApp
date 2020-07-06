@@ -2,10 +2,10 @@ package fr.greta.golf.web;
 
 import fr.greta.golf.dao.CourseRepository;
 import fr.greta.golf.dao.GolfRepository;
-import fr.greta.golf.entities.Competition;
 import fr.greta.golf.entities.Course;
 import fr.greta.golf.entities.Golf;
 import fr.greta.golf.entities.Hole;
+import fr.greta.golf.services.LogServices;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 /**
- * <b>CourseController est la classe controller pour l'affichage et la gestion des parcours de golf</b>
- * <p>
+ * <b>CourseController est la classe controller pour l'affichage et la gestion des parcours de golf</b><br>
  * Cette classe founit les méthodes suivantes :
  * <ul>
  * <li>Un méthode Get pour afficher un parcours à partir de son Id.</li>
@@ -33,7 +33,6 @@ import java.util.Optional;
  * <li>Un méthode Post pour modifier un parcours à partir de son Id.</li>
  * <li>Un méthode Post pour supprimer un parcours à partir de son Id.</li>
  * </ul>
- * </p>
  *
  * @see Course
  *
@@ -44,10 +43,12 @@ import java.util.Optional;
 public class CourseController {
     private final CourseRepository courseRepository;
     private final GolfRepository golfRepository;
+    private final LogServices logServices;
 
-    public CourseController(CourseRepository courseRepository, GolfRepository golfRepository) {
+    public CourseController(CourseRepository courseRepository, GolfRepository golfRepository, LogServices logServices) {
         this.courseRepository = courseRepository;
         this.golfRepository = golfRepository;
+        this.logServices = logServices;
     }
 
     @GetMapping(path = "/{locale:en|fr|es}/user/course/{id}")
@@ -81,8 +82,13 @@ public class CourseController {
                              @RequestParam(name = "page")int page,
                              @RequestParam(name = "size")int size,
                              @RequestParam(name = "idCourse")Long id,
-                             @PathVariable String locale){
-        courseRepository.deleteById(id);
+                             @PathVariable String locale,
+                             HttpServletRequest request){
+        Optional<Course> course = courseRepository.findById(id);
+        if (course.isPresent()){
+            courseRepository.delete(course.get());
+            this.logServices.remove(request, course.get());
+        }
         return String.format("redirect:/"+locale+"/user/searchCourse?mc=%s&page=%d&size=%d", mc, page, size);
     }
 
@@ -95,7 +101,7 @@ public class CourseController {
                 model.addAttribute("golf", golf.get());
             }
             else {
-                return "redirect:/"+locale+"/user/searchCourse";
+                return String.format("redirect:/%s/user/searchCourse", locale);
             }
         }else {
             model.addAttribute("golfs", golfRepository.findAll());
@@ -105,21 +111,21 @@ public class CourseController {
 
     @Transactional
     @PostMapping(path = "/{locale:en|fr|es}/admin/addCourse")
-    public String addCourse(@Validated Course course, BindingResult bindingResult, @PathVariable String locale){
+    public String addCourse(@Validated Course course, BindingResult bindingResult,
+                            @PathVariable String locale, HttpServletRequest request){
         if (!bindingResult.hasErrors()){
             for (Course course1 : courseRepository.findAll()){
                 if (course.equals(course1))
-                    return "redirect:/"+locale+"/admin/formCourse";
+                    return String.format("redirect:/%s/admin/formCourse", locale);
             }
             if (course.getHoles() != null){
-                course.getHoles().forEach(hole -> {
-                    hole.getCourses().add(course);
-                });
+                course.getHoles().forEach(hole -> hole.getCourses().add(course));
             }
             courseRepository.save(course);
-            return "redirect:/"+locale+"/user/course/"+course.getId();
+            this.logServices.add(request, course);
+            return String.format("redirect:/%s/user/course/%d", locale, course.getId());
         }
-        return "redirect:/"+locale+"/admin/formCourse";
+        return String.format("redirect:/%s/admin/formCourse", locale);
     }
 
     @GetMapping(path = "/{locale:en|fr|es}/admin/editCourse")
@@ -134,14 +140,15 @@ public class CourseController {
                 golf.ifPresent(golf1 -> model.addAttribute("golf", golf1));
             }
         } else {
-            return "redirect:/"+locale+"/user/searchCourse";
+            return String.format("redirect:/%s/user/searchCourse", locale);
         }
         return "/forms/editCourse";
     }
 
     @Transactional
     @PostMapping(path = "/{locale:en|fr|es}/admin/editCourse")
-    public String editCourse(@Validated Course course, BindingResult bindingResult, @PathVariable String locale){
+    public String editCourse(@Validated Course course, BindingResult bindingResult,
+                             @PathVariable String locale, HttpServletRequest request){
         if (!bindingResult.hasErrors()){
             Optional<Course> c = courseRepository.findById(course.getId());
             if (c.isPresent()){
@@ -155,9 +162,10 @@ public class CourseController {
                     }
                 }
                 courseRepository.save(course);
+                this.logServices.edit(request, course);
             }
         }
-        return "redirect:/"+locale+"/user/course/"+course.getId();
+        return String.format("redirect:/%s/user/course/%d", locale, course.getId());
     }
 
 }

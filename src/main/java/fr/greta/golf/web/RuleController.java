@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * <b>RuleController est la classe controller pour l'affichage et la gestion des règles de golf</b>
- * <p>
+ * <b>RuleController est la classe controller pour l'affichage et la gestion des règles de golf</b><br>
  * Cette classe founit les méthodes suivantes :
  * <ul>
  * <li>Un méthode Get pour afficher une règle à partir de son Id.</li>
@@ -31,7 +30,6 @@ import javax.servlet.http.HttpServletRequest;
  * <li>Un méthode Post pour modifier une règle à partir de son Id.</li>
  * <li>Un méthode Post pour supprimer une règle à partir de son Id.</li>
  * </ul>
- * </p>
  *
  * @see Rule
  * @see RuleRepository
@@ -55,7 +53,7 @@ public class RuleController {
     public String getRule(Model model, @PathVariable(name = "id") Long id,
                           @PathVariable String locale, HttpServletRequest request){
         if (this.iLangAccessService.langAccess(locale, request))
-            return "redirect:/error";
+            return "error/403";
 
         Rule rule = this.iLangAccessService.ruleLangAccess(locale, id);
         if (rule.getCode() == null){
@@ -73,7 +71,7 @@ public class RuleController {
                                @RequestParam(name = "size", defaultValue = "5", required = false)int size, Model model,
                                @PathVariable String locale, HttpServletRequest request){
         if (this.iLangAccessService.langAccess(locale, request))
-            return "redirect:/error";
+            return "error/403";
 
         Page<Rule> rules = ruleRepository.findByLangAndTitleContains(locale, mc, PageRequest.of(page, size));
         if (!rules.hasContent()){
@@ -96,7 +94,7 @@ public class RuleController {
                              @RequestParam(name = "idRule")Long id,
                              @PathVariable String locale, HttpServletRequest request){
         if (this.iLangAccessService.langAccess(locale, request))
-            return "redirect:/error";
+            return "error/403";
         if (this.iLangAccessService.ruleLangAccess(locale, id).getCode() != null)
             ruleRepository.deleteById(id);
 
@@ -107,7 +105,7 @@ public class RuleController {
     public String addRule(@RequestParam(name = "idSection", required = false, defaultValue = "-1") Long id,
                           @PathVariable String locale, HttpServletRequest request, Model model){
         if (this.iLangAccessService.langAccess(locale, request))
-            return "redirect:/error";
+            return "error/403";
 
         if (id != -1){
             Section section = this.iLangAccessService.sectionLangAccess(locale, id);
@@ -116,7 +114,7 @@ public class RuleController {
                 model.addAttribute("rule", new Rule());
             }
             else {
-                return "redirect:/"+locale+"/editor/searchRule";
+                return String.format("redirect:/%s/editor/searchRule", locale);
             }
         }else {
             model.addAttribute("sections", this.iLangAccessService.getAllSectionByLang(locale));
@@ -128,25 +126,25 @@ public class RuleController {
     public String addRule(@Validated Rule rule, BindingResult bindingResult,
                           @PathVariable String locale, HttpServletRequest request){
         if (this.iLangAccessService.langAccess(locale, request))
-            return "redirect:/error";
+            return "error/403";
 
         if (!bindingResult.hasErrors()){
             for (Rule rule1 : ruleRepository.findAll()) {
                 if (rule.equals(rule1)) {
-                    return "redirect:/"+locale+"/manager/addRule";
+                    return String.format("redirect:/%s/manager/addRule", locale);
                 }
             }
             rule.setText(this.iLangAccessService.cleanHtml(rule.getText()));
             ruleRepository.save(rule);
         }
-        return "redirect:/"+locale+"/manager/addRule";
+        return String.format("redirect:/%s/manager/addRule", locale);
     }
 
     @GetMapping(path = "/{locale:en|fr|es}/editor/editRule")
     public String formRule(@RequestParam(name = "idRule", required = false, defaultValue = "-1") Long id,
                            @PathVariable String locale, HttpServletRequest request, Model model){
         if (this.iLangAccessService.langAccess(locale, request))
-            return "redirect:/error";
+            return "error/403";
 
         if (id != -1){
             Rule rule = this.iLangAccessService.ruleLangAccess(locale, id);
@@ -154,7 +152,7 @@ public class RuleController {
                 model.addAttribute("rule", rule);
             }
             else {
-                return "redirect:/"+locale+"/editor/searchRule";
+                return String.format("redirect:/%s/editor/searchRule", locale);
             }
         }
         return "rules/forms/editRule";
@@ -164,7 +162,7 @@ public class RuleController {
     public String editRule(@Validated Rule rule, BindingResult bindingResult,
                            @PathVariable String locale, HttpServletRequest request){
         if (this.iLangAccessService.langAccess(locale, request))
-            return "redirect:/error";
+            return "error/403";
 
         if (!bindingResult.hasErrors()){
             Rule rule1 = this.iLangAccessService.ruleLangAccess(locale, rule.getId());
@@ -173,6 +171,6 @@ public class RuleController {
                 ruleRepository.save(rule);
             }
         }
-        return "redirect:/"+locale+"/editor/searchRule";
+        return String.format("redirect:/%s/editor/searchRule", locale);
     }
 }

@@ -14,8 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * <b>Competition est la classe représentant une compétition dans la BDD</b>
- * <p>
+ * <b>Competition est la classe représentant une compétition dans la BDD</b><br>
  * Une compétition est caractérisée par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement.</li>
@@ -28,7 +27,6 @@ import java.util.Objects;
  * <li>Un interval, c'est le temps entre chaque partie(entier), suceptible d'être changé.</li>
  * <li>Le parcours sur lequel la compétition va avoir lieu, suceptible d'être changé.</li>
  * </ul>
- * </p>
  * <p>
  * De plus, une compétition a une liste de parties(groupes de joueurs).
  * Cette liste de joueurs sera fournit par l'utilisateur dans la fonctionnalité <b>Générateur de cadence de jeu</b>.
@@ -40,7 +38,7 @@ import java.util.Objects;
  * @version 1.1.0
  */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor
 public class Competition implements Serializable {
     /**
      * L'ID de la compétition. Cet ID n'est pas modifiable et auto incrémenté.
@@ -126,10 +124,10 @@ public class Competition implements Serializable {
     @NotNull @Length(min = 5, max = 5)
     private String departureHour;
     @NotNull
-    /**
-     * Le parcours sur lequel se déroule la compétition
-     *
-     * @see Competition#getCourse()
+    /*
+      Le parcours sur lequel se déroule la compétition
+
+      @see Competition#getCourse()
      * @see Competition#setCourse(Course)
      */
     @ManyToOne(fetch = FetchType.EAGER)

@@ -10,14 +10,12 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
- * <b>Course est la classe représentant le tamps d'une partie pour un trou donné dans la BDD</b>
- * <p>
+ * <b>Course est la classe représentant le tamps d'une partie pour un trou donné dans la BDD</b><br>
  * Un temps est caractérisé par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement.</li>
  * <li>Un temps correspondant à une partie pour un trou donné, suceptible d'être changé.</li>
  * </ul>
- * </p>
  *
  * @see Hole
  * @see Game
@@ -26,7 +24,7 @@ import java.util.Objects;
  * @version 1.1.0
  */
 @Entity
-@Data @AllArgsConstructor @NoArgsConstructor
+@Data @NoArgsConstructor
 public class TimePerHPerG {
     /**
      * L'ID d'un temps pour un trou et une partie. Cet ID n'est pas modifiable et auto incrémenté.

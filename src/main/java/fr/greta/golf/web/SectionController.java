@@ -25,8 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * <b>SectionController est la classe controller pour l'affichage et la gestion des catégories de règle de golf</b>
- * <p>
+ * <b>SectionController est la classe controller pour l'affichage et la gestion des catégories de règle de golf</b><br>
  * Cette classe founit les méthodes suivantes :
  * <ul>
  * <li>Un méthode Get pour afficher une catégorie à partir de son Id.</li>
@@ -37,7 +36,6 @@ import java.util.Set;
  * <li>Un méthode Post pour modifier une catégorie à partir de son Id.</li>
  * <li>Un méthode Post pour supprimer une catégorie à partir de son Id.</li>
  * </ul>
- * </p>
  *
  * @see Section
  * @see SectionRepository
@@ -76,17 +74,19 @@ public class SectionController {
      * <p>
      *     Méthode qui va afficher une catégorie.
      * </p>
-     *
+     * @param model Objet fournit par Spring pour envoyer des données à la vue
      * @param id Identifiant de la catégorie.
-     *
+     * @param request On a besoin de récupérer l'utilisateur à partir de HttpServletRequest
+     * @param locale Langue choisit par l'utilisateur
      * @see SectionRepository
+     * @return section.html affiche une catégorie
      */
     /*TODO Faire l'affichage d'erreur suite à la validation */
     @GetMapping(path = "/{locale:en|fr|es}/editor/section/{id}")
     public String getSection(Model model, @PathVariable(name = "id") Long id,
                              @PathVariable String locale ,HttpServletRequest request){
         if (this.iLangAccessService.langAccess(locale, request))
-            return "redirect:/error";
+            return "error/403";
 
         Section section =  this.iLangAccessService.sectionLangAccess(locale, id);
         if (section.getCode() == null){
@@ -107,8 +107,10 @@ public class SectionController {
      * @param page Nombre de page pour la pagination
      * @param size Nombre d'élément par page pour la pagination
      * @param model Objet fournit par Spring pour envoyer des données à la vue
-     *
+     * @param request On a besoin de récupérer l'utilisateur à partir de HttpServletRequest
+     * @param locale Langue choisit par l'utilisateur
      * @see SectionRepository
+     * @return section.html affiche les catégories
      */
     @GetMapping(path = "/{locale:en|fr|es}/editor/searchSection")
     public String displaySections(@RequestParam(name = "mc", defaultValue = "", required = false)String mc,
@@ -116,7 +118,7 @@ public class SectionController {
                                   @RequestParam(name = "size", defaultValue = "5", required = false)int size, Model model,
                                   @PathVariable String locale ,HttpServletRequest request){
         if (this.iLangAccessService.langAccess(locale, request))
-            return "redirect:/error";
+            return "error/403";
 
         Page<Section> sections = sectionRepository.findByLangAndTitleContains(locale, mc, PageRequest.of(page, size));
         if (!sections.hasContent()) {
@@ -144,8 +146,9 @@ public class SectionController {
      * @param size Nombre d'élément par page pour la pagination
      * @param id Identifiant de la catégorie
      * @param locale Langue choisit par l'utilisateur
-     *
+     * @param request On a besoin de récupérer l'utilisateur à partir de HttpServletRequest
      * @see SectionRepository
+     * @return redirect to /{local}/editor/searchSection
      */
     @PostMapping(path = "/{locale:en|fr|es}/manager/deleteSection")
     public String deleteSection(@RequestParam(name = "mc")String mc,
@@ -154,8 +157,8 @@ public class SectionController {
                                 @RequestParam(name = "idSection")Long id,
                                 @PathVariable String locale,
                                 HttpServletRequest request){
-        if (this.iLangAccessService.langAccess(locale, request))
-            return "redirect:/error";
+        if (!this.iLangAccessService.langAccess(locale, request))
+            return "error/403";
         if (this.iLangAccessService.sectionLangAccess(locale, id).getCode() != null)
             this.iLangAccessService.deleteSection(id);
 
@@ -173,14 +176,14 @@ public class SectionController {
      * @param model Objet fournit par Spring pour envoyer des données à la vue
      * @param request Pour récupérer le username(ensuite vérifier que l'utilisateur a le droit de modification dans cette langue)
      * @param locale Langue choisit par l'utilisateur
-     *
+     * @return addSection.html affiche le formulaire d'ajout d'une catégorie
      * @see ILangAccessService
      * @see UserRepository
      */
     @GetMapping(path = "/{locale:en|fr|es}/manager/addSection")
     public String addSection(Model model, @PathVariable String locale ,HttpServletRequest request){
         if (this.iLangAccessService.langAccess(locale, request)){
-            return "redirect:/error";
+            return "error/403";
         }
 
         Set<Language> languages = new HashSet<>();
@@ -204,24 +207,24 @@ public class SectionController {
      * @param section Objet catégorie à ajouter
      * @param bindingResult Objet fournit par Spring permettant de valider les données founit par l'utilisateur
      * @param locale Langue choisit par l'utilisateur
-     *
+     * @param request On a besoin de récupérer l'utilisateur à partir de HttpServletRequest
      * @see SectionRepository
      */
     @PostMapping(path = "/{locale:en|fr|es}/manager/addSection")
     public String addSection(@Validated Section section, BindingResult bindingResult,
                              @PathVariable String locale, HttpServletRequest request){
         if (this.iLangAccessService.langAccess(locale, request))
-            return "redirect:/error";
+            return "error/403";
 
         if (!bindingResult.hasErrors()){
             for (Section section1 : sectionRepository.findAll()) {
                 if (section.equals(section1)) {
-                    return "redirect:/"+locale+"/manager/addSection";
+                    return String.format("redirect:/%s/manager/addSection", locale);
                 }
             }
         }
         Section section1 = sectionRepository.save(section);
-        return "redirect:/"+locale+"/editor/section/"+section1.getId();
+        return String.format("redirect:/%s/editor/section/%d", locale, section1.getId());
     }
 
     /**
@@ -236,14 +239,14 @@ public class SectionController {
      * @param id Identifiant de la catégorie que l'on souhaite modifier
      * @param locale Langue choisit par l'utilisateur
      * @param request Pour récupérer le username de l'utilisateur
-     *
+     * @return editSection.html affiche le formulaire de modification d'une catégorie
      * @see SectionRepository
      */
     @GetMapping(path = "/{locale:en|fr|es}/editor/editSection")
     public String formSection(Model model, @RequestParam(name = "idSection", required = false, defaultValue = "-1") Long id,
                                   @PathVariable String locale, HttpServletRequest request){
         if (this.iLangAccessService.langAccess(locale, request))
-            return "redirect:/error";
+            return "error/403";
 
         if (id != -1){
             Section section = this.iLangAccessService.sectionLangAccess(locale, id);
@@ -273,21 +276,21 @@ public class SectionController {
      * @param section Objet catégorie à ajouter
      * @param bindingResult Objet fournit par Spring permettant de valider les données founit par l'utilisateur
      * @param locale Langue choisit par l'utilisateur
-     *
+     * @param request On a besoin de récupérer l'utilisateur à partir de HttpServletRequest
      * @see SectionRepository
      */
     @PostMapping(path = "/{locale:en|fr|es}/editor/editSection")
     public String editSection(@Validated Section section, BindingResult bindingResult,
                               @PathVariable String locale, HttpServletRequest request){
         if (this.iLangAccessService.langAccess(locale, request))
-            return "redirect:/error";
+            return "error/403";
 
         if (!bindingResult.hasErrors()){
             Section section1  = this.iLangAccessService.sectionLangAccess(locale, section.getId());
             if (section1.getCode() != null)
                 sectionRepository.save(section);
         }
-        return "redirect:/"+locale+"/editor/searchSection";
+        return String.format("redirect:/%s/editor/searchSection", locale);
     }
 
     /**

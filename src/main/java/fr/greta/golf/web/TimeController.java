@@ -19,8 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * <b>TimeController est la classe controller pour l'affichage et la gestion des temps de chaque partie</b>
- * <p>
+ * <b>TimeController est la classe controller pour l'affichage et la gestion des temps de chaque partie</b><br>
  * Cette classe founit les méthodes suivantes :
  * <ul>
  * <li>Un méthode Get pour afficher un temps à partir de son Id.</li>
@@ -31,7 +30,6 @@ import java.util.Optional;
  * <li>Un méthode Post pour modifier un temps à partir de son Id.</li>
  * <li>Un méthode Post pour supprimer un temps à partir de son Id.</li>
  * </ul>
- * </p>
  *
  * @see TimePerHPerG
  * @see TimesRepository
@@ -85,7 +83,7 @@ public class TimeController {
                 model.addAttribute("competition", competition.get());
                 model.addAttribute("course", competition.get().getCourse());
             }else {
-                return "redirect:/"+locale+"/user/searchTime";
+                return String.format("redirect:/%s/user/searchTime", locale);
             }
         }else {
             List<Competition> competitions = competitionRepository.findAll();
@@ -104,7 +102,7 @@ public class TimeController {
             }
             timesRepository.save(timePerHPerG);
         }
-        return "redirect:/"+locale+"/admin/addTime";
+        return String.format("redirect:/%s/admin/addTime", locale);
     }
 
     @GetMapping(path = "/{locale:en|fr|es}/admin/editTime")
@@ -116,7 +114,7 @@ public class TimeController {
             model.addAttribute("time", timePerHPerG);
             return "/forms/editTime";
         }else {
-            return "redirect:/"+locale+"/admin/addTime";
+            return String.format("redirect:/%s/admin/addTime", locale);
         }
     }
 
@@ -124,6 +122,6 @@ public class TimeController {
     public String editTime(@PathVariable String locale, @Validated TimePerHPerG timePerHPerG, BindingResult bindingResult){
         if (!bindingResult.hasErrors())
             timesRepository.save(timePerHPerG);
-        return "redirect:/"+locale+"/admin/addHole";
+        return String.format("redirect:/%s/admin/addHole", locale);
     }
 }

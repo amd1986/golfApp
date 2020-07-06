@@ -5,6 +5,7 @@ import fr.greta.golf.dao.GameRepository;
 import fr.greta.golf.entities.Competition;
 import fr.greta.golf.entities.Course;
 import fr.greta.golf.entities.Game;
+import fr.greta.golf.services.LogServices;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -16,12 +17,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * <b>GameController est la classe controller pour l'affichage et la gestion des parties d'une compétition</b>
- * <p>
+ * <b>GameController est la classe controller pour l'affichage et la gestion des parties d'une compétition</b><br>
  * Cette classe founit les méthodes suivantes :
  * <ul>
  * <li>Un méthode Get pour afficher une partie à partir de son Id.</li>
@@ -32,7 +33,6 @@ import java.util.Optional;
  * <li>Un méthode Post pour modifier une partie à partir de son Id.</li>
  * <li>Un méthode Post pour supprimer une partie à partir de son Id.</li>
  * </ul>
- * </p>
  *
  * @see Game
  * @see GameRepository
@@ -45,10 +45,12 @@ import java.util.Optional;
 public class GameController {
     private final GameRepository gameRepository;
     private final CompetitionRepository competitionRepository;
+    private final LogServices logServices;
 
-    public GameController(GameRepository gameRepository, CompetitionRepository competitionRepository) {
+    public GameController(GameRepository gameRepository, CompetitionRepository competitionRepository, LogServices logServices) {
         this.gameRepository = gameRepository;
         this.competitionRepository = competitionRepository;
+        this.logServices = logServices;
     }
 
     @GetMapping(path = "/{locale:en|fr|es}/user/game/{id}")
@@ -82,8 +84,14 @@ public class GameController {
                              @RequestParam(name = "page")int page,
                              @RequestParam(name = "size")int size,
                              @RequestParam(name = "idGame")Long id,
-                             @PathVariable String locale){
-        gameRepository.deleteById(id);
+                             @PathVariable String locale,
+                             HttpServletRequest request){
+
+        Optional<Game> game = gameRepository.findById(id);
+        if (game.isPresent()){
+            gameRepository.delete(game.get());
+            this.logServices.remove(request, game.get());
+        }
         return String.format("redirect:/"+locale+"/user/searchGame?mc=%s&page=%d&size=%d", mc, page, size);
     }
 
@@ -95,7 +103,7 @@ public class GameController {
             if (competition.isPresent()) {
                 model.addAttribute("competition", competition.get());
             } else {
-                return "redirect:/"+locale+"/user/searchGame";
+                return String.format("redirect:/%s/user/searchGame", locale);
             }
         }else {
             List<Competition> competitions = competitionRepository.findAll();
@@ -106,16 +114,18 @@ public class GameController {
     }
 
     @PostMapping(path = "/{locale:en|fr|es}/admin/addGame")
-    public String addGame(@PathVariable String locale, @Validated Game game, BindingResult bindingResult){
+    public String addGame(@PathVariable String locale, HttpServletRequest request,
+                          @Validated Game game, BindingResult bindingResult){
         if (!bindingResult.hasErrors()){
             for (Game game1 : gameRepository.findAll()){
                 if (game.equals(game1))
                     return "redirect:/fr/admin/formGame";
             }
             gameRepository.save(game);
-            return "redirect:/"+locale+"/user/searchGame";
+            this.logServices.add(request, game);
+            return String.format("redirect:/%s/user/searchGame", locale);
         }
-        return "redirect:/"+locale+"/admin/formGame";
+        return String.format("redirect:/%s/admin/formGame", locale);
     }
 
     @GetMapping(path = "/{locale:en|fr|es}/admin/editGame")
@@ -133,16 +143,18 @@ public class GameController {
                 return "forms/addGame";
             }
         }
-        return "redirect:/"+locale+"/user/searchGame";
+        return String.format("redirect:/%s/user/searchGame", locale);
     }
 
     @PostMapping(path = "/{locale:en|fr|es}/admin/editGame")
-    public String editGame(@PathVariable String locale, @Validated Game game, BindingResult bindingResult){
+    public String editGame(@PathVariable String locale, HttpServletRequest request,
+                           @Validated Game game, BindingResult bindingResult){
         if (!bindingResult.hasErrors()){
             gameRepository.save(game);
-            return "redirect:/"+locale+"/user/searchGame";
+            this.logServices.edit(request, game);
+            return String.format("redirect:/%s/user/searchGame", locale);
         }else {
-            return "redirect:/"+locale+"/admin/formGame";
+            return String.format("redirect:/%s/admin/formGame", locale);
         }
     }
 

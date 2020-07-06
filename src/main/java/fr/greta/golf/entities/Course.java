@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * <b>Course est la classe représentant un parcours dans la BDD</b>
- * <p>
+ * <b>Course est la classe représentant un parcours dans la BDD</b><br>
  * Une parcours est caractérisé par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement.</li>
@@ -24,7 +23,6 @@ import java.util.Objects;
  * suceptible de changer.</li>
  * <li>Le golf dans lequel le parcours est présent, suceptible d'être changé.</li>
  * </ul>
- * </p>
  *
  * @see Golf
  *
@@ -32,7 +30,7 @@ import java.util.Objects;
  * @version 1.1.0
  */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor
 public class Course implements Serializable {
     /**
      * L'ID du parcours de golf. Cet ID n'est pas modifiable et auto incrémenté.

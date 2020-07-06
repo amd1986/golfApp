@@ -15,8 +15,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * <b>Golf est la classe représentant un golf dans la BDD</b>
- * <p>
+ * <b>Golf est la classe représentant un golf dans la BDD</b><br>
  * Une golf est caractérisé par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement.</li>
@@ -28,13 +27,12 @@ import java.util.Set;
  * <li>Un golf a une liste de trous, suceptible de changer.</li>
  * <li>Un golf a une liste de parcours, suceptible de changer.</li>
  * </ul>
- * </p>
  *
  * @author ahmed
  * @version 1.1.0
  */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor
 public class Golf implements Serializable {
     /**
      * L'ID du golf. Cet ID n'est pas modifiable et auto incrémenté.

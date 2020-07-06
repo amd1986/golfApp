@@ -4,6 +4,8 @@ import fr.greta.golf.dao.CompetitionRepository;
 import fr.greta.golf.dao.GolfRepository;
 import fr.greta.golf.entities.Competition;
 import fr.greta.golf.entities.Golf;
+import fr.greta.golf.services.LogServices;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -16,12 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * <b>CompetitionController est la classe controller pour l'affichage et la gestion des compétitions</b>
- * <p>
+ * <b>CompetitionController est la classe controller pour l'affichage et la gestion des compétitions</b><br>
  * Cette classe founit les méthodes suivantes :
  * <ul>
  * <li>Un méthode Get pour afficher une compétition à partir de son Id.</li>
@@ -32,7 +34,6 @@ import java.util.Optional;
  * <li>Un méthode Post pour modifier une compétition à partir de son Id.</li>
  * <li>Un méthode Post pour supprimer une compétition à partir de son Id.</li>
  * </ul>
- * </p>
  *
  * @see Competition
  * @see CompetitionRepository
@@ -45,6 +46,7 @@ import java.util.Optional;
 public class CompetitionController {
     private final CompetitionRepository competitionRepository;
     private final GolfRepository golfRepository;
+    private final LogServices logServices;
 
     /**
      * Constructeur CompetitionController.
@@ -57,12 +59,16 @@ public class CompetitionController {
      * @param golfRepository
      *            Repository pour la gestion des golfs.
      *
+     * @param logServices Service de journalisation
      * @see CompetitionController#competitionRepository
      * @see CompetitionController#golfRepository
      */
-    public CompetitionController(CompetitionRepository competitionRepository, GolfRepository golfRepository) {
+    public CompetitionController(@Qualifier("logService") LogServices logServices,
+                                 CompetitionRepository competitionRepository, GolfRepository golfRepository) {
+
         this.competitionRepository = competitionRepository;
         this.golfRepository = golfRepository;
+        this.logServices = logServices;
     }
 
     /**
@@ -72,7 +78,8 @@ public class CompetitionController {
      * </p>
      *
      * @param id Identifiant de la compétition
-     *
+     * @param model Objet fournit par Spring pour envoyer des données à la vue
+     * @return competition.html qui affiche une compétition
      * @see CompetitionRepository
      */
     @GetMapping(path = "/{locale:en|fr|es}/user/competition/{id}")
@@ -92,7 +99,7 @@ public class CompetitionController {
      * @param page Nombre de page pour la pagination
      * @param size Nombre d'élément par page pour la pagination
      * @param model Objet fournit par Spring pour envoyer des données à la vue
-     *
+     * @return competition.html page de gestion des compétitions
      * @see CompetitionRepository
      */
     @GetMapping(path = "/{locale:en|fr|es}/user/searchCompetition")
@@ -124,7 +131,8 @@ public class CompetitionController {
      * @param size Nombre d'élément par page pour la pagination
      * @param id Identifiant de la compétition
      * @param locale Langue choisit par l'utilisateur
-     *
+     * @param request On a besoin de récupérer l'utilisateur à partir de HttpServletRequest
+     * @return redirect to /{local}/user/searchCompetition
      * @see CompetitionRepository
      */
     /*TODO Le cas où l'utilisateur bidouille les données du formulaire n'a pas été pris en compte*/
@@ -134,8 +142,13 @@ public class CompetitionController {
                                     @RequestParam(name = "page")int page,
                                     @RequestParam(name = "size")int size,
                                     @RequestParam(name = "idComp")Long id,
-                                    @PathVariable String locale){
-        competitionRepository.deleteById(id);
+                                    @PathVariable String locale,
+                                    HttpServletRequest request){
+        Optional<Competition> competition = competitionRepository.findById(id);
+        if (competition.isPresent()){
+            competitionRepository.deleteById(id);
+            this.logServices.remove(request, competition.get());
+        }
         return String.format("redirect:/"+locale+"/user/searchCompetition?mc=%s&page=%d&size=%d", mc, page, size);
     }
 
@@ -151,7 +164,7 @@ public class CompetitionController {
      * @param model Objet fournit par Spring pour envoyer des données à la vue
      * @param id Identifiant de la compétition que l'on souhaite modifier
      * @param locale Langue choisit par l'utilisateur
-     *
+     * @return addCompetition.html pour afficher le formulaire d'ajout d'une compétition
      * @see GolfRepository
      */
     @GetMapping(path = "/{locale:en|fr|es}/admin/formCompetition")
@@ -163,7 +176,7 @@ public class CompetitionController {
                 model.addAttribute("golf", golf.get());
             }
             else {
-                return "redirect:/"+locale+"/user/searchCompetition";
+                return String.format("redirect:/%s/user/searchCompetition", locale);
             }
         }else {
             List<Golf> golfs = golfRepository.findAll();
@@ -182,20 +195,23 @@ public class CompetitionController {
      * @param competition Objet compétition à ajouter
      * @param bindingResult Objet fournit par Spring permettant de valider les données founit par l'utilisateur
      * @param locale Langue choisit par l'utilisateur
-     *
+     * @param request On a besoin de récupérer l'utilisateur à partir de HttpServletRequest
+     * @return redirect to /{local}/admin/formCompetition
      * @see CompetitionRepository
      */
     @PostMapping(path = "/{locale:en|fr|es}/admin/addCompetition")
-    public String addCompetition(@Validated Competition competition, BindingResult bindingResult, @PathVariable String locale){
+    public String addCompetition(@Validated Competition competition, BindingResult bindingResult,
+                                 @PathVariable String locale, HttpServletRequest request){
         if (!bindingResult.hasErrors()){
             for (Competition competition1 : competitionRepository.findAll()) {
                 if (competition.equals(competition1)) {
-                    return "redirect:/"+locale+"/admin/formCompetition";
+                    return String.format("redirect:/%s/admin/formCompetition", locale);
                 }
             }
             competitionRepository.save(competition);
+            this.logServices.add(request, competition);
         }
-        return "redirect:/"+locale+"/admin/formCompetition";
+        return String.format("redirect:/%s/admin/formCompetition", locale);
     }
 
     /**
@@ -209,7 +225,7 @@ public class CompetitionController {
      * @param model Objet fournit par Spring pour envoyer des données à la vue
      * @param id Identifiant de la compétition que l'on souhaite modifier
      * @param locale Langue choisit par l'utilisateur
-     *
+     * @return editCompetition.html affiche le formulaire de modification d'une compétition
      * @see GolfRepository
      */
     @GetMapping(path = "/{locale:en|fr|es}/admin/editCompetition")
@@ -224,7 +240,7 @@ public class CompetitionController {
                 golf.ifPresent(golf1 -> model.addAttribute("courses", golf1.getCourses()));
             }
             else {
-                return "redirect:/"+locale+"/user/searchCompetition";
+                return String.format("redirect:/%s/user/searchCompetition", locale);
             }
         }
         return "forms/editCompetition";
@@ -240,15 +256,19 @@ public class CompetitionController {
      * @param competition Objet compétition à ajouter
      * @param bindingResult Objet fournit par Spring permettant de valider les données founit par l'utilisateur
      * @param locale Langue choisit par l'utilisateur
-     *
+     * @param request On a besoin de récupérer l'utilisateur à partir de HttpServletRequest
+     * @return redirect to /{local}/admin/formCompetition
      * @see CompetitionRepository
      */
     @PostMapping(path = "/{locale:en|fr|es}/admin/editCompetition")
-    public String editCompetition(@Validated Competition competition, BindingResult bindingResult, @PathVariable String locale){
+    public String editCompetition(@Validated Competition competition, BindingResult bindingResult,
+                                  @PathVariable String locale, HttpServletRequest request){
         if (!bindingResult.hasErrors()){
             competitionRepository.save(competition);
+            this.logServices.edit(request, competition);
+            return String.format("redirect:/%s/user/searchCompetition", locale);
         }
-        return "redirect:/"+locale+"/admin/formCompetition";
+        return String.format("redirect:/%s/admin/formCompetition", locale);
     }
 
 }

@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 
 /**
  * <b>Player est la classe modèle d'un joueur de golf</b>
- * <p>
  * Une joueur est caractérisé par les information suivantes :
  * <ul>
  * <li>Un identifiant unique attribué définitivement.</li>
@@ -23,7 +22,6 @@ import javax.validation.constraints.NotNull;
  * <li>Un golf auquel le joueur est rattaché, suceptible d'être changé.</li>
  * <li>Un commentaire, suceptible d'être changé.</li>
  * </ul>
- * </p>
  *
  * @see fr.greta.golf.entities.Competition
  *

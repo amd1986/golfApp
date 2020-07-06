@@ -9,14 +9,12 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * <b>MyErrorController est la classe controller pour la gestion des erreurs.</b>
- * <p>
+ * <b>MyErrorController est la classe controller pour la gestion des erreurs.</b><br>
  * Cette classe founit les méthodes suivantes :
  * <ul>
  * <li>Un méthode héritée permettant de récupérer le path error.</li>
  * <li>Un méthode héritée permettant la gestion des routes en fonction des erreurs.</li>
  * </ul>
- * </p>
  *
  * @see ErrorController
  *
